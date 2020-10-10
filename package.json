@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/lmarschall/foodcycle#readme",
   "dependencies": {
+    "ejs": "^3.1.5",
     "express": "^4.17.1"
   }
 }
