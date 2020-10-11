@@ -18,28 +18,25 @@ app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname+'/views/index.html'))
 });
 
-app.get("/api/recipes", (req, res) => {
+async function findRecipesbyIngredients (res, ingredients) {
   const params = new URLSearchParams();
   params.append('apiKey', process.env.apikey)
-  params.append('ingredients', 'apples,+flour,+sugar')
+  params.append('ingredients', ingredients)
   params.append('number', '2')
+  try {
+    const result = await axios.get('https://api.spoonacular.com/recipes/findByIngredients', {params: params})
+    console.log(result.data)
+    res.send(result.data)
+  } catch (err) {
+      console.error(err);
+      return []
+  }
+}
 
-  axios.get('https://api.spoonacular.com/recipes/findByIngredients', {
-    params: params
-    })
-    .then((response) => {
-
-        console.log(response.data)
-        // this.reservation_list = response.data;
-        // this.ready = true;
-        // this.setupMarkers(this.schnors);
-    })
-    .catch((err) => {
-        this.loading = false;
-        console.log(err);
-        })
-
-  res.send(req.query.code)
+app.get("/api/recipes", (req, res) => {
+  console.log(req.query.ingredients)
+  findRecipesbyIngredients(res, req.query.ingredients)
+  // res.send(recipes)
 });
 
 app.get("/api/product", (req, res) => {

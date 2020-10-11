@@ -11,18 +11,12 @@
     <title>Hello, world!</title>
   </head>
   <body>
-    <h1>Hello, world!</h1>
+    <h1>Ingredients</h1>
 
     <div id="scanframe">
 
-      <P>SCanned Products</P>
-
       <ul class="list-group list-group-flush">
-        <li class="list-group-item">Cras justo odio</li>
-        <li class="list-group-item">Dapibus ac facilisis in</li>
-        <li class="list-group-item">Morbi leo risus</li>
-        <li class="list-group-item">Porta ac consectetur ac</li>
-        <li class="list-group-item">Vestibulum at eros</li>
+        <li class="list-group-item" v-for="ingredient in ingredients">${ingredient}</li>
       </ul>
 
       <!-- Button trigger modal -->
@@ -73,11 +67,11 @@
                 <!-- <div class="input-group-prepend">
                   <span class="input-group-text" id="basic-addon1">@</span>
                 </div> -->
-                <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+                <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" disabled>
               </div>
               
               <div class="input-group">
-                <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                <input type="text" id="input_ingredient" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="basic-addon2">
                 <!-- <div class="input-group-append">
                   <span class="input-group-text" id="basic-addon2">@example.com</span>
                 </div> -->
@@ -85,13 +79,13 @@
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" v-on:click="" data-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary" v-on:click="" data-dismiss="modal">Save changes</button>
+              <button type="button" class="btn btn-primary" v-on:click="addIngredient" data-dismiss="modal">Save changes</button>
             </div>
           </div>
         </div>
       </div>
 
-      <button type="button" class="btn btn-primary" v-on:click="">
+      <button type="button" class="btn btn-primary" v-on:click="findRecipes">
         Search for recipes
       </button>
     </div>

@@ -7,8 +7,7 @@ var app = new Vue({
         scan: false,
         selectedDeviceId: 0,
         code: '',
-        ingridients: [],
-        ingridients_string: '',
+        ingredients: ['apples', 'flour', 'sugar'],
         codes: []
     },
     computed: {
@@ -18,10 +17,21 @@ var app = new Vue({
             return params;
         },
 
-        findIngridientsParams() {
+        findIngredientsParams() {
+            // create ingredients string from list
+            // string format: apples,+flour,+sugar
+            string = ''
+            for (i = 0; i < this.ingredients.length; i++)
+            {
+                if(i==0)
+                {
+                    string += this.ingredients[i]
+                } else {
+                    string += ',+' + this.ingredients[i]
+                }
+            }
             const params = new URLSearchParams();
-            params.append('apiKey', )
-            params.append('ingridients', this.ingridients_string);
+            params.append('ingredients', string);
             return params;
         },
     },
@@ -82,6 +92,12 @@ var app = new Vue({
             console.log("save scan!")
         },
 
+        addIngredient: function()
+        {
+            this.ingredients.push(document.getElementById('input_ingredient').value)
+            document.getElementById('input_ingredient').value = ''
+        },
+
         getProduct: function()
         {
             console.log(this.code)
@@ -103,11 +119,9 @@ var app = new Vue({
         },
 
         findRecipes: function()
-        {
-            console.log(this.ingriedents_string)
-            
+        {    
             axios.get('api/recipes', {
-                params: this.axiosParams
+                params: this.findIngredientsParams
                 })
                 .then((response) => {
 
