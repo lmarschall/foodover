@@ -8,7 +8,8 @@ var app = new Vue({
         selectedDeviceId: 0,
         code: '',
         ingredients: ['apples', 'flour', 'sugar'],
-        codes: []
+        codes: [],
+        recipes: []
     },
     computed: {
         axiosParams() {
@@ -119,12 +120,15 @@ var app = new Vue({
         },
 
         findRecipes: function()
-        {    
+        {   
+            this.recipes = []
+
             axios.get('api/recipes', {
                 params: this.findIngredientsParams
                 })
                 .then((response) => {
 
+                    this.recipes = response.data
                     console.log(response.data)
                     // this.reservation_list = response.data;
                     // this.ready = true;

@@ -88,6 +88,10 @@
       <button type="button" class="btn btn-primary" v-on:click="findRecipes">
         Search for recipes
       </button>
+
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item" v-for="recipe in recipes">${recipe.title}</li>
+      </ul>
     </div>
 
     <!-- Optional JavaScript -->
