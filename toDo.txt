@@ -1,0 +1,3 @@
+- adding text input along with scanning
+- adding product api
+- adding recipe api
