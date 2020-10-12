@@ -1,5 +1,4 @@
 - adding product api
-- make app to pwa
 - adding database support
 - adding recipe page
 - adding ingredients to search page
