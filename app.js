@@ -16,7 +16,7 @@ if(process.env.PORT)
 
 // else local
 } else {
-  const httpPort = process.env.PORT || 3000
+  const httpPort = 3000
   const httpsPort = 443
   const key = fs.readFileSync('../localkey.key');
   const cert = fs.readFileSync('../localcert.crt');
@@ -40,8 +40,6 @@ if(process.env.PORT)
 }
 
 // app.use(compression()); COMPRESSION
-
-
 
 // app.set("views", path.join(__dirname, "views"));
 // app.set("view engine", "ejs");
@@ -70,18 +68,34 @@ async function findRecipesbyIngredients (res, ingredients) {
   params.append('number', '2')
   try {
     const result = await axios.get('https://api.spoonacular.com/recipes/findByIngredients', {params: params})
-    console.log(result.data)
     res.send(result.data)
   } catch (err) {
       console.error(err);
-      return []
+      res.send([])
   }
 }
 
 app.get("/api/recipes", (req, res) => {
   console.log(req.query.ingredients)
   findRecipesbyIngredients(res, req.query.ingredients)
-  // res.send(recipes)
+});
+
+async function findRecipebyId (res, id) {
+  const params = new URLSearchParams();
+  params.append('apiKey', process.env.apikey)
+
+  try {
+    const result = await axios.get(`https://api.spoonacular.com/recipes/${id}/information`, {params: params})
+    res.send(result.data)
+  } catch (err) {
+      console.error(err);
+      res.send('')
+  }
+}
+
+app.get("/api/recipe", (req, res) => {
+  console.log(req.query.id)
+  findRecipebyId(res, req.query.id)
 });
 
 app.get("/api/product", (req, res) => {

@@ -1,4 +1,4 @@
-var app = new Vue({
+var search = new Vue({
     el: '#scanframe',
     delimiters: ['${','}'],
     data:
@@ -9,7 +9,8 @@ var app = new Vue({
         code: '',
         ingredients: ['apples', 'flour', 'sugar'],
         codes: [],
-        recipes: []
+        recipes: [],
+        actual_recipe_id: 0
     },
     computed: {
         axiosParams() {

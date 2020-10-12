@@ -11,7 +11,22 @@
     <title>Hello, world!</title>
   </head>
   <body>
-    <h1>Recipe</h1>
+
+    <div id="recipeframe">
+      <ul class="list-group list-group-flush" v-if="ready">
+        <li class="list-group-item"><h1>${recipe.title}</h1></li>
+        <li class="list-group-item">
+          <img :src="recipe.image" class="img-fluid" alt="Responsive image">
+        </li>
+        <li class="list-group-item">${recipe.aggregateLikes} Likes</li>
+        <li class="list-group-item">Ready in ${recipe.readyInMinutes} Minutes</li>
+        <li class="list-group-item">${recipe.preparationMinutes} Preparation Minutes</li>
+        <li class="list-group-item">${recipe.cookingMinutes} Cooking Minutes</li>
+        <li class="list-group-item">VEGAN VEGETARIAN GLUTENFREE DAIRYFREE</li>
+        <li class="list-group-item" v-html="recipe.summary"></li>
+      </ul>
+      
+    </div>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
