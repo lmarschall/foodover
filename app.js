@@ -1,7 +1,23 @@
 const express = require('express');
 const axios = require('axios');
 const app = express();
-var path = require('path');
+const path = require('path');
+const fs = require('fs')
+const https = require('https')
+
+const httpPort = process.env.PORT || 3000
+const httpsPort = 443
+const key = fs.readFileSync('../localkey.key');
+const cert = fs.readFileSync('../localcert.crt');
+
+const server = https.createServer({key: key, cert: cert }, app);
+
+app.use((req, res, next) => {
+  if (!req.secure) {
+    return res.redirect('https://' + req.headers.host + req.url);
+  }
+  next();
+})
 
 // app.set("views", path.join(__dirname, "views"));
 // app.set("view engine", "ejs");
@@ -16,6 +32,11 @@ app.use(express.static(path.join(__dirname, "static")));
 app.get("/", (req, res) => {
   // res.render("index", { title: "Home" });
   res.sendFile(path.join(__dirname+'/views/index.html'))
+});
+
+app.get("/recipe", (req, res) => {
+  // res.render("index", { title: "Home" });
+  res.sendFile(path.join(__dirname+'/views/recipe.html'))
 });
 
 async function findRecipesbyIngredients (res, ingredients) {
@@ -43,5 +64,13 @@ app.get("/api/product", (req, res) => {
   res.send(req.query.code)
 });
 
-app.listen(process.env.PORT || 3000);
-console.log('Web Server is listening at port '+ (process.env.PORT || 3000));
+// app.listen(process.env.PORT || 3000);
+// console.log('Web Server is listening at port '+ (process.env.PORT || 3000));
+
+app.listen(httpPort, function () {
+  console.log(`Listening on port ${httpPort}!`)
+})
+
+server.listen(httpsPort, function () {
+  console.log(`Listening on port ${httpsPort}!`)
+})
