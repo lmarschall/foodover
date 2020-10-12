@@ -6,7 +6,7 @@ const fs = require('fs')
 const https = require('https')
 
 // check if process.env.PORT exists => heroku
-if(process.env.port)
+if(process.env.PORT)
 {
   const httpPort = process.env.PORT
 
