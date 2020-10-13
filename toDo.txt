@@ -7,3 +7,4 @@
 - adding recipe option https://api.spoonacular.com/recipes/extract
 - adding analyzed instructions https://api.spoonacular.com/recipes/{id}/analyzedInstructions
 - divide dom at bigger screens, left nutrition like content, right instructions content
+- adding share and like button
