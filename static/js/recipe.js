@@ -9,7 +9,7 @@ var recipe = new Vue({
     computed: {
         recipeParams() {
             const params = new URLSearchParams();
-            params.append('id', 47950);
+            params.append('id', document.getElementById('recipe_id').innerHTML);
             return params;
         }
     },
@@ -20,7 +20,6 @@ var recipe = new Vue({
     {
         getRecipe: function()
         {
-
             axios.get('/api/recipe', {
                 params: this.recipeParams
                 })

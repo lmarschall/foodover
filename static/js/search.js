@@ -100,6 +100,12 @@ var search = new Vue({
             document.getElementById('input_ingredient').value = ''
         },
 
+        setActualRecipe: function(id)
+        {
+            console.log(id)
+            this.actual_recipe_id = id
+        },
+
         getProduct: function()
         {
             console.log(this.code)

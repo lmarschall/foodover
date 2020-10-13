@@ -11,10 +11,10 @@
     <title>Hello, world!</title>
   </head>
   <body>
-
     <div id="recipeframe">
+      <p id="recipe_id" hidden><%= recipe_id %></p>
       <ul class="list-group list-group-flush" v-if="ready">
-        <li class="list-group-item"><h1>${recipe.title}</h1></li>
+        <li class="list-group-item"><h3>${recipe.title}</h3></li>
         <li class="list-group-item">
           <img :src="recipe.image" class="img-fluid" alt="Responsive image">
         </li>

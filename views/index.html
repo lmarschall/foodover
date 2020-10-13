@@ -110,7 +110,7 @@
       </button>
 
       <ul class="list-group list-group-flush">
-        <li class="list-group-item" v-for="recipe in recipes">${recipe.title}</li>
+        <li class="list-group-item" v-for="recipe in recipes"><a v-bind:href="'/recipe?id='+ recipe.id" >${recipe.title}</a></li>
       </ul>
     </div>
 
