@@ -1,43 +1,22 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<%- include('partials/header.html') %>
+<div id="recipeframe">
+  <p id="recipe_id" hidden><%= recipe_id %></p>
+  <ul class="list-group list-group-flush" v-if="ready">
+    <li class="list-group-item">
+      <h3>${recipe.title}</h3>
+    </li>
+    <li class="list-group-item">
+      <img :src="recipe.image" class="img-fluid" alt="Responsive image">
+    </li>
+    <li class="list-group-item">${recipe.aggregateLikes} Likes</li>
+    <li class="list-group-item">Ready in ${recipe.readyInMinutes} Minutes</li>
+    <li class="list-group-item">${recipe.preparationMinutes} Preparation Minutes</li>
+    <li class="list-group-item">${recipe.cookingMinutes} Cooking Minutes</li>
+    <li class="list-group-item">VEGAN VEGETARIAN GLUTENFREE DAIRYFREE</li>
+    <li class="list-group-item" v-html="recipe.summary"></li>
+  </ul>
+</div>
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-
-    <title>Hello, world!</title>
-  </head>
-  <body>
-    <div id="recipeframe">
-      <p id="recipe_id" hidden><%= recipe_id %></p>
-      <ul class="list-group list-group-flush" v-if="ready">
-        <li class="list-group-item"><h3>${recipe.title}</h3></li>
-        <li class="list-group-item">
-          <img :src="recipe.image" class="img-fluid" alt="Responsive image">
-        </li>
-        <li class="list-group-item">${recipe.aggregateLikes} Likes</li>
-        <li class="list-group-item">Ready in ${recipe.readyInMinutes} Minutes</li>
-        <li class="list-group-item">${recipe.preparationMinutes} Preparation Minutes</li>
-        <li class="list-group-item">${recipe.cookingMinutes} Cooking Minutes</li>
-        <li class="list-group-item">VEGAN VEGETARIAN GLUTENFREE DAIRYFREE</li>
-        <li class="list-group-item" v-html="recipe.summary"></li>
-      </ul>
-      
-    </div>
-
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
-    
-    <script type="text/javascript" src="https://unpkg.com/@zxing/library@latest"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script src='/js/recipe.js' type='text/javascript'></script>
-
-  </body>
-</html>
+<%- include('partials/scripts.html') %>
+<script src='/js/recipe.js' type='text/javascript'></script>
+<%- include('partials/footer.html') %>

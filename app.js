@@ -1,10 +1,10 @@
 const express = require('express');
 const axios = require('axios');
-const app = express();
 const path = require('path');
 const fs = require('fs')
-// const ejs = require('ejs')
 const https = require('https')
+
+const app = express();
 
 // check if process.env.PORT exists => heroku
 if(process.env.PORT)
@@ -46,11 +46,6 @@ app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 app.engine('html', require('ejs').renderFile);
 app.use(express.static(path.join(__dirname, "static")));
-// app.use(express.static(__dirname + '/node_modules/bootstrap/dist'));
-
-// app.get('/', (req,res) => {
-//   res.send("Hello");
-// });
 
 app.get("/", (req, res) => {
   res.render("index.html", { title: "Home" });
