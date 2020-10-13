@@ -1,5 +1,8 @@
 - adding product api
 - adding database support
-- adding recipe page
 - adding ingredients to search page
-- adding recommends page as startup page 
+- adding recommends page as startup page
+- add nutritions to recipe page => https://api.spoonacular.com/recipes/1003464/nutritionWidget.json
+- adding intolerances https://api.spoonacular.com/recipes/complexSearch?inlcudeIngredients...?intolerances...
+- adding recipe option https://api.spoonacular.com/recipes/extract
+- adding analyzed instructions https://api.spoonacular.com/recipes/{id}/analyzedInstructions
