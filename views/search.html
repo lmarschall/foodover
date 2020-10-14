@@ -1,22 +1,24 @@
 <%- include('partials/header.html') %>
 
+<h1>Search</h1>
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" v-on:click="" data-toggle="modal" data-target="#inputModal">
+  Input
+</button>
+
+
 <div id="searchframe">
 
-  <ul class="list-group list-group-flush">
-    <li class="list-group-item" v-for="ingredient in ingredients">${ingredient}</li>
-  </ul>
+  <span class="badge badge-pill badge-primary" v-for="ingredient in ingredients">${ingredient}</span>
+  </br>
 
-  <!-- Button trigger modal -->
-  <button type="button" class="btn btn-primary" v-on:click="startScan" data-toggle="modal" data-target="#exampleModal">
-    Scan
-  </button>
-
-  <!-- Modal -->
-  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <!-- Scan Modal -->
+  <div class="modal fade" id="scanModal" tabindex="-1" aria-labelledby="scanModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+          <h5 class="modal-title" id="scanModalLabel">Modal title</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -34,59 +36,65 @@
     </div>
   </div>
 
-  <!-- Button trigger modal -->
-  <button type="button" class="btn btn-primary" v-on:click="" data-toggle="modal" data-target="#inputModal">
-    Input
-  </button>
-
-  <!-- Modal -->
-  <div class="modal fade" id="inputModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <!-- Input Modal -->
+  <div class="modal fade" id="inputModal" tabindex="-1" aria-labelledby="inputModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+          <h5 class="modal-title" id="inputModalLabel">Input</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
-          <div class="input-group">
-            <!-- <div class="input-group-prepend">
-              <span class="input-group-text" id="basic-addon1">@</span>
-            </div> -->
-            <input type="text" class="form-control" placeholder="Username" aria-label="Username"
-              aria-describedby="basic-addon1" disabled>
-          </div>
-
-          <div class="input-group">
-            <input type="text" id="input_ingredient" class="form-control" placeholder="Recipient's username"
-              aria-label="Recipient's username" aria-describedby="basic-addon2">
-            <!-- <div class="input-group-append">
-              <span class="input-group-text" id="basic-addon2">@example.com</span>
-            </div> -->
-          </div>
+          <video v-if="scan" id="video" width="300" height="200" style="border: 1px solid gray"></video>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item" v-for="ingredient in ingredients">${ingredient}</li>
+            <li class="list-group-item">
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <div class="input-group-text">
+                    <button type="button" class="btn btn-primary" v-on:click="startScan" data-toggle="modal" data-target="#scanModal">
+                      Scan
+                    </button>
+                  </div>
+                </div>
+                <input type="text" id="input_ingredient" v-on:keyup="validateInput" class="form-control" placeholder="Ingredient">
+              </div>
+            </li>
+          </ul>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" v-on:click="" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary" v-on:click="addIngredient" data-dismiss="modal">Save
-            changes</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" v-on:click="findRecipes" data-dismiss="modal">Search for recipes</button>
         </div>
       </div>
     </div>
   </div>
 
-  <button type="button" class="btn btn-primary" v-on:click="findRecipes">
-    Search for recipes
-  </button>
 
-  <ul class="list-group list-group-flush">
+
+  <!-- <ul class="list-group list-group-flush">
     <li class="list-group-item" v-for="recipe in recipes"><a v-bind:href="'/recipe?id='+ recipe.id">${recipe.title}</a>
     </li>
   </ul>
-</div>
+</div> -->
+
+<div class="card-group">
+  <div class="card" v-for="recipe in recipes">
+    <img v-bind:src="recipe.image" class="card-img-top d-inline" alt="...">
+    <div class="card-body d-inline">
+      <h5 class="card-title"><a v-bind:href="'/recipe?id='+ recipe.id">${recipe.title}</a></h5>
+      <p class="card-text"> 2 of 5 ingredients used.</p>
+      <!-- <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p> -->
+      
+    </div>
+  </div>
 
 <%- include('partials/scripts.html') %>
 <%- include('partials/bar.html') %>
+
+<script>bar.page = 1</script>
 
 <script type="text/javascript" src="https://unpkg.com/@zxing/library@latest"></script>
 <script src='/js/search.js' type='text/javascript'></script>

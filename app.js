@@ -63,7 +63,7 @@ async function findRecipesbyIngredients (ingredients) {
   const params = new URLSearchParams();
   params.append('apiKey', process.env.apikey)
   params.append('ingredients', ingredients)
-  params.append('number', '2')
+  params.append('number', '10')
 
   try {
     const result = await axios.get('https://api.spoonacular.com/recipes/findByIngredients', {params: params})

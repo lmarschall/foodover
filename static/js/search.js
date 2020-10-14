@@ -100,6 +100,16 @@ var search = new Vue({
             document.getElementById('input_ingredient').value = ''
         },
 
+        validateInput: function(e)
+        {
+            if (e.keyCode === 13)
+            {
+                console.log('Enter was pressed');
+                this.ingredients.push(document.getElementById('input_ingredient').value)
+                document.getElementById('input_ingredient').value = ''
+            }
+        },
+
         setActualRecipe: function(id)
         {
             console.log(id)

@@ -2,10 +2,10 @@
 <div id="barframe" class="card shadow p-3 mb-5 bg-white rounded-pill fixed-bottom">
     <ul class="nav nav-fill nav-pills">
         <li class="nav-item">
-            <a class="nav-link active rounded-pill" href="/">Home</a>
+            <a class="nav-link rounded-pill" v-bind:class="{ active: page == 0 }" href="/">Home</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link rounded-pill" href="/search">Search</a>
+            <a class="nav-link rounded-pill" v-bind:class="{ active: page == 1 }" href="/search">Search</a>
         </li>
     </ul>
 </div>
