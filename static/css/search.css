@@ -33,3 +33,7 @@
     left: 5vw;
     z-index: 20000;
 }
+
+span.badge.badge-pill.badge-secondary {
+    margin: 0.2rem;
+}
