@@ -100,15 +100,15 @@ app.get("/api/recipe", async (req, res) => {
 });
 
 async function findProductWithCode (code) {
-  const params = new URLSearchParams();
-  params.append('ean', code)
-  params.append('cmd', 'query')
-  params.append('queryid', 400000000)
 
   try {
-    const result = await axios.get(`http://opengtindb.org/`, {params: params})
-    const name_string = result.data.split("\n")[4]
-    const name = name_string.split("=")[1]
+    const result = await axios.get(`https://world.openfoodfacts.org/api/v0/product/${code}.json`)
+    if (result.data.status_verbose == 'product found')
+    {
+      return result.data.product.product_name
+    } else {
+      return ''
+    }
     return name
   } catch (err) {
       console.error(err);
