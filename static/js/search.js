@@ -4,22 +4,20 @@ var search = new Vue({
     data:
     {
         codeReader: null,
+        code: '',
         scan: false,
         selectedDeviceId: 0,
-        code: '',
         ingredients: ['apples', 'flour', 'sugar'],
-        codes: [],
-        recipes: [],
-        actual_recipe_id: 0
+        recipes: []
     },
     computed: {
-        axiosParams() {
+        productParams() {
             const params = new URLSearchParams();
             params.append('code', this.code);
             return params;
         },
 
-        findIngredientsParams() {
+        ingredientsParams() {
             // create ingredients string from list
             // string format: apples,+flour,+sugar
             string = ''
@@ -70,8 +68,7 @@ var search = new Vue({
                   console.log(result)
                   this.code = result.text
                   this.scan = false
-                  this.getProduct()
-                  document.getElementById('result').textContent = result.text
+                  this.findProduct()
                   this.codeReader.reset()
                 }
                 if (err && !(err instanceof ZXing.NotFoundException)) {
@@ -85,19 +82,18 @@ var search = new Vue({
         resetScan: function()
         {
             this.codeReader.reset()
-            document.getElementById('result').textContent = '';
+            this.scan = false
             console.log('Reset.')
         },
 
-        saveScan: function()
+        addIngredient: function(name)
         {
-            console.log("save scan!")
+            this.ingredients.push(name)
         },
 
-        addIngredient: function()
+        dropIngredient: function(index)
         {
-            this.ingredients.push(document.getElementById('input_ingredient').value)
-            document.getElementById('input_ingredient').value = ''
+            this.ingredients.splice(index, 1)
         },
 
         validateInput: function(e)
@@ -105,27 +101,28 @@ var search = new Vue({
             if (e.keyCode === 13)
             {
                 console.log('Enter was pressed');
-                this.ingredients.push(document.getElementById('input_ingredient').value)
+                this.addIngredient(document.getElementById('input_ingredient').value)
                 document.getElementById('input_ingredient').value = ''
             }
         },
 
-        setActualRecipe: function(id)
-        {
-            console.log(id)
-            this.actual_recipe_id = id
-        },
-
-        getProduct: function()
+        findProduct: function()
         {
             console.log(this.code)
 
             axios.get('/api/product', {
-                params: this.axiosParams
+                params: this.productParams
                 })
                 .then((response) => {
 
                     console.log(response.data)
+
+                    if(response.data != '')
+                    {
+                        this.addIngredient(response.data)
+                    } else {
+                        console.log("No Product found!")
+                    }
                     // this.reservation_list = response.data;
                     // this.ready = true;
                     // this.setupMarkers(this.schnors);
@@ -141,7 +138,7 @@ var search = new Vue({
             this.recipes = []
 
             axios.get('api/recipes', {
-                params: this.findIngredientsParams
+                params: this.ingredientsParams
                 })
                 .then((response) => {
 

@@ -99,6 +99,24 @@ app.get("/api/recipe", async (req, res) => {
   res.send(recipe)
 });
 
-app.get("/api/product", (req, res) => {
-  res.send(req.query.code)
+async function findProductWithCode (code) {
+  const params = new URLSearchParams();
+  params.append('ean', code)
+  params.append('cmd', 'query')
+  params.append('queryid', 400000000)
+
+  try {
+    const result = await axios.get(`http://opengtindb.org/`, {params: params})
+    const name_string = result.data.split("\n")[4]
+    const name = name_string.split("=")[1]
+    return name
+  } catch (err) {
+      console.error(err);
+      return ''
+  }
+}
+
+app.get("/api/product", async (req, res) => {
+  const product = await findProductWithCode(req.query.code)
+  res.send(product)
 });

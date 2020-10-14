@@ -1,100 +1,87 @@
 <%- include('partials/header.html') %>
 
-<h1>Search</h1>
+<link rel="stylesheet" href="/css/search.css">
 
-<!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" v-on:click="" data-toggle="modal" data-target="#inputModal">
-  Input
-</button>
-
-
-<div id="searchframe">
-
-  <span class="badge badge-pill badge-primary" v-for="ingredient in ingredients">${ingredient}</span>
-  </br>
-
-  <!-- Scan Modal -->
-  <div class="modal fade" id="scanModal" tabindex="-1" aria-labelledby="scanModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="scanModalLabel">Modal title</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <video v-if="scan" id="video" width="300" height="200" style="border: 1px solid gray"></video>
-          <label>Result:</label>
-          <pre><code id="result"></code></pre>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" v-on:click="resetScan" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary" v-on:click="saveScan" data-dismiss="modal">Save changes</button>
-        </div>
-      </div>
-    </div>
+<div class="card">
+  <div class="card-header">
+    <h1>Search</h1>
   </div>
 
-  <!-- Input Modal -->
-  <div class="modal fade" id="inputModal" tabindex="-1" aria-labelledby="inputModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="inputModalLabel">Input</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <video v-if="scan" id="video" width="300" height="200" style="border: 1px solid gray"></video>
-          <ul class="list-group list-group-flush">
-            <li class="list-group-item" v-for="ingredient in ingredients">${ingredient}</li>
-            <li class="list-group-item">
-              <div class="input-group">
-                <div class="input-group-prepend">
-                  <div class="input-group-text">
-                    <button type="button" class="btn btn-primary" v-on:click="startScan" data-toggle="modal" data-target="#scanModal">
-                      Scan
+  <div id="searchframe">
+
+    <div v-if="scan" class="video-container">
+      <button type="button" class="btn btn-secondary rounded-pill" v-on:click="resetScan">Abort</button>
+      <video id="video"></video>
+    </div>
+
+    <!-- Input Modal -->
+    <div class="modal fade" id="inputModal" tabindex="-1" aria-labelledby="inputModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="inputModalLabel">Input</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item" v-for="(ingredient, index) in ingredients">
+                <div class="input-group mb-3">
+                  <input type="text" class="form-control-plaintext" v-bind:value="ingredient" style="border-width:0px; border:none;" readonly></input>
+                  <div class="input-group-append">
+                    <button type="button" class="close" v-on:click="dropIngredient(index)">
+                      <span aria-hidden="true">&times;</span>
                     </button>
+                    <!-- <span class="input-group-text" v-on:click="dropIngredient(index)" id="basic-addon1">Delete</span> -->
                   </div>
                 </div>
-                <input type="text" id="input_ingredient" v-on:keyup="validateInput" class="form-control" placeholder="Ingredient">
-              </div>
-            </li>
-          </ul>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary" v-on:click="findRecipes" data-dismiss="modal">Search for recipes</button>
+              </li>
+              <li class="list-group-item">
+                <div class="input-group mb-3">
+                  <input type="text" id="input_ingredient" v-on:keyup="validateInput" class="form-control" style="border-width:0px; border:none;" placeholder="what's left?">
+                  <div class="input-group-append">
+                    <span class="input-group-text" v-on:click="startScan" id="basic-addon1">Scan</span>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" v-on:click="findRecipes" data-dismiss="modal">Search for
+              recipes</button>
+          </div>
         </div>
       </div>
     </div>
+
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item">
+        <span class="badge badge-pill badge-secondary" v-for="ingredient in ingredients"><h6>${ingredient}</h6></span>
+        <span class="badge badge-pill badge-primary" data-toggle="modal" data-target="#inputModal"><h6>Input</h6></span>
+      </li>
+      <li v-for="recipe in recipes" class="list-group-item">
+        <img v-bind:src="recipe.image" class="card-img-top d-inline" alt="...">
+        <h5 class="card-title"><a v-bind:href="'/recipe?id='+ recipe.id">${recipe.title}</a></h5>
+        <h5 class="card-title">2 of 5 ingredients used.</h5>
+      </li>
+    </ul>
   </div>
-
-
-
-  <!-- <ul class="list-group list-group-flush">
-    <li class="list-group-item" v-for="recipe in recipes"><a v-bind:href="'/recipe?id='+ recipe.id">${recipe.title}</a>
-    </li>
-  </ul>
-</div> -->
-
-<div class="card-group">
-  <div class="card" v-for="recipe in recipes">
-    <img v-bind:src="recipe.image" class="card-img-top d-inline" alt="...">
-    <div class="card-body d-inline">
-      <h5 class="card-title"><a v-bind:href="'/recipe?id='+ recipe.id">${recipe.title}</a></h5>
-      <p class="card-text"> 2 of 5 ingredients used.</p>
-      <!-- <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p> -->
-      
-    </div>
-  </div>
+</div>
 
 <%- include('partials/scripts.html') %>
 <%- include('partials/bar.html') %>
 
 <script>bar.page = 1</script>
+
+<script>
+  $('#inputModal').on('shown.bs.modal', function () {
+  // get the locator for an input in your modal. Here I'm focusing on
+  // the element with the id of myInput
+  $('#input_ingredient').focus()
+})
+</script>
 
 <script type="text/javascript" src="https://unpkg.com/@zxing/library@latest"></script>
 <script src='/js/search.js' type='text/javascript'></script>
