@@ -55,6 +55,10 @@ app.get("/recipe", (req, res) => {
   res.render("recipe.html", { recipe_id: req.query.id });
 });
 
+app.get("/search", (req, res) => {
+  res.render("search.html", { });
+});
+
 async function findRecipesbyIngredients (ingredients) {
   const params = new URLSearchParams();
   params.append('apiKey', process.env.apikey)

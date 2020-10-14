@@ -1,5 +1,5 @@
 var search = new Vue({
-    el: '#scanframe',
+    el: '#searchframe',
     delimiters: ['${','}'],
     data:
     {
