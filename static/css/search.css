@@ -33,3 +33,15 @@
     left: 5vw;
     z-index: 20000;
 }
+
+li.list-group-item.input-item {
+    padding-bottom: 0;
+}
+
+button.btn.btn-outline-primary.rounded {
+    padding-bottom: 0.5em;
+}
+
+.row.row-cols-1.row-cols-md-2 {
+    padding: 2rem;
+}
