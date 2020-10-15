@@ -156,6 +156,15 @@ var search = new Vue({
 
                     this.recipes = response.data
                     console.log(response.data)
+
+                    var drops = []
+
+                    for (var i=0;i<this.recipes.length;i++) {
+                        drops.push({recipe: JSON.stringify(this.recipes[i])})
+                    }
+
+                    this.db.recipes.bulkAdd(drops)
+
                     // this.reservation_list = response.data;
                     // this.ready = true;
                     // this.setupMarkers(this.schnors);
@@ -170,7 +179,8 @@ var search = new Vue({
         {
             this.db = new Dexie("foodover_database");
             this.db.version(1).stores({
-                ingredients: '++id, name'
+                ingredients: '++id, name',
+                recipes: '++id, recipe'
             });
 
             const self = this;
@@ -179,6 +189,16 @@ var search = new Vue({
 
                 self.ingredients = ingredients
             });
+
+            this.db.recipes.toArray().then(function (recipes) {
+
+                for (var i=0; i<recipes.length;i++)
+                {
+                    self.recipes.push(JSON.parse(recipes[i].recipe))
+                }
+            });
+
+
             // //
             // // Put some data into it
             // //

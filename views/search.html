@@ -82,9 +82,9 @@
     <div class="col mb-4" v-for="recipe in recipes">
       <div class="card rounded-lg">
         <img v-bind:src="recipe.image" class="card-img-top" alt="...">
-        <div class="card-img-overlay">
+        <!-- <div class="card-img-overlay">
           <P>LIKE</P>
-        </div>
+        </div> -->
         <div class="card-body">
           <h5 class="card-title"><a v-bind:href="'/recipe?id='+ recipe.id">${recipe.title}</a></h5>
           <p class="card-text">2 of 5 ingredients used.</p>
