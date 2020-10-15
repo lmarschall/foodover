@@ -1,3 +1,27 @@
 body {
-    background-color: red;
+    background-color: #EEF8E3;
+}
+
+span.badge.badge-pill.badge-secondary {
+    margin: 0.2rem;
+}
+
+span.badge.badge-pill.badge-primary {
+    background-color: #7FBD32;
+}
+
+span.badge.badge-pill.badge-secondary {
+    background-color: #213409;
+}
+
+button.btn.btn-primary {
+    background-color: #7FBD32;
+}
+
+button.btn.btn-secondary {
+    background-color: #213409;
+}
+
+button.btn.btn-outline-primary.rounded {
+    border-color: #7FBD32;
 }

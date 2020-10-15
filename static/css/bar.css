@@ -5,3 +5,11 @@ div#barframe {
     /* bottom: 5vh; */
     /* z-index: 2000; */
 }
+
+a.nav-link.rounded-pill {
+    color: #7FBD32;
+}
+
+a.nav-link.rounded-pill.active {
+    background-color: #7FBD32;
+}
