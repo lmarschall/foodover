@@ -26,9 +26,9 @@ var search = new Vue({
             {
                 if(i==0)
                 {
-                    string += this.ingredients[i]
+                    string += this.ingredients[i].name
                 } else {
-                    string += ',+' + this.ingredients[i]
+                    string += ',+' + this.ingredients[i].name
                 }
             }
             const params = new URLSearchParams();
