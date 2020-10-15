@@ -8,7 +8,8 @@ var search = new Vue({
         scan: false,
         selectedDeviceId: 0,
         ingredients: ['apples', 'flour', 'sugar'],
-        recipes: []
+        recipes: [],
+        db: null
     },
     computed: {
         productParams() {
@@ -37,6 +38,7 @@ var search = new Vue({
     },
     mounted: function () {
         this.initCamera();
+        this.loadData();
     },
     methods:
     {
@@ -88,12 +90,22 @@ var search = new Vue({
 
         addIngredient: function(name)
         {
-            this.ingredients.push(name)
+            const self = this
+
+            // this.ingredients.push(name)
+            this.db.ingredients.add({name: name}).then(function (index) {
+                self.db.ingredients.get(index, function (ingredient) {
+                    self.ingredients.push(ingredient)
+                })
+            })
+
         },
 
         dropIngredient: function(index)
         {
+            const ingredient = this.ingredients[index]
             this.ingredients.splice(index, 1)
+            this.db.ingredients.delete(ingredient.id)
         },
 
         validateInput: function(e)
@@ -152,6 +164,43 @@ var search = new Vue({
                     // this.loading = false;
                     // console.log(err);
                     // })
+        },
+
+        loadData: function()
+        {
+            this.db = new Dexie("foodover_database");
+            this.db.version(1).stores({
+                ingredients: '++id, name'
+            });
+
+            const self = this;
+
+            this.db.ingredients.toArray().then(function (ingredients) {
+
+                self.ingredients = ingredients
+            });
+            // //
+            // // Put some data into it
+            // //
+            // db.friends.put({name: "Nicolas", shoeSize: 8}).then (function()
+            // {
+            //     //
+            //     // Then when data is stored, read from it
+            //     //
+            //         return db.friends.get('Nicolas');
+            // }).then(function (friend) {
+            //     //
+            //     // Display the result
+            //     //
+            //     alert ("Nicolas has shoe size " + friend.shoeSize);
+            // }).catch(function(error) {
+            //     //
+            //     // Finally don't forget to catch any error
+            //     // that could have happened anywhere in the
+            //     // code blocks above.
+            //     //
+            //     alert ("Ooops: " + error);
+            // });
         }
     }
 });
