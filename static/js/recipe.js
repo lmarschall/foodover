@@ -4,6 +4,7 @@ var recipe = new Vue({
     data:
     {
         recipe: null,
+        nutritions: null,
         ready: false
     },
     computed: {
@@ -11,10 +12,17 @@ var recipe = new Vue({
             const params = new URLSearchParams();
             params.append('id', document.getElementById('recipe_id').innerHTML);
             return params;
+        },
+
+        nutritionsParams() {
+            const params = new URLSearchParams();
+            params.append('id', document.getElementById('recipe_id').innerHTML);
+            return params;
         }
     },
     mounted: function () {
         this.getRecipe();
+        this.getNutritions();
     },
     methods:
     {
@@ -26,6 +34,24 @@ var recipe = new Vue({
                 .then((response) => {
                     this.recipe = response.data
                     this.ready = true
+                    console.log(response.data)
+                    // this.reservation_list = response.data;
+                    // this.ready = true;
+                    // this.setupMarkers(this.schnors);
+                })
+                // .catch((err) => {
+                    // this.loading = false;
+                    // console.log(err);
+                    // })
+        },
+
+        getNutritions: function()
+        {
+            axios.get('/api/nutritions', {
+                params: this.nutritionsParams
+                })
+                .then((response) => {
+                    this.nutritions = response.data
                     console.log(response.data)
                     // this.reservation_list = response.data;
                     // this.ready = true;
