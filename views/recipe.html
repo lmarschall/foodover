@@ -13,7 +13,7 @@
   </div>
   
   <div class="row" v-if="ready">
-    <div class="col-md-6 d-none d-md-block" style="overflow: auto;">
+    <div class="col-md-6 d-none d-md-block" style="overflow: auto; height: 90vh;">
       <ul class="list-group list-group-flush">
         <li class="list-group-item">
           <%- include('partials/likesaveshare.html') %>
@@ -30,13 +30,13 @@
       </ul>
     </div>
   
-    <div class="col-md-6 d-none d-md-block" style="overflow: auto;">
+    <div class="col-md-6 d-none d-md-block" style="overflow: auto; height: 90vh;">
       <ul class="list-group list-group-flush">
         <li class="list-group-item">
           <img :src="recipe.image" class="img-fluid" alt="Responsive image">
         </li>
         <li class="list-group-item" v-html="recipe.summary"></li>
-        <li class="list-group-item">INSTRUCTIONS</li>
+        <li class="list-group-item" v-html="recipe.instructions"></li>
       </ul>
     </div>
   
@@ -58,7 +58,7 @@
         <li class="list-group-item">
           <%- include('partials/ingredients.html') %>
         </li>
-        <li class="list-group-item">INSTRUCTIONS</li>
+        <li class="list-group-item v-html="recipe.instructions></li>
       </ul>
     </div>
   </div>
