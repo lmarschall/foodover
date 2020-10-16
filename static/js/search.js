@@ -181,7 +181,11 @@ var search = new Vue({
             this.db.version(1).stores({
                 ingredients: '++id, name',
                 recipes: '++id, recipe'
+                // search: '++id, recipes, ingredients',
+                // recipes: '++id, recipe'
             });
+
+
 
             const self = this;
 
