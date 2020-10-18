@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/lmarschall/foodover#readme",
   "dependencies": {
+    "axios": "^0.20.0",
     "express": "^4.17.1"
   }
 }

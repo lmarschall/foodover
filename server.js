@@ -133,20 +133,20 @@ app.listen(port);
 //   res.send(product)
 // });
 
-// async function getRecipeNutritions (id) {
-//   const params = new URLSearchParams();
-//   params.append('apiKey', process.env.apikey)
+async function getRecipeNutritions (id) {
+  const params = new URLSearchParams();
+  params.append('apiKey', process.env.apikey)
 
-//   try {
-//     const result = await axios.get(`https://api.spoonacular.com/recipes/${id}/nutritionWidget.json`, {params: params})
-//     return result.data
-//   } catch (err) {
-//       console.error(err);
-//       return ''
-//   }
-// }
+  try {
+    const result = await axios.get(`https://api.spoonacular.com/recipes/${id}/nutritionWidget.json`, {params: params})
+    return result.data
+  } catch (err) {
+      console.error(err);
+      return ''
+  }
+}
 
-// app.get("/api/nutritions", async (req, res) => {
-//   const nutritions = await getRecipeNutritions(req.query.id)
-//   res.send(nutritions)
-// });
+app.get("/api/nutritions", async (req, res) => {
+  const nutritions = await getRecipeNutritions(req.query.id)
+  res.send(nutritions)
+});
