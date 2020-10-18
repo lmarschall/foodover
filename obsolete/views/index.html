@@ -1,0 +1,61 @@
+<%- include('partials/header.html') %>
+
+<div class="card">
+    <div class="card-header">
+      <h1>Home</h1>
+    </div>
+</div>
+
+<div id="canvas-holder" style="width:40%">
+  <canvas id="chart-area"></canvas>
+</div>
+
+<%- include('partials/scripts.html') %>
+<%- include('partials/bar.html') %>
+
+<script>bar.page = 0</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js" integrity="sha512-s+xg36jbIujB2S2VKfpGmlC3T5V2TF3lY48DX7u2r9XzGzgPsa6wTpOQA7J9iffvdeBN0q9tKzRxVxw1JviZPg==" crossorigin="anonymous"></script>
+
+<script>
+  	var config = {
+		type: 'doughnut',
+		data: {
+			datasets: [{
+				data: [
+					1,
+					2
+				],
+				backgroundColor: [
+					// window.chartColors.red
+					'#FFFFFF',
+					'#000000'
+				],
+				label: 'Dataset 1'
+			}],
+			labels: [
+				'Red'
+			]
+		},
+		options: {
+			responsive: true,
+			legend: {
+				position: 'top',
+			},
+			title: {
+				display: true,
+				text: 'Chart.js Doughnut Chart'
+			},
+			animation: {
+				animateScale: true,
+				animateRotate: true
+			}
+		}
+	};
+
+	window.onload = function() {
+		var ctx = document.getElementById('chart-area').getContext('2d');
+		window.myDoughnut = new Chart(ctx, config);
+	};
+</script>
+
+<%- include('partials/footer.html') %>

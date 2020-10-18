@@ -2,7 +2,7 @@
   "name": "foodover",
   "version": "0.0.1",
   "description": "app for recycling leftover ingredients",
-  "main": "app.js",
+  "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node app.js"
@@ -19,7 +19,10 @@
   "homepage": "https://github.com/lmarschall/foodover#readme",
   "dependencies": {
     "axios": "^0.20.0",
+    "bootstrap": "^4.5.3",
     "ejs": "^3.1.5",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "vue": "^2.6.12",
+    "vue-router": "^3.4.7"
   }
 }
