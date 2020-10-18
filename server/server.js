@@ -9,4 +9,6 @@ server.get("/", (req, res) => {
     res.send("Hello World!");
 })
 
-server.listen(3000, () => console.log("Server started!"));
+const port = process.env.PORT || 3000;
+
+server.listen(port, () => console.log("Server started!"));
