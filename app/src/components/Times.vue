@@ -1,0 +1,16 @@
+<template>
+    <div class="d-flex flex-row">
+        <div class="flex-fill">
+            <div class="row">${recipe.readyInMinutes}</div>
+            <div class="row">Completion</div>
+        </div>
+        <div class="flex-fill">
+            <div class="row">${recipe.preparationMinutes}</div>
+            <div class="row">Preparation</div>       
+        </div>
+        <div class="flex-fill">
+            <div class="row">${recipe.cookingMinutes}</div>
+            <div class="row">Cooking</div>      
+        </div>
+    </div>
+</template>
