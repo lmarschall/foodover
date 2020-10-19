@@ -86,7 +86,10 @@
                     <P>LIKE</P>
                     </div> -->
                     <div class="card-body">
-                    <h5 class="card-title"><a v-bind:href="'/recipe?id='+ recipe.id" class="stretched-link">{{recipe.title}}</a></h5>
+                    <h5 class="card-title">
+                        <router-link v-bind:to="{ name: 'recipe', params: {id: recipe.id} }" class="stretched-link">{{recipe.title}}</router-link>
+                        <!-- <a v-bind:href="'/recipe/'+ recipe.id" class="stretched-link">{{recipe.title}}</a> -->
+                    </h5>
                     <p class="card-text">2 of 5 ingredients used.</p>
                     </div>
                 </div>

@@ -1,20 +1,31 @@
 <template>
     <div class="d-flex flex-row">
         <div class="flex-fill">
-            <div class="row">${nutritions.calories}</div>
+            <div class="row">{{nutritions.calories}}</div>
             <div class="row">Calories</div>
         </div>
         <div class="flex-fill">
-            <div class="row">${nutritions.carbs}</div>
+            <div class="row">{{nutritions.carbs}}</div>
             <div class="row">Carbs</div>       
         </div>
         <div class="flex-fill">
-            <div class="row">${nutritions.fat}</div>
+            <div class="row">{{nutritions.fat}}</div>
             <div class="row">Fat</div>      
         </div>
         <div class="flex-fill">
-            <div class="row">${nutritions.protein}</div>
+            <div class="row">{{nutritions.protein}}</div>
             <div class="row">Protein</div>      
         </div>
     </div>
 </template>
+
+<script>
+
+    export default {
+        name: 'ingredientsframe',
+        props: {
+            nutritions: Object
+        }
+    }
+
+</script>
