@@ -2,7 +2,7 @@
 
     <div id="searchframe">
 
-        <Bar page=0 />
+        <Bar v-bind:page="0" />
 
         <div v-if="scan" class="video-container">
             <button type="button" class="btn btn-secondary rounded-pill" v-on:click="resetScan">Abort</button>

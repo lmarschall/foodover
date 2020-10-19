@@ -17,7 +17,7 @@
                         <LikeShareSave v-bind:aggregateLikes="recipe.aggregateLikes" />
                     </li>
                     <li class="list-group-item">
-                        <Times v-bind:readyInMinutes="recipe.readyInMinutes" preparationMinutes="recipe.preparationMinutes" cookingMinutes="recipe.cookingMinutes"/>
+                        <Times v-bind:readyInMinutes="recipe.readyInMinutes" v-bind:preparationMinutes="recipe.preparationMinutes" v-bind:cookingMinutes="recipe.cookingMinutes"/>
                     </li>
                     <li class="list-group-item">
                         <Nutritions v-bind:nutritions="nutritions"/>

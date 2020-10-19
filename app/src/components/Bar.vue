@@ -19,10 +19,8 @@
 
     export default {
         name: 'barframe',
-        data () {
-            return {
-                page: 0
-            }
+        props: {
+            page: Number
         },
     }
 </script>

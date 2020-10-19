@@ -1,7 +1,7 @@
 <template>
     <div id="profileframe">
 
-        <Bar page=1 />
+        <Bar v-bind:page="1" />
     </div>
 </template>
  
