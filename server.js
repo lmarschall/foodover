@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const axios = require('axios');
+const compression = require('compression');
 app = express();
 app.use(express.static(path.join(__dirname, "/app/dist")));
 const port = process.env.PORT || 80;
@@ -53,7 +54,7 @@ app.listen(port);
 // app.use('/', routes);
 
 
-// app.use(compression()); COMPRESSION
+app.use(compression()); //COMPRESSION
 
 // app.set("views", path.join(__dirname, "views"));
 // app.set("view engine", "ejs");
