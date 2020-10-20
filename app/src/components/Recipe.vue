@@ -11,7 +11,7 @@
         </div>
         
         <div class="row" v-if="ready">
-            <div class="col-md-6 d-none d-md-block" style="overflow: auto; height: 90vh;">
+            <div class="col-md-4 d-none d-md-block" style="overflow: auto; height: 90vh;">
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">
                         <LikeShareSave v-bind:aggregateLikes="recipe.aggregateLikes" />
@@ -20,18 +20,18 @@
                         <Times v-bind:readyInMinutes="recipe.readyInMinutes" v-bind:preparationMinutes="recipe.preparationMinutes" v-bind:cookingMinutes="recipe.cookingMinutes"/>
                     </li>
                     <li class="list-group-item">
-                        <Nutritions v-bind:nutritions="nutritions"/>
+                        <Ingredients v-bind:ingredients="recipe.extendedIngredients"/>
                     </li>
                     <li class="list-group-item">
-                        <Ingredients v-bind:ingredients="recipe.extendedIngredients"/>
+                        <Nutritions v-bind:nutritions="nutritions"/>
                     </li>
                 </ul>
             </div>
         
-            <div class="col-md-6 d-none d-md-block" style="overflow: auto; height: 90vh;">
+            <div class="col-md-8 d-none d-md-block" style="overflow: auto; height: 90vh;">
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item">
-                    <img :src="recipe.image" class="img-fluid" alt="Responsive image">
+                    <li class="list-group-item image-item" v-bind:style="{ backgroundImage: 'url(' + recipe.image + ')' }">
+                    <!-- <img :src="recipe.image" class="img-fluid" alt="Responsive image"> -->
                     </li>
                     <li class="list-group-item" v-html="recipe.summary"></li>
                     <li class="list-group-item" v-html="recipe.instructions"></li>
@@ -51,10 +51,10 @@
                         <Times v-bind:readyInMinutes="recipe.readyInMinutes" v-bind:preparationMinutes="recipe.preparationMinutes" v-bind:cookingMinutes="recipe.cookingMinutes"/>
                     </li>
                     <li class="list-group-item">
-                        <Nutritions v-bind:nutritions="nutritions"/>
+                        <Ingredients v-bind:ingredients="recipe.extendedIngredients"/>
                     </li>
                     <li class="list-group-item">
-                        <Ingredients v-bind:ingredients="recipe.extendedIngredients"/>
+                        <Nutritions v-bind:nutritions="nutritions"/>
                     </li>
                     <li class="list-group-item" v-html="recipe.instructions"></li>
                 </ul>
@@ -66,6 +66,12 @@
 </template>
 
 <style scoped>
+    li.list-group-item.image-item {
+        height: 60vh;
+        background-position: 50% 50%;
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
 </style>
 
 <script>

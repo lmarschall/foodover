@@ -1,20 +1,16 @@
 <template>
     <div class="d-flex flex-row">
-        <div class="flex-fill">
-            <div class="row">{{nutritions.calories}}</div>
-            <div class="row">Calories</div>
+        <div class="flex-fill text-center">
+            {{nutritions.calories}}<br>Calories
         </div>
-        <div class="flex-fill">
-            <div class="row">{{nutritions.carbs}}</div>
-            <div class="row">Carbs</div>       
+        <div class="flex-fill text-center">
+            {{nutritions.carbs}}<br>Carbs     
         </div>
-        <div class="flex-fill">
-            <div class="row">{{nutritions.fat}}</div>
-            <div class="row">Fat</div>      
+        <div class="flex-fill text-center">
+            {{nutritions.fat}}<br>Fat    
         </div>
-        <div class="flex-fill">
-            <div class="row">{{nutritions.protein}}</div>
-            <div class="row">Protein</div>      
+        <div class="flex-fill text-center">
+            {{nutritions.protein}}<br>Protein    
         </div>
     </div>
 </template>

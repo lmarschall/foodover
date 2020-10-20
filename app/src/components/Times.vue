@@ -1,16 +1,13 @@
 <template>
     <div id="timesframe" class="d-flex flex-row">
-        <div class="flex-fill">
-            <div class="row">{{readyInMinutes}}</div>
-            <div class="row">Completion</div>
+        <div class="flex-fill text-center">
+            {{readyInMinutes}}<br>Completion
         </div>
-        <div class="flex-fill">
-            <div class="row">{{preparationMinutes}}</div>
-            <div class="row">Preparation</div>
+        <div class="flex-fill text-center">
+            {{preparationMinutes}}<br>Preperation
         </div>
-        <div class="flex-fill">
-            <div class="row">{{cookingMinutes}}</div>
-            <div class="row">Cooking</div>   
+        <div class="flex-fill text-center">
+            {{cookingMinutes}}<br>Cooking
         </div>
     </div>
 </template>
