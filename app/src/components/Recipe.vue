@@ -65,7 +65,9 @@
                         <li class="list-group-item">
                             <Nutritions v-bind:nutritions="nutritions"/>
                         </li>
-                        <li class="list-group-item" v-html="recipe.instructions"></li>
+                        <li class="list-group-item">
+                            <Instructions v-bind:instructions="recipe.analyzedInstructions[0]"/>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -97,6 +99,7 @@
     import LikeShareSave from './LikeShareSave'
     import Nutritions from './Nutritions'
     import Times from './Times'
+    import Instructions from './Instructions'
 
     import axios from 'axios'
 
@@ -106,7 +109,8 @@
             Ingredients,
             LikeShareSave,
             Nutritions,
-            Times
+            Times,
+            Instructions
         },
         data () {
             return {
