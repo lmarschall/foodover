@@ -38,8 +38,11 @@
                 </ul>
             </div>
         
-            <div class="col d-md-none background-image" v-bind:style="{ backgroundImage: 'url(' + recipe.image + ')' }">
-                <div class="image-placeholder" ></div>
+            <div class="col d-md-none">
+                <div class="image-item">
+                    <img :src="recipe.image" class="img-fluid" alt="Responsive image">
+                </div>
+                <div class="image-placeholder"></div>
                 <div class="card">
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item d-flex">
@@ -82,11 +85,17 @@
         border-radius: 10rem;
     }
 
-    .background-image {
-        /* background-position: center; */
-        background-attachment: fixed;
-        background-repeat: no-repeat;
-        background-size: 100vw 65vh;
+    img.img-fluid {
+        min-width: 100%;
+        min-height: 100%;
+    }
+
+    .image-item {
+        height: 60vh;
+        position: fixed;
+        z-index: -1;
+        left: 0;
+        top: 0;
     }
 
     .image-placeholder {

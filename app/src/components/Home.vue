@@ -70,13 +70,12 @@
                     <span class="badge badge-pill badge-secondary" v-for="ingredient in ingredients" v-bind:key="ingredient"><h6>{{ingredient.name}}</h6></span>
                     <span class="badge badge-pill badge-primary" data-toggle="modal" data-target="#inputModal">
                         <svg width="2em" height="2em" viewBox="0 0 16 16" class="bi bi-three-dots" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd" d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/>
+                            <path fill-rule="evenodd" d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/>
                         </svg>
                     </span>
                 </div>
             </div>
         </div>
-    </div>
 
         <div class="row row-cols-1 row-cols-md-2">
             <div class="col mb-4" v-for="recipe in recipes" v-bind:key="recipe">
@@ -94,6 +93,8 @@
                 </div>
             </div>
         </div>
+
+        <div class="bar-placeholder"></div>
     </div> 
 </template>
 
@@ -150,6 +151,10 @@
         margin: 0;
         margin-top: 2rem;
         max-width: 100vw;
+    }
+
+    .bar-placeholder {
+        height: 20vh;
     }
 </style>
 

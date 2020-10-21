@@ -30,7 +30,7 @@
         /* height: 10vh; */
         width: 90vw;
         left: 5vw;
-        /* bottom: 5vh; */
+        bottom: 0vh;
         /* z-index: 2000; */
     }
 
