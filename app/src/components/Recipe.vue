@@ -81,9 +81,6 @@
 </template>
 
 <style scoped>
-    .card {
-        border-radius: 10rem;
-    }
 
     img.img-fluid {
         min-width: 100%;
@@ -99,7 +96,23 @@
     }
 
     .image-placeholder {
-        height: 60vh;
+        height: 55vh;
+    }
+
+    .card {
+        border-radius: 2rem 2rem 0 0;
+    }
+
+    ul.list-group.list-group-flush {
+        border-radius: 2rem 2rem 0 0;
+    }
+
+    li.list-group-item.d-flex {
+        border-radius: 2rem 2rem 0 0;
+    }
+
+    div#recipeframe {
+        overflow: hidden;
     }
 </style>
 

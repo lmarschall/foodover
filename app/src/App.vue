@@ -37,34 +37,34 @@
 
 <style>
   body {
-      background-color: #EEF8E3;
-      margin: 0;
-      height: 100%;
-      color: #213409;
+    background-color: #EEF8E3;
+    margin: 0;
+    height: 100%;
+    color: #213409;
   }
 
   span.badge.badge-pill.badge-primary {
-      background-color: #7FBD32;
-      margin: 0.2rem;
+    background-color: #7FBD32;
+    margin: 0.2rem;
   }
 
   span.badge.badge-pill.badge-secondary {
-      background-color: #213409;
-      padding-bottom: 0;
-      margin: 0.2rem;
+    background-color: #213409;
+    padding-bottom: 0;
+    margin: 0.2rem;
   }
 
   button.btn.btn-primary {
-      background-color: #7FBD32;
-      border-color: #7FBD32;
+    background-color: #7FBD32;
+    border-color: #7FBD32;
   }
 
   button.btn.btn-secondary {
-      background-color: #213409;
-      border-color: #213409;
+    background-color: #213409;
+    border-color: #213409;
   }
 
   button.btn.btn-outline-primary.rounded {
-      border-color: #7FBD32;
+    border-color: #7FBD32;
   }
 </style>

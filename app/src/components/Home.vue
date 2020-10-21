@@ -79,7 +79,7 @@
 
         <div class="row row-cols-1 row-cols-md-2">
             <div class="col mb-4" v-for="recipe in recipes" v-bind:key="recipe">
-                <div class="card rounded-lg">
+                <div class="card">
                     <img v-bind:src="recipe.image" class="card-img-top" alt="...">
                     <!-- <div class="card-img-overlay">
                     <P>LIKE</P>
@@ -88,7 +88,7 @@
                     <h5 class="card-title">
                         <router-link v-bind:to="{ name: 'recipe', params: {id: recipe.id} }" class="stretched-link">{{recipe.title}}</router-link>
                     </h5>
-                    <p class="card-text">2 of 5 ingredients used.</p>
+                    <p class="card-text">{{recipe.usedIngredientCount}} of {{ingredients.length}} ingredients used</p>
                     </div>
                 </div>
             </div>
@@ -143,6 +143,10 @@
         padding-bottom: 0.5em;
     }
 
+    a.stretched-link {
+        color: #213409;
+    }
+
     .col.md-4 {
         margin: 2rem;
     }
@@ -155,6 +159,14 @@
 
     .bar-placeholder {
         height: 20vh;
+    }
+
+    .card {
+        border-radius: 2rem;
+    }
+
+    img.card-img-top {
+        border-radius: 2rem 2rem 0 0;
     }
 </style>
 
