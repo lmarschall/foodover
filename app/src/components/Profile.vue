@@ -12,6 +12,16 @@
         name: 'profileframe',
         components: {
             Bar
+        },
+        mounted: function () {
+            this.login();
+        },
+        methods:
+        {   
+            login: function()
+            {
+                console.log('login')
+            }
         }
     }
 </script>

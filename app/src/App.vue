@@ -7,14 +7,32 @@
 </template>
 
 <script>
-// import HelloWorld from './components/HelloWorld.vue'
+  import Dexie from 'dexie'
 
-export default {
-  name: 'app',
-  // components: {
-  //   HelloWorld
-  // }
-}
+  export default {
+    name: 'app',
+    data () {
+      return {
+        db: null
+      }
+    },
+    mounted: function () {
+      this.initDatabase();
+    },
+    methods:
+    {
+      initDatabase: function()
+      {
+          this.db = new Dexie("foodover_database");
+          this.db.version(1).stores({
+              ingredients: '++id, name',
+              recipes: '++id, recipe'
+              // search: '++id, recipes, ingredients',
+              // recipes: '++id, recipe'
+          });
+      }
+    }
+  }
 </script>
 
 <style>

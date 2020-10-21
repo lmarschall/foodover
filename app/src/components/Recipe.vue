@@ -1,17 +1,17 @@
 <template>
 
-    <div class="card" id="recipeframe">
-        <div class="card-header d-flex" v-if="ready">
+    <div id="recipeframe">
+        <!-- <div class="d-flex" v-if="ready">
             <router-link v-bind:to="{ name: 'home' }" class="btn btn-primary-outline">
                 <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-caret-left-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                     <path d="M3.86 8.753l5.482 4.796c.646.566 1.658.106 1.658-.753V3.204a1 1 0 0 0-1.659-.753l-5.48 4.796a1 1 0 0 0 0 1.506z"/>
                 </svg>
-            </router-link>
-            <h3 class="align-self-center">{{recipe.title}}</h3>
-        </div>
+            </router-link> -->
+            <!-- <h3 class="align-self-center">{{recipe.title}}</h3> -->
+        <!-- </div> -->
         
         <div class="row" v-if="ready">
-            <div class="col-md-4 d-none d-md-block" style="overflow: auto; height: 90vh;">
+            <div class="col-md-4 d-none d-md-block" style="overflow: auto;">
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">
                         <LikeShareSave v-bind:aggregateLikes="recipe.aggregateLikes" />
@@ -28,7 +28,7 @@
                 </ul>
             </div>
         
-            <div class="col-md-8 d-none d-md-block" style="overflow: auto; height: 90vh;">
+            <div class="col-md-8 d-none d-md-block" style="overflow: auto;">
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item image-item" v-bind:style="{ backgroundImage: 'url(' + recipe.image + ')' }">
                     <!-- <img :src="recipe.image" class="img-fluid" alt="Responsive image"> -->
@@ -38,26 +38,36 @@
                 </ul>
             </div>
         
-            <div class="col d-md-none">
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item">
-                    <img :src="recipe.image" class="img-fluid" alt="Responsive image">
-                    </li>
-                    <li class="list-group-item">
-                        <LikeShareSave v-bind:aggregateLikes="recipe.aggregateLikes" />
-                    </li>
-                    <li class="list-group-item" v-html="recipe.summary"></li>
-                    <li class="list-group-item">
-                        <Times v-bind:readyInMinutes="recipe.readyInMinutes" v-bind:preparationMinutes="recipe.preparationMinutes" v-bind:cookingMinutes="recipe.cookingMinutes"/>
-                    </li>
-                    <li class="list-group-item">
-                        <Ingredients v-bind:ingredients="recipe.extendedIngredients"/>
-                    </li>
-                    <li class="list-group-item">
-                        <Nutritions v-bind:nutritions="nutritions"/>
-                    </li>
-                    <li class="list-group-item" v-html="recipe.instructions"></li>
-                </ul>
+            <div class="col d-md-none background-image" v-bind:style="{ backgroundImage: 'url(' + recipe.image + ')' }">
+                <div class="image-placeholder" ></div>
+                <div class="card">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item d-flex">
+                            <div class="w-100">
+                                <h2>{{recipe.title}}</h2>
+                            </div>
+                            <div class="flex-shrink-1">
+                                <router-link v-bind:to="{ name: 'home' }" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </router-link>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <LikeShareSave v-bind:aggregateLikes="recipe.aggregateLikes" />
+                        </li>
+                        <li class="list-group-item" v-html="recipe.summary"></li>
+                        <li class="list-group-item">
+                            <Times v-bind:readyInMinutes="recipe.readyInMinutes" v-bind:preparationMinutes="recipe.preparationMinutes" v-bind:cookingMinutes="recipe.cookingMinutes"/>
+                        </li>
+                        <li class="list-group-item">
+                            <Ingredients v-bind:ingredients="recipe.extendedIngredients"/>
+                        </li>
+                        <li class="list-group-item">
+                            <Nutritions v-bind:nutritions="nutritions"/>
+                        </li>
+                        <li class="list-group-item" v-html="recipe.instructions"></li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
@@ -66,11 +76,19 @@
 </template>
 
 <style scoped>
-    li.list-group-item.image-item {
-        height: 60vh;
-        background-position: 50% 50%;
+    .card {
+        border-radius: 10rem;
+    }
+
+    .background-image {
+        /* background-position: center; */
+        background-attachment: fixed;
         background-repeat: no-repeat;
-        background-size: cover;
+        background-size: 100vw 65vh;
+    }
+
+    .image-placeholder {
+        height: 60vh;
     }
 </style>
 
