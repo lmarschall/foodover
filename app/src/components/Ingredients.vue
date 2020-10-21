@@ -1,11 +1,17 @@
 <template>
     <div id="ingredientsframe">
-        <h3>Ingredients</h3>
-        <p> X Portions</p>
+        <h4>Ingredients</h4>
+        <div class="d-flex flex-row">
+            <p class="w-100">Portions</p>
+            <button type="button" class="btn flex-shrink-1" v-on:click="portions--">-</button>
+            <button type="button" class="btn flex-shrink-1" disabled>{{portions}}</button>
+            <button type="button" class="btn flex-shrink-1" v-on:click="portions++">+</button>
+        </div>
+        
         <table class="table table-borderless">
             <tbody>
                 <tr v-for="ingredient in ingredients" v-bind:key="ingredient">
-                    <td>{{ingredient.measures.metric.amount}} {{ingredient.measures.metric.unitShort}}</td>
+                    <td>{{ingredient.measures.metric.amount*portions}} {{ingredient.measures.metric.unitShort}}</td>
                     <td>{{ingredient.name}}</td>
                 </tr>
             </tbody>
@@ -19,6 +25,11 @@
         name: 'ingredientsframe',
         props: {
             ingredients: Array
+        },
+        data () {
+            return {
+                portions: 2
+            }
         }
     }
 
