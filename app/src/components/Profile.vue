@@ -2,25 +2,39 @@
     <div id="profileframe">
 
         <Bar v-bind:page="1" />
+        <Intolerances/>
+
+
     </div>
 </template>
  
 <script>
     import Bar from './Bar'
+    import Intolerances from './Intolerances'
 
     export default {
         name: 'profileframe',
         components: {
-            Bar
+            Bar,
+            Intolerances
+        },
+        data () {
+            return {
+            }
         },
         mounted: function () {
-            this.login();
+            this.loadData();
         },
         methods:
         {   
-            login: function()
+            loadData: function()
+            {   
+
+            },
+
+            updateIntolerances: function()
             {
-                console.log('login')
+                
             }
         }
     }

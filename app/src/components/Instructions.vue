@@ -1,7 +1,7 @@
 <template>
     <div id="instructionsframe">
         <div v-for="step in instructions.steps" v-bind:key="step">
-            <h5>Step {{step.number}}</h5>
+            <h5 class="instructions-header">Step {{step.number}}</h5>
             <div class="d-flex flex-wrap">
                 <span class="badge badge-pill badge-secondary">
                     <svg width="2em" height="2em" viewBox="0 0 16 16" class="bi bi-basket" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -23,11 +23,21 @@
                     <h6>{{equipment.name}}</h6>
                 </span>
             </div>
-            <p>{{step.step}}</p>
+            <p class="instructions-text">{{step.step}}</p>
             <hr>
         </div>
     </div>  
 </template>
+
+<style scoped>
+    p.instructions-text {
+        margin-top: 1rem;
+    }
+
+    h5.instructions-header {
+        margin-bottom: 1rem;
+    }
+</style>
 
 <script>
 

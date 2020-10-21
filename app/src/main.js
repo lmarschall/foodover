@@ -8,6 +8,8 @@ import 'bootstrap/dist/css/bootstrap.css'
 Vue.config.productionTip = false
 Vue.config.devtools = true;
 
+Vue.prototype.db = null
+
 new Vue({
   render: h => h(App),
   router

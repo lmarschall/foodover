@@ -173,7 +173,7 @@
 <script>
     import Bar from './Bar'
     import axios from 'axios'
-    import Dexie from 'dexie'
+    // import Dexie from 'dexie'
     
     import { BrowserMultiFormatReader, NotFoundException } from '@zxing/library';
     // import ZXing from '@zxing/library'
@@ -190,8 +190,7 @@
                 scan: false,
                 selectedDeviceId: 0,
                 ingredients: ['apples', 'flour', 'sugar'],
-                recipes: [],
-                db: null
+                recipes: []
             }
         },
         computed: {
@@ -278,8 +277,8 @@
                 const self = this
 
                 // this.ingredients.push(name)
-                this.db.ingredients.add({name: name}).then(function (index) {
-                    self.db.ingredients.get(index, function (ingredient) {
+                document.db.ingredients.add({name: name}).then(function (index) {
+                    document.db.ingredients.get(index, function (ingredient) {
                         self.ingredients.push(ingredient)
                     })
                 })
@@ -290,7 +289,7 @@
             {
                 const ingredient = this.ingredients[index]
                 this.ingredients.splice(index, 1)
-                this.db.ingredients.delete(ingredient.id)
+                document.db.ingredients.delete(ingredient.id)
             },
 
             validateInput: function(e)
@@ -342,13 +341,15 @@
                         this.recipes = response.data
                         console.log(response.data)
 
+                        document.db.recipes.clear()
+
                         var drops = []
 
                         for (var i=0;i<this.recipes.length;i++) {
                             drops.push({recipe: JSON.stringify(this.recipes[i])})
                         }
 
-                        this.db.recipes.bulkAdd(drops)
+                        document.db.recipes.bulkAdd(drops)
 
                         // this.reservation_list = response.data;
                         // this.ready = true;
@@ -362,22 +363,25 @@
 
             loadData: function()
             {
-                this.db = new Dexie("foodover_database");
-                this.db.version(1).stores({
-                    ingredients: '++id, name',
-                    recipes: '++id, recipe'
-                    // search: '++id, recipes, ingredients',
-                    // recipes: '++id, recipe'
-                });
+                // this.db = new Dexie("foodover_database");
+                // this.db.version(1).stores({
+                //     ingredients: '++id, name',
+                //     recipes: '++id, recipe'
+                //     // search: '++id, recipes, ingredients',
+                //     // recipes: '++id, recipe'
+                // });
 
                 const self = this;
 
-                this.db.ingredients.toArray().then(function (ingredients) {
+                console.log("Load Data");
+                console.log(document.db);
+
+                document.db.ingredients.toArray().then(function (ingredients) {
 
                     self.ingredients = ingredients
                 });
 
-                this.db.recipes.toArray().then(function (recipes) {
+                document.db.recipes.toArray().then(function (recipes) {
 
                     for (var i=0; i<recipes.length;i++)
                     {

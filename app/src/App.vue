@@ -11,22 +11,19 @@
 
   export default {
     name: 'app',
-    data () {
-      return {
-        db: null
-      }
-    },
-    mounted: function () {
+    created: function () {
       this.initDatabase();
     },
     methods:
     {
       initDatabase: function()
       {
-          this.db = new Dexie("foodover_database");
-          this.db.version(1).stores({
+          console.log("Init Database")
+          document.db = new Dexie("foodover_database");
+          document.db.version(2).stores({
               ingredients: '++id, name',
-              recipes: '++id, recipe'
+              recipes: '++id, recipe',
+              intolerances: '++id, intolerance'
               // search: '++id, recipes, ingredients',
               // recipes: '++id, recipe'
           });
