@@ -32,26 +32,38 @@
             {   
                 const self = this;
 
+                self.personal_intolerances = []
+
                 document.db.intolerances.toArray().then(function (intolerances) {
 
-                    self.personal_intolerances = intolerances
+                    for(var i=0;i<intolerances.length;i++)
+                    {
+                        self.personal_intolerances.push(intolerances[i].intolerance)
+                    }
                 });
             },
 
             addIntolerance: function(name)
             {
+                const self = this;
+
                 document.db.intolerances.add({intolerance: name}).then(function (index) {
                     document.db.intolerances.get(index, function (intolerance) {
-                        self.personal_intolerances.push(intolerance)
+                        self.personal_intolerances.push(intolerance.intolerance)
                     })
                 })
             },
 
             deleteIntolerance: function(index)
             {
-                const intolerance = this.personal_intolerances[index]
-                this.this.personal_intolerances.splice(index, 1)
-                document.db.intolerances.delete(intolerance)
+                const intolerance = this.all_intolerances[index]
+                const pos = this.personal_intolerances.findIndex(search => search === intolerance)
+
+                this.personal_intolerances.splice(pos, 1)
+
+                document.db.intolerances.where({intolerance: intolerance}).first(intolerance => {
+                    document.db.intolerances.delete(intolerance.id)     
+                })
             }
         }
     }

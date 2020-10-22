@@ -64,6 +64,7 @@
                         </button>
                     </h2>
                 </div>
+            </div>
     
             <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
                 <div class="card-body d-flex flex-wrap">
@@ -85,17 +86,17 @@
                     <P>LIKE</P>
                     </div> -->
                     <div class="card-body">
-                    <h5 class="card-title">
-                        <router-link v-bind:to="{ name: 'recipe', params: {id: recipe.id} }" class="stretched-link">{{recipe.title}}</router-link>
-                    </h5>
-                    <p class="card-text">{{recipe.usedIngredientCount}} of {{ingredients.length}} ingredients used</p>
+                        <h5 class="card-title">
+                            <router-link v-bind:to="{ name: 'recipe', params: {id: recipe.id} }" class="stretched-link">{{recipe.title}}</router-link>
+                        </h5>
+                        <p class="card-text">{{recipe.usedIngredientCount}} of {{ingredients.length}} ingredients used</p>
                     </div>
                 </div>
             </div>
         </div>
 
         <div class="bar-placeholder"></div>
-    </div> 
+    </div>
 </template>
 
 <style scoped>
