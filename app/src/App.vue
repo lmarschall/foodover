@@ -7,29 +7,28 @@
 </template>
 
 <script>
-  import Dexie from 'dexie'
+import Dexie from 'dexie'
 
-  export default {
-    name: 'app',
-    created: function () {
-      this.initDatabase();
-    },
-    methods:
+export default {
+  name: 'app',
+  created: function () {
+    this.initDatabase()
+  },
+  methods:
     {
-      initDatabase: function()
-      {
-          console.log("Init Database")
-          document.db = new Dexie("foodover_database");
-          document.db.version(2).stores({
-              ingredients: '++id, name',
-              recipes: '++id, recipe',
-              intolerances: '++id, intolerance'
-              // search: '++id, recipes, ingredients',
-              // recipes: '++id, recipe'
-          });
+      initDatabase: function () {
+        console.log('Init Database')
+        document.db = new Dexie('foodover_database')
+        document.db.version(2).stores({
+          ingredients: '++id, name',
+          recipes: '++id, recipe',
+          intolerances: '++id, intolerance'
+          // search: '++id, recipes, ingredients',
+          // recipes: '++id, recipe'
+        })
       }
     }
-  }
+}
 </script>
 
 <style>

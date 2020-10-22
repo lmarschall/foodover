@@ -9,7 +9,7 @@
             </router-link> -->
             <!-- <h3 class="align-self-center">{{recipe.title}}</h3> -->
         <!-- </div> -->
-        
+
         <div class="row" v-if="ready">
             <div class="col-md-4 d-none d-md-block" style="overflow: auto;">
                 <ul class="list-group list-group-flush">
@@ -27,7 +27,7 @@
                     </li>
                 </ul>
             </div>
-        
+
             <div class="col-md-8 d-none d-md-block" style="overflow: auto;">
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item image-item" v-bind:style="{ backgroundImage: 'url(' + recipe.image + ')' }">
@@ -37,7 +37,7 @@
                     <li class="list-group-item" v-html="recipe.instructions"></li>
                 </ul>
             </div>
-        
+
             <div class="col d-md-none">
                 <div class="image-item">
                     <img :src="recipe.image" class="img-fluid" alt="Responsive image">
@@ -117,85 +117,83 @@
 </style>
 
 <script>
-    import Ingredients from './Ingredients'
-    import LikeShareSave from './LikeShareSave'
-    import Nutritions from './Nutritions'
-    import Times from './Times'
-    import Instructions from './Instructions'
+import Ingredients from './Ingredients'
+import LikeShareSave from './LikeShareSave'
+import Nutritions from './Nutritions'
+import Times from './Times'
+import Instructions from './Instructions'
 
-    import axios from 'axios'
+import axios from 'axios'
 
-    export default {
-        name: 'recipeframe',
-        components: {
-            Ingredients,
-            LikeShareSave,
-            Nutritions,
-            Times,
-            Instructions
-        },
-        data () {
-            return {
-                recipe: null,
-                nutritions: null,
-                ready: false
-            }
-        },
-        computed: {
-            recipeParams() {
-                const params = new URLSearchParams();
-                params.append('id', this.$route.params.id);
-                return params;
-            },
-
-            nutritionsParams() {
-                const params = new URLSearchParams();
-                params.append('id', this.$route.params.id);
-                return params;
-            }
-        },
-        mounted: function () {
-            this.getRecipe();
-            this.getNutritions();
-        },
-        methods:
-        {
-            getRecipe: function()
-            {
-                axios.get('/api/recipe', {
-                    params: this.recipeParams
-                    })
-                    .then((response) => {
-                        this.recipe = response.data
-                        this.ready = true
-                        console.log(response.data)
-                        // this.reservation_list = response.data;
-                        // this.ready = true;
-                        // this.setupMarkers(this.schnors);
-                    })
-                    // .catch((err) => {
-                        // this.loading = false;
-                        // console.log(err);
-                        // })
-            },
-
-            getNutritions: function()
-            {
-                axios.get('/api/nutritions', {
-                    params: this.nutritionsParams
-                    })
-                    .then((response) => {
-                        this.nutritions = response.data
-                        console.log(response.data)
-                        // this.reservation_list = response.data;
-                        // this.ready = true;
-                        // this.setupMarkers(this.schnors);
-                    })
-                    // .catch((err) => {
-                        // this.loading = false;
-                        // console.log(err);
-                        // })
-            }
-        }
+export default {
+  name: 'recipeframe',
+  components: {
+    Ingredients,
+    LikeShareSave,
+    Nutritions,
+    Times,
+    Instructions
+  },
+  data () {
+    return {
+      recipe: null,
+      nutritions: null,
+      ready: false
     }
+  },
+  computed: {
+    recipeParams () {
+      const params = new URLSearchParams()
+      params.append('id', this.$route.params.id)
+      return params
+    },
+
+    nutritionsParams () {
+      const params = new URLSearchParams()
+      params.append('id', this.$route.params.id)
+      return params
+    }
+  },
+  mounted: function () {
+    this.getRecipe()
+    this.getNutritions()
+  },
+  methods:
+        {
+          getRecipe: function () {
+            axios.get('/api/recipe', {
+              params: this.recipeParams
+            })
+              .then((response) => {
+                this.recipe = response.data
+                this.ready = true
+                console.log(response.data)
+                // this.reservation_list = response.data;
+                // this.ready = true;
+                // this.setupMarkers(this.schnors);
+              })
+            // .catch((err) => {
+            // this.loading = false;
+            // console.log(err);
+            // })
+          },
+
+          getNutritions: function () {
+            axios.get('/api/nutritions', {
+              params: this.nutritionsParams
+            })
+              .then((response) => {
+                this.nutritions = response.data
+                console.log(response.data)
+                // this.reservation_list = response.data;
+                // this.ready = true;
+                // this.setupMarkers(this.schnors);
+              })
+            // .catch((err) => {
+            // this.loading = false;
+            // console.log(err);
+            // })
+          }
+        }
+}
 </script>

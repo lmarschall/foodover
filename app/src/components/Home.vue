@@ -65,7 +65,7 @@
                     </h2>
                 </div>
             </div>
-    
+
             <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
                 <div class="card-body d-flex flex-wrap">
                     <span class="badge badge-pill badge-secondary" v-for="ingredient in ingredients" v-bind:key="ingredient"><h6>{{ingredient.name}}</h6></span>
@@ -106,7 +106,7 @@
         top: 0;
         bottom: 0;
         width: 100vw;
-        height: 100vh; 
+        height: 100vh;
         overflow: hidden;
         z-index: 10000;
     }
@@ -114,8 +114,8 @@
     .video-container video
     {
         /* Make video to at least 100% wide and tall */
-        min-width: 100%; 
-        min-height: 100%; 
+        min-width: 100%;
+        min-height: 100%;
 
         /* Setting width & height to auto prevents the browser from stretching or squishing the video */
         width: auto;
@@ -172,224 +172,205 @@
 </style>
 
 <script>
-    import Bar from './Bar'
-    import axios from 'axios'
-    // import Dexie from 'dexie'
-    
-    import { BrowserMultiFormatReader, NotFoundException } from '@zxing/library';
-    // import ZXing from '@zxing/library'
+import Bar from './Bar'
+import axios from 'axios'
+// import Dexie from 'dexie'
 
-    export default {
-        name: 'searchframe',
-        components: {
-            Bar
-        },
-        data () {
-            return {
-                codeReader: null,
-                code: '',
-                scan: false,
-                selectedDeviceId: 0,
-                ingredients: ['apples', 'flour', 'sugar'],
-                recipes: []
-            }
-        },
-        computed: {
-            productParams() {
-                const params = new URLSearchParams();
-                params.append('code', this.code);
-                return params;
-            },
+import { BrowserMultiFormatReader, NotFoundException } from '@zxing/library'
+// import ZXing from '@zxing/library'
 
-            ingredientsParams() {
-                // create ingredients string from list
-                // string format: apples,+flour,+sugar
-                var string = ''
-                for (var i = 0; i < this.ingredients.length; i++)
-                {
-                    if(i==0)
-                    {
-                        string += this.ingredients[i].name
-                    } else {
-                        string += ',+' + this.ingredients[i].name
-                    }
-                }
-                const params = new URLSearchParams();
-                params.append('ingredients', string);
-                return params;
-            }
-        },
-        mounted: function () {
-            this.initCamera();
-            this.loadData();
-        },
-        methods:
-        {
-            initCamera: function()
-            {
-                // this.codeReader = new ZXing.BrowserMultiFormatReader()
-                this.codeReader = new BrowserMultiFormatReader()
-                // selectedDeviceId = videoInputDevices[0].deviceId
-                console.log('ZXing code reader initialized')
-                this.codeReader.listVideoInputDevices()
-                    .then((videoInputDevices) => {
-                    // const sourceSelect = document.getElementById('sourceSelect')
-                    this.selectedDeviceId = videoInputDevices[0].deviceId
-                    // if (videoInputDevices.length >= 1) {
-                    //     videoInputDevices.forEach((element) => {
-                    //     const sourceOption = document.createElement('option')
-                    //     sourceOption.text = element.label
-                    //     sourceOption.value = element.deviceId
-                    //     sourceSelect.appendChild(sourceOption)
-                    // })
-                })
-            },
-
-            startScan: function()
-            {
-                this.scan = true
-
-                this.codeReader.decodeFromVideoDevice(this.selectedDeviceId, 'video', (result, err) => {
-                    if (result) {
-                    console.log(result)
-                    this.code = result.text
-                    this.scan = false
-                    this.findProduct()
-                    this.codeReader.reset()
-                    }
-                    // if (err && !(err instanceof ZXing.NotFoundException)) {
-                    if (err && !(err instanceof NotFoundException)) {
-                    console.error(err)
-                    document.getElementById('result').textContent = err
-                    }
-                })
-                console.log(`Started continous decode from camera with id ${this.selectedDeviceId}`)
-            },
-
-            resetScan: function()
-            {
-                this.codeReader.reset()
-                this.scan = false
-                console.log('Reset.')
-            },
-
-            addIngredient: function(name)
-            {
-                const self = this
-
-                // this.ingredients.push(name)
-                document.db.ingredients.add({name: name}).then(function (index) {
-                    document.db.ingredients.get(index, function (ingredient) {
-                        self.ingredients.push(ingredient)
-                    })
-                })
-
-            },
-
-            dropIngredient: function(index)
-            {
-                const ingredient = this.ingredients[index]
-                this.ingredients.splice(index, 1)
-                document.db.ingredients.delete(ingredient.id)
-            },
-
-            validateInput: function(e)
-            {
-                if (e.keyCode === 13)
-                {
-                    console.log('Enter was pressed');
-                    this.addIngredient(document.getElementById('input_ingredient').value)
-                    document.getElementById('input_ingredient').value = ''
-                }
-            },
-
-            findProduct: function()
-            {
-                console.log(this.code)
-
-                axios.get('/api/product', {
-                    params: this.productParams
-                    })
-                    .then((response) => {
-
-                        console.log(response.data)
-
-                        if(response.data != '')
-                        {
-                            this.addIngredient(response.data)
-                        } else {
-                            console.log("No Product found!")
-                        }
-                        // this.reservation_list = response.data;
-                        // this.ready = true;
-                        // this.setupMarkers(this.schnors);
-                    })
-                    // .catch((err) => {
-                        // this.loading = false;
-                        // console.log(err);
-                        // })
-            },
-
-            findRecipes: function()
-            {   
-                this.recipes = []
-
-                axios.get('api/recipes', {
-                    params: this.ingredientsParams
-                    })
-                    .then((response) => {
-
-                        this.recipes = response.data
-                        console.log(response.data)
-
-                        document.db.recipes.clear()
-
-                        var drops = []
-
-                        for (var i=0;i<this.recipes.length;i++) {
-                            drops.push({recipe: JSON.stringify(this.recipes[i])})
-                        }
-
-                        document.db.recipes.bulkAdd(drops)
-
-                        // this.reservation_list = response.data;
-                        // this.ready = true;
-                        // this.setupMarkers(this.schnors);
-                    })
-                    // .catch((err) => {
-                        // this.loading = false;
-                        // console.log(err);
-                        // })
-            },
-
-            loadData: function()
-            {
-                // this.db = new Dexie("foodover_database");
-                // this.db.version(1).stores({
-                //     ingredients: '++id, name',
-                //     recipes: '++id, recipe'
-                //     // search: '++id, recipes, ingredients',
-                //     // recipes: '++id, recipe'
-                // });
-
-                const self = this;
-
-                console.log("Load Data");
-                console.log(document.db);
-
-                document.db.ingredients.toArray().then(function (ingredients) {
-
-                    self.ingredients = ingredients
-                });
-
-                document.db.recipes.toArray().then(function (recipes) {
-
-                    for (var i=0; i<recipes.length;i++)
-                    {
-                        self.recipes.push(JSON.parse(recipes[i].recipe))
-                    }
-                });
-            }
-        }
+export default {
+  name: 'searchframe',
+  components: {
+    Bar
+  },
+  data () {
+    return {
+      codeReader: null,
+      code: '',
+      scan: false,
+      selectedDeviceId: 0,
+      ingredients: ['apples', 'flour', 'sugar'],
+      recipes: []
     }
+  },
+  computed: {
+    productParams () {
+      const params = new URLSearchParams()
+      params.append('code', this.code)
+      return params
+    },
+
+    ingredientsParams () {
+      // create ingredients string from list
+      // string format: apples,+flour,+sugar
+      var string = ''
+      for (var i = 0; i < this.ingredients.length; i++) {
+        if (i === 0) {
+          string += this.ingredients[i].name
+        } else {
+          string += ',+' + this.ingredients[i].name
+        }
+      }
+      const params = new URLSearchParams()
+      params.append('ingredients', string)
+      return params
+    }
+  },
+  mounted: function () {
+    this.initCamera()
+    this.loadData()
+  },
+  methods:
+        {
+          initCamera: function () {
+            // this.codeReader = new ZXing.BrowserMultiFormatReader()
+            this.codeReader = new BrowserMultiFormatReader()
+            // selectedDeviceId = videoInputDevices[0].deviceId
+            console.log('ZXing code reader initialized')
+            this.codeReader.listVideoInputDevices()
+              .then((videoInputDevices) => {
+                // const sourceSelect = document.getElementById('sourceSelect')
+                this.selectedDeviceId = videoInputDevices[0].deviceId
+                // if (videoInputDevices.length >= 1) {
+                //     videoInputDevices.forEach((element) => {
+                //     const sourceOption = document.createElement('option')
+                //     sourceOption.text = element.label
+                //     sourceOption.value = element.deviceId
+                //     sourceSelect.appendChild(sourceOption)
+                // })
+              })
+          },
+
+          startScan: function () {
+            this.scan = true
+
+            this.codeReader.decodeFromVideoDevice(this.selectedDeviceId, 'video', (result, err) => {
+              if (result) {
+                console.log(result)
+                this.code = result.text
+                this.scan = false
+                this.findProduct()
+                this.codeReader.reset()
+              }
+              // if (err && !(err instanceof ZXing.NotFoundException)) {
+              if (err && !(err instanceof NotFoundException)) {
+                console.error(err)
+                document.getElementById('result').textContent = err
+              }
+            })
+            console.log(`Started continous decode from camera with id ${this.selectedDeviceId}`)
+          },
+
+          resetScan: function () {
+            this.codeReader.reset()
+            this.scan = false
+            console.log('Reset.')
+          },
+
+          addIngredient: function (name) {
+            const self = this
+
+            // this.ingredients.push(name)
+            document.db.ingredients.add({ name: name }).then(function (index) {
+              document.db.ingredients.get(index, function (ingredient) {
+                self.ingredients.push(ingredient)
+              })
+            })
+          },
+
+          dropIngredient: function (index) {
+            const ingredient = this.ingredients[index]
+            this.ingredients.splice(index, 1)
+            document.db.ingredients.delete(ingredient.id)
+          },
+
+          validateInput: function (e) {
+            if (e.keyCode === 13) {
+              console.log('Enter was pressed')
+              this.addIngredient(document.getElementById('input_ingredient').value)
+              document.getElementById('input_ingredient').value = ''
+            }
+          },
+
+          findProduct: function () {
+            console.log(this.code)
+
+            axios.get('/api/product', {
+              params: this.productParams
+            })
+              .then((response) => {
+                console.log(response.data)
+
+                if (response.data !== '') {
+                  this.addIngredient(response.data)
+                } else {
+                  console.log('No Product found!')
+                }
+                // this.reservation_list = response.data;
+                // this.ready = true;
+                // this.setupMarkers(this.schnors);
+              })
+            // .catch((err) => {
+            // this.loading = false;
+            // console.log(err);
+            // })
+          },
+
+          findRecipes: function () {
+            this.recipes = []
+
+            axios.get('api/recipes', {
+              params: this.ingredientsParams
+            })
+              .then((response) => {
+                this.recipes = response.data
+                console.log(response.data)
+
+                document.db.recipes.clear()
+
+                var drops = []
+
+                for (var i = 0; i < this.recipes.length; i++) {
+                  drops.push({ recipe: JSON.stringify(this.recipes[i]) })
+                }
+
+                document.db.recipes.bulkAdd(drops)
+
+                // this.reservation_list = response.data;
+                // this.ready = true;
+                // this.setupMarkers(this.schnors);
+              })
+            // .catch((err) => {
+            // this.loading = false;
+            // console.log(err);
+            // })
+          },
+
+          loadData: function () {
+            // this.db = new Dexie("foodover_database");
+            // this.db.version(1).stores({
+            //     ingredients: '++id, name',
+            //     recipes: '++id, recipe'
+            //     // search: '++id, recipes, ingredients',
+            //     // recipes: '++id, recipe'
+            // });
+
+            const self = this
+
+            console.log('Load Data')
+            console.log(document.db)
+
+            document.db.ingredients.toArray().then(function (ingredients) {
+              self.ingredients = ingredients
+            })
+
+            document.db.recipes.toArray().then(function (recipes) {
+              for (var i = 0; i < recipes.length; i++) {
+                self.recipes.push(JSON.parse(recipes[i].recipe))
+              }
+            })
+          }
+        }
+}
 </script>

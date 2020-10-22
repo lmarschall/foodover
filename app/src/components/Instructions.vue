@@ -26,7 +26,7 @@
             <p class="instructions-text">{{step.step}}</p>
             <hr>
         </div>
-    </div>  
+    </div>
 </template>
 
 <style scoped>
@@ -41,11 +41,11 @@
 
 <script>
 
-    export default {
-        name: 'instructionsframe',
-        props: {
-            instructions: Object
-        }
-    }
+export default {
+  name: 'instructionsframe',
+  props: {
+    instructions: Object
+  }
+}
 
 </script>

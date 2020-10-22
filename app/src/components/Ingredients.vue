@@ -7,7 +7,7 @@
             <button type="button" class="btn flex-shrink-1" disabled>{{portions}}</button>
             <button type="button" class="btn flex-shrink-1" v-on:click="portions++">+</button>
         </div>
-        
+
         <table class="table table-borderless">
             <tbody>
                 <tr v-for="ingredient in ingredients" v-bind:key="ingredient">
@@ -16,21 +16,21 @@
                 </tr>
             </tbody>
         </table>
-    </div>  
+    </div>
 </template>
 
 <script>
 
-    export default {
-        name: 'ingredientsframe',
-        props: {
-            ingredients: Array
-        },
-        data () {
-            return {
-                portions: 2
-            }
-        }
+export default {
+  name: 'ingredientsframe',
+  props: {
+    ingredients: Array
+  },
+  data () {
+    return {
+      portions: 2
     }
+  }
+}
 
 </script>

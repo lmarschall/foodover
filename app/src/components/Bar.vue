@@ -17,12 +17,12 @@
 
 <script>
 
-    export default {
-        name: 'barframe',
-        props: {
-            page: Number
-        },
-    }
+export default {
+  name: 'barframe',
+  props: {
+    page: Number
+  }
+}
 </script>
 
 <style scoped>

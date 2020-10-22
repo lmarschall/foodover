@@ -14,13 +14,13 @@
 
 <script>
 
-    export default {
-        name: 'timesframe',
-        props: {
-            readyInMinutes: Number,
-            preparationMinutes: Number,
-            cookingMinutes: Number
-        }
-    }
+export default {
+  name: 'timesframe',
+  props: {
+    readyInMinutes: Number,
+    preparationMinutes: Number,
+    cookingMinutes: Number
+  }
+}
 
 </script>

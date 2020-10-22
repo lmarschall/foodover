@@ -4,24 +4,24 @@
             {{nutritions.calories}}<br>Calories
         </div>
         <div class="flex-fill text-center">
-            {{nutritions.carbs}}<br>Carbs     
+            {{nutritions.carbs}}<br>Carbs
         </div>
         <div class="flex-fill text-center">
-            {{nutritions.fat}}<br>Fat    
+            {{nutritions.fat}}<br>Fat
         </div>
         <div class="flex-fill text-center">
-            {{nutritions.protein}}<br>Protein    
+            {{nutritions.protein}}<br>Protein
         </div>
     </div>
 </template>
 
 <script>
 
-    export default {
-        name: 'nutritionsframe',
-        props: {
-            nutritions: Object
-        }
-    }
+export default {
+  name: 'nutritionsframe',
+  props: {
+    nutritions: Object
+  }
+}
 
 </script>
