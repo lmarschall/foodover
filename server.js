@@ -4,7 +4,7 @@ const axios = require('axios');
 const compression = require('compression');
 const api = require('./api');
 
-const port = process.env.PORT || 8081;
+const port = process.env.PORT || 80;
 
 const history = require('connect-history-api-fallback');
 

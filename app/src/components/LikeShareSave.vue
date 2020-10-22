@@ -35,9 +35,14 @@
         props: {
             aggregateLikes: Number
         },
-        methodes: {
+        // mounted: function() {
+        //     this.testFunction();
+        // },
+        methods:
+        {
             share: function()
             {
+                console.log("share")
                 if (navigator.share) {
                     navigator.share({
                         title: 'My awesome post!',
