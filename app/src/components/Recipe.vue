@@ -117,11 +117,11 @@
 </style>
 
 <script>
-import Ingredients from './Ingredients'
-import LikeShareSave from './LikeShareSave'
-import Nutritions from './Nutritions'
-import Times from './Times'
-import Instructions from './Instructions'
+import Ingredients from './partials/Ingredients'
+import LikeShareSave from './partials/LikeShareSave'
+import Nutritions from './partials/Nutritions'
+import Times from './partials/Times'
+import Instructions from './partials/Instructions'
 
 import axios from 'axios'
 

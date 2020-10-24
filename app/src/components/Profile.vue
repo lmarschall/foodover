@@ -9,8 +9,8 @@
 </template>
 
 <script>
-import Bar from './Bar'
-import Intolerances from './Intolerances'
+import Bar from './partials/Bar'
+import Intolerances from './partials/Intolerances'
 
 export default {
   name: 'profileframe',
