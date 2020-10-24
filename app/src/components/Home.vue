@@ -4,7 +4,7 @@
 
         <Bar v-bind:page="0" />
 
-        <Input v-on:ingredientAdded="addIngredient" v-on:ingredientDropped="dropIngredient" v-bind:ingredients="ingredients"/>
+        <Input v-on:searchRecipes="findRecipes" v-on:ingredientAdded="addIngredient" v-on:ingredientDropped="dropIngredient" v-bind:ingredients="ingredients"/>
 
         <div class="accordion sticky-top" id="accordionExample">
             <div class="card">

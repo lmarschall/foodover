@@ -42,7 +42,7 @@
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-						<button type="button" class="btn btn-primary" v-on:click="findRecipes" data-dismiss="modal">
+						<button type="button" class="btn btn-primary" v-on:click="searchRecipes" data-dismiss="modal">
 							Search for recipes
 						</button>
 					</div>
@@ -87,6 +87,10 @@ export default {
 			this.$emit('ingredientDropped', index)
 		},
 
+		searchRecipes: function () {
+			this.$emit('searchRecipes')
+		},
+
 		findProduct: function (code) {
 			console.log(code)
 			this.code = code
@@ -94,18 +98,18 @@ export default {
 			axios.get('/api/product', {
 				params: this.productParams
 			})
-				.then((response) => {
-				console.log(response.data)
+			.then((response) => {
+			console.log(response.data)
 
-				if (response.data !== '') {
-					this.$emit('ingredientAdded', response.data)
-				} else {
-					console.log('No Product found!')
-				}
-				// this.reservation_list = response.data;
-				// this.ready = true;
-				// this.setupMarkers(this.schnors);
-				})
+			if (response.data !== '') {
+				this.$emit('ingredientAdded', response.data)
+			} else {
+				console.log('No Product found!')
+			}
+			// this.reservation_list = response.data;
+			// this.ready = true;
+			// this.setupMarkers(this.schnors);
+			})
 			// .catch((err) => {
 			// this.loading = false;
 			// console.log(err);
