@@ -47,13 +47,14 @@
 import { BrowserMultiFormatReader, NotFoundException } from '@zxing/library'
 export default {
     name: 'scanframe',
-    props: {
-        scan: Boolean
-    },
+    // props: {
+    //     scan: Boolean
+    // },
     data () {
         return {
             codeReader: null,
-            selectedDeviceId: 0
+            selectedDeviceId: 0,
+            scan: false
         }
     },
     mounted: function () {
@@ -67,7 +68,7 @@ export default {
             // selectedDeviceId = videoInputDevices[0].deviceId
             console.log('ZXing code reader initialized')
             this.codeReader.listVideoInputDevices()
-                .then((videoInputDevices) => {
+            .then((videoInputDevices) => {
                 // const sourceSelect = document.getElementById('sourceSelect')
                 this.selectedDeviceId = videoInputDevices[0].deviceId
                 // if (videoInputDevices.length >= 1) {

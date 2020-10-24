@@ -39,15 +39,15 @@
 <style scoped>
 
 li.list-group-item.input-item {
-  padding-bottom: 0;
+    padding-bottom: 0;
 }
 
 button.btn.btn-outline-primary.rounded {
-  padding-bottom: 0.5em;
+    padding-bottom: 0.5em;
 }
 
 a.stretched-link {
-  color: #213409;
+    color: #213409;
 }
 </style>
 
@@ -127,19 +127,19 @@ export default {
             })
             .then((response) => {
 
-            this.recipes = response.data
-            console.log(response.data)
+                this.recipes = response.data
+                console.log(response.data)
 
-            document.db.recipes.clear()
+                document.db.recipes.clear()
 
-            var drops = []
+                var drops = []
 
-            for (var i = 0; i < this.recipes.length; i++) {
-                drops.push({ recipe: JSON.stringify(this.recipes[i]) })
-            }
+                for (var i = 0; i < this.recipes.length; i++) {
+                    drops.push({ recipe: JSON.stringify(this.recipes[i]) })
+                }
 
-            document.db.recipes.bulkAdd(drops)
-        })
+                document.db.recipes.bulkAdd(drops)
+            })
       // .catch((err) => {
       // this.loading = false;
       // console.log(err);
@@ -159,7 +159,7 @@ export default {
 
         document.db.recipes.toArray().then(function (recipes) {
             for (var i = 0; i < recipes.length; i++) {
-            self.recipes.push(JSON.parse(recipes[i].recipe))
+                self.recipes.push(JSON.parse(recipes[i].recipe))
             }
         })
     }
