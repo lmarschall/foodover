@@ -13,25 +13,25 @@ import Bar from './partials/Bar'
 import Intolerances from './partials/Intolerances'
 
 export default {
-  name: 'profileframe',
-  components: {
-    Bar,
-    Intolerances
-  },
-  data () {
-    return {
-    }
-  },
-  mounted: function () {
-    this.loadData()
-  },
-  methods:
-        {
-          loadData: function () {
+    name: 'profileframe',
+    components: {
+        Bar,
+        Intolerances
+    },
+    data () {
+        return {
+        }
+    },
+    mounted: function () {
+        this.loadData()
+    },
+    methods:
+    {
+        loadData: function () {
 
-          },
+        },
 
-          login: async function () {
+        login: async function () {
             // var userIdBuffer
             // var challengeBuffer
 
@@ -64,7 +64,7 @@ export default {
             // };
 
             // const publicKeyCredential = await navigator.credentials.get(get_options);
-          }
         }
+    }
 }
 </script>

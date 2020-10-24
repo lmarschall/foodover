@@ -15,12 +15,12 @@
 <script>
 
 export default {
-  name: 'timesframe',
-  props: {
-    readyInMinutes: Number,
-    preparationMinutes: Number,
-    cookingMinutes: Number
-  }
+    name: 'timesframe',
+    props: {
+        readyInMinutes: Number,
+        preparationMinutes: Number,
+        cookingMinutes: Number
+    }
 }
 
 </script>

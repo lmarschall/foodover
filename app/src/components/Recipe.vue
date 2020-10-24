@@ -82,38 +82,38 @@
 
 <style scoped>
 
-    img.img-fluid {
-        min-width: 100%;
-        min-height: 100%;
-    }
+img.img-fluid {
+    min-width: 100%;
+    min-height: 100%;
+}
 
-    .image-item {
-        height: 60vh;
-        position: fixed;
-        z-index: -1;
-        left: 0;
-        top: 0;
-    }
+.image-item {
+    height: 60vh;
+    position: fixed;
+    z-index: -1;
+    left: 0;
+    top: 0;
+}
 
-    .image-placeholder {
-        height: 55vh;
-    }
+.image-placeholder {
+    height: 55vh;
+}
 
-    .card {
-        border-radius: 2rem 2rem 0 0;
-    }
+.card {
+    border-radius: 2rem 2rem 0 0;
+}
 
-    ul.list-group.list-group-flush {
-        border-radius: 2rem 2rem 0 0;
-    }
+ul.list-group.list-group-flush {
+    border-radius: 2rem 2rem 0 0;
+}
 
-    li.list-group-item.d-flex {
-        border-radius: 2rem 2rem 0 0;
-    }
+li.list-group-item.d-flex {
+    border-radius: 2rem 2rem 0 0;
+}
 
-    div#recipeframe {
-        overflow: hidden;
-    }
+div#recipeframe {
+    overflow: hidden;
+}
 </style>
 
 <script>
@@ -126,74 +126,74 @@ import Instructions from './partials/Instructions'
 import axios from 'axios'
 
 export default {
-  name: 'recipeframe',
-  components: {
-    Ingredients,
-    LikeShareSave,
-    Nutritions,
-    Times,
-    Instructions
-  },
-  data () {
-    return {
-      recipe: null,
-      nutritions: null,
-      ready: false
-    }
-  },
-  computed: {
-    recipeParams () {
-      const params = new URLSearchParams()
-      params.append('id', this.$route.params.id)
-      return params
+    name: 'recipeframe',
+    components: {
+        Ingredients,
+        LikeShareSave,
+        Nutritions,
+        Times,
+        Instructions
     },
+    data () {
+        return {
+            recipe: null,
+            nutritions: null,
+            ready: false
+        }
+    },
+    computed: {
+        recipeParams () {
+            const params = new URLSearchParams()
+            params.append('id', this.$route.params.id)
+            return params
+        },
 
-    nutritionsParams () {
-      const params = new URLSearchParams()
-      params.append('id', this.$route.params.id)
-      return params
-    }
-  },
-  mounted: function () {
-    this.getRecipe()
-    this.getNutritions()
-  },
-  methods:
-        {
-          getRecipe: function () {
+        nutritionsParams () {
+            const params = new URLSearchParams()
+            params.append('id', this.$route.params.id)
+            return params
+        }
+    },
+    mounted: function () {
+        this.getRecipe()
+        this.getNutritions()
+    },
+    methods:
+    {
+        getRecipe: function () {
             axios.get('/api/recipe', {
               params: this.recipeParams
             })
-              .then((response) => {
+            .then((response) => {
                 this.recipe = response.data
                 this.ready = true
                 console.log(response.data)
                 // this.reservation_list = response.data;
                 // this.ready = true;
                 // this.setupMarkers(this.schnors);
-              })
+            })
             // .catch((err) => {
             // this.loading = false;
             // console.log(err);
             // })
-          },
+        },
 
-          getNutritions: function () {
+        getNutritions: function () {
             axios.get('/api/nutritions', {
               params: this.nutritionsParams
             })
-              .then((response) => {
+            .then((response) => {
                 this.nutritions = response.data
                 console.log(response.data)
                 // this.reservation_list = response.data;
                 // this.ready = true;
                 // this.setupMarkers(this.schnors);
-              })
+            })
             // .catch((err) => {
             // this.loading = false;
             // console.log(err);
             // })
-          }
         }
+    }
 }
 </script>

@@ -22,15 +22,15 @@
 <script>
 
 export default {
-  name: 'ingredientsframe',
-  props: {
-    ingredients: Array
-  },
-  data () {
-    return {
-      portions: 2
+    name: 'ingredientsframe',
+    props: {
+        ingredients: Array
+    },
+    data () {
+        return {
+        portions: 2
+        }
     }
-  }
 }
 
 </script>

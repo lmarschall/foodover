@@ -30,22 +30,22 @@
 </template>
 
 <style scoped>
-    p.instructions-text {
-        margin-top: 1rem;
-    }
+p.instructions-text {
+    margin-top: 1rem;
+}
 
-    h5.instructions-header {
-        margin-bottom: 1rem;
-    }
+h5.instructions-header {
+    margin-bottom: 1rem;
+}
 </style>
 
 <script>
 
 export default {
-  name: 'instructionsframe',
-  props: {
-    instructions: Object
-  }
+    name: 'instructionsframe',
+    props: {
+        instructions: Object
+    }
 }
 
 </script>

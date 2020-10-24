@@ -31,33 +31,33 @@
 <script>
 
 export default {
-  name: 'likesharesaveframe',
-  props: {
-    aggregateLikes: Number
-  },
-  // mounted: function() {
-  //     this.testFunction();
-  // },
-  methods:
-  {
-    share: function () {
-      console.log('share')
-      if (navigator.share) {
-        navigator.share({
-          title: 'My awesome post!',
-          text: 'This post may or may not contain the answer to the universe',
-          url: window.location.href
-        }).then(() => {
-          console.log('Thanks for sharing!')
-        })
-          .catch(err => {
-            console.log('Couldn\'t share because of', err.message)
-          })
-      } else {
-        console.log('web share not supported')
-      }
+    name: 'likesharesaveframe',
+    props: {
+        aggregateLikes: Number
+    },
+    // mounted: function() {
+    //     this.testFunction();
+    // },
+    methods:
+    {
+        share: function () {
+            console.log('share')
+            if (navigator.share) {
+                navigator.share({
+                    title: 'My awesome post!',
+                    text: 'This post may or may not contain the answer to the universe',
+                    url: window.location.href
+                }).then(() => {
+                console.log('Thanks for sharing!')
+                })
+                .catch(err => {
+                    console.log('Couldn\'t share because of', err.message)
+                })
+            } else {
+                console.log('web share not supported')
+            }
+        }
     }
-  }
 }
 
 </script>

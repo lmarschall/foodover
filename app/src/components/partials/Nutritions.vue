@@ -18,10 +18,10 @@
 <script>
 
 export default {
-  name: 'nutritionsframe',
-  props: {
-    nutritions: Object
-  }
+    name: 'nutritionsframe',
+    props: {
+        nutritions: Object
+    }
 }
 
 </script>

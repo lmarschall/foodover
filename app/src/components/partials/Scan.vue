@@ -62,21 +62,21 @@ export default {
     methods:
     {
         initCamera: function () {
-        // this.codeReader = new ZXing.BrowserMultiFormatReader()
-        this.codeReader = new BrowserMultiFormatReader()
-        // selectedDeviceId = videoInputDevices[0].deviceId
-        console.log('ZXing code reader initialized')
-        this.codeReader.listVideoInputDevices()
-            .then((videoInputDevices) => {
-            // const sourceSelect = document.getElementById('sourceSelect')
-            this.selectedDeviceId = videoInputDevices[0].deviceId
-            // if (videoInputDevices.length >= 1) {
-            //     videoInputDevices.forEach((element) => {
-            //     const sourceOption = document.createElement('option')
-            //     sourceOption.text = element.label
-            //     sourceOption.value = element.deviceId
-            //     sourceSelect.appendChild(sourceOption)
-            // })
+            // this.codeReader = new ZXing.BrowserMultiFormatReader()
+            this.codeReader = new BrowserMultiFormatReader()
+            // selectedDeviceId = videoInputDevices[0].deviceId
+            console.log('ZXing code reader initialized')
+            this.codeReader.listVideoInputDevices()
+                .then((videoInputDevices) => {
+                // const sourceSelect = document.getElementById('sourceSelect')
+                this.selectedDeviceId = videoInputDevices[0].deviceId
+                // if (videoInputDevices.length >= 1) {
+                //     videoInputDevices.forEach((element) => {
+                //     const sourceOption = document.createElement('option')
+                //     sourceOption.text = element.label
+                //     sourceOption.value = element.deviceId
+                //     sourceSelect.appendChild(sourceOption)
+                // })
             })
         },
 
@@ -85,16 +85,15 @@ export default {
 
             this.codeReader.decodeFromVideoDevice(this.selectedDeviceId, 'video', (result, err) => {
                 if (result) {
-                console.log(result)
-                this.code = result.text
-                this.scan = false
-                this.findProduct()
-                this.codeReader.reset()
+                    console.log(result)
+                    this.$emit('scanned', result.text)
+                    this.scan = false
+                    this.codeReader.reset()
                 }
                 // if (err && !(err instanceof ZXing.NotFoundException)) {
                 if (err && !(err instanceof NotFoundException)) {
-                console.error(err)
-                document.getElementById('result').textContent = err
+                    console.error(err)
+                    document.getElementById('result').textContent = err
                 }
             })
             console.log(`Started continous decode from camera with id ${this.selectedDeviceId}`)
