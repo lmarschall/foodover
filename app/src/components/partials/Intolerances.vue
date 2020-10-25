@@ -1,29 +1,56 @@
 <template>
-    <div id="intolerancesframe">
-        <h4>Intolerances</h4>
-        <table class="table table-borderless">
-            <tbody>
-                <tr
-                    v-for="(intolerance, index) in all_intolerances"
-                    v-bind:key="intolerance"
+    <div class="card" id="intolerancesframe">
+        <div class="card-header" id="headingOne">
+            <h2 class="mb-0">
+                <button
+                    class="btn btn-link btn-block text-left"
+                    type="button"
+                    data-toggle="collapse"
+                    data-target="#collapseOne"
+                    aria-expanded="true"
+                    aria-controls="collapseOne"
                 >
-                    <td>{{ intolerance }}</td>
-                    <td v-if="personal_intolerances.includes(intolerance)">
-                        <input
-                            type="checkbox"
-                            v-on:click="deleteIntolerance(index)"
-                            checked
-                        />
-                    </td>
-                    <td v-else>
-                        <input
-                            type="checkbox"
-                            v-on:click="addIntolerance(intolerance)"
-                        />
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+                    Intolerances
+                </button>
+            </h2>
+        </div>
+
+        <div
+            id="collapseOne"
+            class="collapse show"
+            aria-labelledby="headingOne"
+            data-parent="#accordionExample"
+        >
+            <div class="card-body">
+                <table class="table table-borderless">
+                    <tbody>
+                        <tr
+                            v-for="(intolerance, index) in all_intolerances"
+                            v-bind:key="intolerance"
+                        >
+                            <td>{{ intolerance }}</td>
+                            <td
+                                v-if="
+                                    personal_intolerances.includes(intolerance)
+                                "
+                            >
+                                <input
+                                    type="checkbox"
+                                    v-on:click="deleteIntolerance(index)"
+                                    checked
+                                />
+                            </td>
+                            <td v-else>
+                                <input
+                                    type="checkbox"
+                                    v-on:click="addIntolerance(intolerance)"
+                                />
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 </template>
 

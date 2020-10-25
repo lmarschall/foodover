@@ -2,19 +2,27 @@
     <div id="profileframe">
         <Bar v-bind:page="1" />
         <input type="button" v-on:click="login" />
-        <Intolerances />
+        <div class="accordion sticky-top" id="accordionExample">
+            <Intolerances />
+            <Diets />
+        </div>
+        <Placeholder />
     </div>
 </template>
 
 <script>
 import Bar from "./partials/Bar";
+import Placeholder from "./partials/Placeholder";
 import Intolerances from "./partials/Intolerances";
+import Diets from "./partials/Diets";
 
 export default {
     name: "profileframe",
     components: {
         Bar,
-        Intolerances
+        Placeholder,
+        Intolerances,
+        Diets
     },
     data() {
         return {};

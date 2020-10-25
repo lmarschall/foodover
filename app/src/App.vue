@@ -21,7 +21,8 @@ export default {
             document.db.version(2).stores({
                 ingredients: "++id, name",
                 recipes: "++id, recipe",
-                intolerances: "++id, intolerance"
+                intolerances: "++id, intolerance",
+                diets: "++id, diet"
                 // search: '++id, recipes, ingredients',
                 // recipes: '++id, recipe'
             });
