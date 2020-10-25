@@ -1,46 +1,45 @@
 <template>
     <div id="app">
-    <!-- <img alt="Vue logo" src="./assets/logo.png"> -->
-    <!-- <HelloWorld msg="Welcome to Your Vue.js App"/> -->
+        <!-- <img alt="Vue logo" src="./assets/logo.png"> -->
+        <!-- <HelloWorld msg="Welcome to Your Vue.js App"/> -->
         <router-view></router-view>
     </div>
 </template>
 
 <script>
-import Dexie from 'dexie'
+import Dexie from "dexie";
 
 export default {
-    name: 'app',
-    created: function () {
-        this.initDatabase()
+    name: "app",
+    created: function() {
+        this.initDatabase();
     },
-    methods:
-    {
-        initDatabase: function () {
-            console.log('Init Database')
-            document.db = new Dexie('foodover_database')
+    methods: {
+        initDatabase: function() {
+            console.log("Init Database");
+            document.db = new Dexie("foodover_database");
             document.db.version(2).stores({
-                ingredients: '++id, name',
-                recipes: '++id, recipe',
-                intolerances: '++id, intolerance'
+                ingredients: "++id, name",
+                recipes: "++id, recipe",
+                intolerances: "++id, intolerance"
                 // search: '++id, recipes, ingredients',
                 // recipes: '++id, recipe'
-            })
+            });
         }
     }
-}
+};
 </script>
 
 <style>
 body {
-    background-color: #EEF8E3;
+    background-color: #eef8e3;
     margin: 0;
     height: 100%;
     color: #213409;
 }
 
 span.badge.badge-pill.badge-primary {
-    background-color: #7FBD32;
+    background-color: #7fbd32;
     margin: 0.2rem;
 }
 
@@ -51,8 +50,8 @@ span.badge.badge-pill.badge-secondary {
 }
 
 button.btn.btn-primary {
-    background-color: #7FBD32;
-    border-color: #7FBD32;
+    background-color: #7fbd32;
+    border-color: #7fbd32;
 }
 
 button.btn.btn-secondary {
@@ -61,6 +60,6 @@ button.btn.btn-secondary {
 }
 
 button.btn.btn-outline-primary.rounded {
-    border-color: #7FBD32;
+    border-color: #7fbd32;
 }
 </style>

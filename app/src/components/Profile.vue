@@ -1,40 +1,33 @@
 <template>
     <div id="profileframe">
-
         <Bar v-bind:page="1" />
-        <input type="button" v-on:click="login">
-        <Intolerances/>
-
+        <input type="button" v-on:click="login" />
+        <Intolerances />
     </div>
 </template>
 
 <script>
-import Bar from './partials/Bar'
-import Intolerances from './partials/Intolerances'
+import Bar from "./partials/Bar";
+import Intolerances from "./partials/Intolerances";
 
 export default {
-    name: 'profileframe',
+    name: "profileframe",
     components: {
         Bar,
         Intolerances
     },
-    data () {
-        return {
-        }
+    data() {
+        return {};
     },
-    mounted: function () {
-        this.loadData()
+    mounted: function() {
+        this.loadData();
     },
-    methods:
-    {
-        loadData: function () {
+    methods: {
+        loadData: function() {},
 
-        },
-
-        login: async function () {
+        login: async function() {
             // var userIdBuffer
             // var challengeBuffer
-
             // const create_options = {
             //   publicKey: {
             //     rp: { name: 'example.com' },
@@ -48,11 +41,8 @@ export default {
             //     authenticatorSelection: { authenticatorAttachment: 'platform' }
             //   }
             // }
-
             // const publicKeyCredential = await navigator.credentials.create(create_options)
-
             // console.log(publicKeyCredential)
-
             // const get_options = {
             //     publicKey: {
             //         challenge: challengeBuffer,
@@ -62,9 +52,8 @@ export default {
             //         ]
             //     }
             // };
-
             // const publicKeyCredential = await navigator.credentials.get(get_options);
         }
     }
-}
+};
 </script>

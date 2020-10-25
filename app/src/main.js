@@ -1,16 +1,16 @@
-import Vue from 'vue'
-import App from './App.vue'
-import router from './router'
+import Vue from "vue";
+import App from "./App.vue";
+import router from "./router";
 
-import 'bootstrap'
-import 'bootstrap/dist/css/bootstrap.css'
+import "bootstrap";
+import "bootstrap/dist/css/bootstrap.css";
 
-Vue.config.productionTip = false
-Vue.config.devtools = true
+Vue.config.productionTip = false;
+Vue.config.devtools = true;
 
-Vue.prototype.db = null
+Vue.prototype.db = null;
 
 new Vue({
-  render: h => h(App),
-  router
-}).$mount('#app')
+    render: h => h(App),
+    router
+}).$mount("#app");
