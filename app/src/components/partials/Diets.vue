@@ -19,7 +19,7 @@
 
 <style scoped>
 .card.diets-card {
-    width: 140px;
+    width: 70px;
     margin: auto 5px;
     margin-bottom: 5px;
 }
