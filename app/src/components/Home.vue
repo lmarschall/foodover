@@ -115,7 +115,8 @@ import Placeholder from "./partials/Placeholder";
 import axios from "axios";
 
 export default {
-    name: "searchframe",
+    name: "Search",
+    el: "searchframe",
     components: {
         Bar,
         Recipes,

@@ -26,7 +26,8 @@
 <style scoped>
 .card.intolerance-card {
     width: 70px;
-    margin: auto auto 5px;
+    margin: auto 5px;
+    margin-bottom: 5px;
 }
 a.stretched-link {
     margin: auto;
@@ -39,7 +40,8 @@ a.stretched-link {
 
 <script>
 export default {
-    name: "intolerancesframe",
+    name: "Intolerances",
+    el: "intolerancesframe",
     data() {
         return {
             personal_intolerances: [],

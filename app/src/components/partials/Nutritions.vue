@@ -15,7 +15,8 @@
 
 <script>
 export default {
-    name: "nutritionsframe",
+    name: "Nutritions",
+    el: "nutritionsframe",
     props: {
         nutritions: Object
     }

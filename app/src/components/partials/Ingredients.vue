@@ -38,7 +38,8 @@
 
 <script>
 export default {
-    name: "ingredientsframe",
+    name: "Ingredients",
+    el: "ingredientsframe",
     props: {
         ingredients: Array
     },

@@ -14,10 +14,14 @@
 
 <script>
 export default {
-    name: "timesframe",
+    name: "Times",
+    el: "timesframe",
     props: {
+        // minutes for recipe to be ready
         readyInMinutes: Number,
+        // minutes to prepare the recipe
         preparationMinutes: Number,
+        // minutes for cooking
         cookingMinutes: Number
     }
 };

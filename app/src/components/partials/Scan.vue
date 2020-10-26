@@ -49,7 +49,8 @@
 <script>
 import { BrowserMultiFormatReader, NotFoundException } from "@zxing/library";
 export default {
-    name: "scanframe",
+    name: "Scan",
+    el: "scanframe",
     // props: {
     //     scan: Boolean
     // },

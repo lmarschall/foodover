@@ -69,7 +69,8 @@ import Intolerances from "./partials/Intolerances";
 import Diets from "./partials/Diets";
 
 export default {
-    name: "profileframe",
+    name: "Profile",
+    el: "profileframe",
     components: {
         Bar,
         Placeholder,

@@ -169,7 +169,8 @@ import Instructions from "./partials/Instructions";
 import axios from "axios";
 
 export default {
-    name: "recipeframe",
+    name: "Recipe",
+    el: "recipeframe",
     components: {
         Ingredients,
         LikeShareSave,

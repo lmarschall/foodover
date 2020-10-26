@@ -63,7 +63,8 @@
 
 <script>
 export default {
-    name: "likesharesaveframe",
+    name: "Like-Share-Save",
+    el: "likesharesaveframe",
     props: {
         aggregateLikes: Number
     },

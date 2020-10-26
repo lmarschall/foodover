@@ -52,7 +52,8 @@ a.stretched-link {
 
 <script>
 export default {
-    name: "recipesframe",
+    name: "Recipes",
+    el: "recipesframe",
     props: {
         recipes: Array,
         ingredients: Array

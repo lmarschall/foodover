@@ -72,7 +72,8 @@ h5.instructions-header {
 
 <script>
 export default {
-    name: "instructionsframe",
+    name: "Instructions",
+    el: "instructionsframe",
     props: {
         instructions: Object
     }

@@ -30,7 +30,8 @@
 
 <script>
 export default {
-    name: "barframe",
+    name: "Bar",
+    el: "barframe",
     props: {
         page: Number
     }

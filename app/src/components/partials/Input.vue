@@ -119,7 +119,8 @@ import axios from "axios";
 import Scan from "./Scan";
 
 export default {
-    name: "inputframe",
+    name: "Input",
+    el: "inputframe",
     props: {
         ingredients: Array
     },
