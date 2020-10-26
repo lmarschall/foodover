@@ -9,6 +9,8 @@
             v-bind:ingredients="ingredients"
         />
 
+        <Filters />
+
         <select class="custom-select" id="inputGroupSelect01">
             <option selected>Choose...</option>
             <option value="1">One</option>
@@ -16,7 +18,14 @@
             <option value="3">Three</option>
         </select>
 
-        
+        <button
+            type="button"
+            class="btn btn-primary"
+            data-toggle="modal"
+            data-target="#filtersModal"
+        >
+            Launch demo modal
+        </button>
 
         <div class="accordion sticky-top" id="accordionExample">
             <div class="card">
@@ -100,6 +109,7 @@ button.btn.btn-outline-primary.rounded {
 import Bar from "./partials/Bar";
 import Recipes from "./partials/Recipes";
 import Input from "./partials/Input";
+import Filters from "./partials/Filters";
 import Placeholder from "./partials/Placeholder";
 
 import axios from "axios";
@@ -109,6 +119,7 @@ export default {
     components: {
         Bar,
         Recipes,
+        Filters,
         Input,
         Placeholder
     },
@@ -215,6 +226,12 @@ export default {
             document.db.recipes.toArray().then(function(recipes) {
                 for (var i = 0; i < recipes.length; i++) {
                     self.recipes.push(JSON.parse(recipes[i].recipe));
+                }
+            });
+
+            document.db.intolerances.toArray().then(function(intolerances) {
+                for (var i = 0; i < intolerances.length; i++) {
+                    self.intolerances.push(intolerances[i].intolerance);
                 }
             });
         }

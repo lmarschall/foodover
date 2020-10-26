@@ -2,9 +2,61 @@
     <div id="profileframe">
         <Bar v-bind:page="1" />
         <input type="button" v-on:click="login" />
-        <div class="accordion sticky-top" id="accordionExample">
-            <Intolerances />
-            <Diets />
+        <div class="accordion sticky-top" id="accordionProfile">
+            <div class="card">
+                <div class="card-header" id="headingIntolerances">
+                    <h2 class="mb-0">
+                        <button
+                            class="btn btn-link btn-block text-left"
+                            type="button"
+                            data-toggle="collapse"
+                            data-target="#collapseIntolerances"
+                            aria-expanded="true"
+                            aria-controls="collapseIntolerances"
+                        >
+                            Intolerances
+                        </button>
+                    </h2>
+                </div>
+
+                <div
+                    id="collapseIntolerances"
+                    class="collapse show"
+                    aria-labelledby="headingIntolerances"
+                    data-parent="#accordionProfile"
+                >
+                    <div class="card-body">
+                        <Intolerances />
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header" id="headingDiets">
+                    <h2 class="mb-0">
+                        <button
+                            class="btn btn-link btn-block text-left"
+                            type="button"
+                            data-toggle="collapse"
+                            data-target="#collapseDiets"
+                            aria-expanded="false"
+                            aria-controls="collapseDiets"
+                        >
+                            Diets
+                        </button>
+                    </h2>
+                </div>
+
+                <div
+                    id="collapseDiets"
+                    class="collapse"
+                    aria-labelledby="headingDiets"
+                    data-parent="#accordionProfile"
+                >
+                    <div class="card-body">
+                        <Diets />
+                    </div>
+                </div>
+            </div>
         </div>
         <Placeholder />
     </div>
@@ -26,42 +78,6 @@ export default {
     },
     data() {
         return {};
-    },
-    mounted: function() {
-        this.loadData();
-    },
-    methods: {
-        loadData: function() {},
-
-        login: async function() {
-            // var userIdBuffer
-            // var challengeBuffer
-            // const create_options = {
-            //   publicKey: {
-            //     rp: { name: 'example.com' },
-            //     user: {
-            //       name: 'john.appleseed@example.com',
-            //       id: userIdBuffer,
-            //       displayName: 'John Appleseed'
-            //     },
-            //     pubKeyCredParams: [{ type: 'public-key', alg: -7 }],
-            //     challenge: challengeBuffer,
-            //     authenticatorSelection: { authenticatorAttachment: 'platform' }
-            //   }
-            // }
-            // const publicKeyCredential = await navigator.credentials.create(create_options)
-            // console.log(publicKeyCredential)
-            // const get_options = {
-            //     publicKey: {
-            //         challenge: challengeBuffer,
-            //         allowCredentials: [
-            //             { type: "public-key", id: credentialIdBuffer1, transports: ["internal"] },
-            //             // ... more Credential IDs can be supplied.
-            //         ]
-            //     }
-            // };
-            // const publicKeyCredential = await navigator.credentials.get(get_options);
-        }
     }
 };
 </script>

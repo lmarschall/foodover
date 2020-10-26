@@ -1,64 +1,48 @@
 <template>
-    <div class="card" id="intolerancesframe">
-        <div class="card-header" id="headingOne">
-            <h2 class="mb-0">
-                <button
-                    class="btn btn-link btn-block text-left"
-                    type="button"
-                    data-toggle="collapse"
-                    data-target="#collapseOne"
-                    aria-expanded="true"
-                    aria-controls="collapseOne"
-                >
-                    Intolerances
-                </button>
-            </h2>
-        </div>
-
-        <div
-            id="collapseOne"
-            class="collapse show"
-            aria-labelledby="headingOne"
-            data-parent="#accordionExample"
+    <div class="d-flex flex-wrap" id="intolerancesframe">
+        <div 
+            v-for="(intolerance, index) in all_intolerances"
+            v-bind:key="intolerance"
+            class="card intolerance-card"
+            v-bind:class="{ checked: personal_intolerances.includes(intolerance)}"
         >
-            <div class="card-body">
-                <table class="table table-borderless">
-                    <tbody>
-                        <tr
-                            v-for="(intolerance, index) in all_intolerances"
-                            v-bind:key="intolerance"
-                        >
-                            <td>{{ intolerance }}</td>
-                            <td
-                                v-if="
-                                    personal_intolerances.includes(intolerance)
-                                "
-                            >
-                                <input
-                                    type="checkbox"
-                                    v-on:click="deleteIntolerance(index)"
-                                    checked
-                                />
-                            </td>
-                            <td v-else>
-                                <input
-                                    type="checkbox"
-                                    v-on:click="addIntolerance(intolerance)"
-                                />
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+            <svg viewBox="0 0 16 16" class="bi bi-egg" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" d="M8 15a5 5 0 0 0 5-5c0-1.956-.69-4.286-1.742-6.12-.524-.913-1.112-1.658-1.704-2.164C8.956 1.206 8.428 1 8 1c-.428 0-.956.206-1.554.716-.592.506-1.18 1.251-1.704 2.164C3.69 5.714 3 8.044 3 10a5 5 0 0 0 5 5zm0 1a6 6 0 0 0 6-6c0-4.314-3-10-6-10S2 5.686 2 10a6 6 0 0 0 6 6z"/>
+            </svg>
+            <a
+                v-if="personal_intolerances.includes(intolerance)"
+                v-on:click="deleteIntolerance(index)"
+                class="stretched-link">{{ intolerance }}
+            </a>
+            <a
+                v-else
+                v-on:click="addIntolerance(intolerance)"
+                class="stretched-link">{{ intolerance }}
+            </a>
         </div>
     </div>
 </template>
+
+<style scoped>
+.card.intolerance-card {
+    width: 70px;
+    margin: auto auto 5px;
+}
+a.stretched-link {
+    margin: auto;
+    color: #213409;
+}
+.card.intolerance-card.checked {
+    border: 5px solid black;
+}
+</style>
 
 <script>
 export default {
     name: "intolerancesframe",
     data() {
         return {
+            personal_intolerances: [],
             all_intolerances: [
                 "Dairy",
                 "Egg",
@@ -71,14 +55,14 @@ export default {
                 "Soy",
                 "Sulfite",
                 "Tree Nut"
-            ],
-            personal_intolerances: []
+            ]
         };
     },
     mounted: function() {
         this.loadIntolerances();
     },
     methods: {
+
         loadIntolerances: function() {
             const self = this;
 
