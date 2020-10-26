@@ -3,14 +3,10 @@ const axios = require('axios');
 
 const api = express.Router();
 
-async function findRecipesbyIngredients (ingredients) {
-    const params = new URLSearchParams();
-    params.append('apiKey', process.env.apikey)
-    params.append('ingredients', ingredients)
-    params.append('number', '10')
+async function findRecipesbyIngredients (params) {
 
     try {
-        const result = await axios.get('https://api.spoonacular.com/recipes/findByIngredients', {params: params})
+        const result = await axios.get('https://api.spoonacular.com/recipes/complexSearch', {params: params})
         return result.data
     } catch (err) {
         console.error(err);
@@ -19,8 +15,18 @@ async function findRecipesbyIngredients (ingredients) {
 }
   
 api.get("/recipes", async (req, res) => {
-    console.log(req.query.ingredients)
-    const recipes = await findRecipesbyIngredients(req.query.ingredients)
+
+    const params = new URLSearchParams();
+    params.append('apiKey', process.env.apikey)
+    params.append('includeIngredients', req.query.ingredients)
+    params.append('intolerances', req.query.intolerances),
+    params.append('diet', req.query.diet),
+    params.append('sort', req.query.sort),                      // popularity, max-used-ingredients, min-missing-ingredients, time
+    params.append('sortDirection', req.query.direction),    // asc, desc
+    params.append('offset', req.query.offset),
+    params.append('number', '10')
+
+    const recipes = await findRecipesbyIngredients(params)
     res.send(recipes)
 });
   

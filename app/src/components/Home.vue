@@ -9,6 +9,15 @@
             v-bind:ingredients="ingredients"
         />
 
+        <select class="custom-select" id="inputGroupSelect01">
+            <option selected>Choose...</option>
+            <option value="1">One</option>
+            <option value="2">Two</option>
+            <option value="3">Three</option>
+        </select>
+
+        
+
         <div class="accordion sticky-top" id="accordionExample">
             <div class="card">
                 <div class="card-header" id="headingOne">
@@ -63,6 +72,14 @@
             </div>
         </div>
 
+        <div class="dropdown-menu">
+            <a class="dropdown-item" href="#">Action</a>
+            <a class="dropdown-item" href="#">Another action</a>
+            <a class="dropdown-item" href="#">Something else here</a>
+            <div role="separator" class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">Separated link</a>
+        </div>
+
         <Recipes v-bind:recipes="recipes" v-bind:ingredients="ingredients" />
 
         <Placeholder />
@@ -98,7 +115,14 @@ export default {
     data() {
         return {
             ingredients: ["apples", "flour", "sugar"],
-            recipes: []
+            recipes: [],
+            search_params: {
+                sort: "max-used-ingredients",
+                direction: "asc",
+                offset: 0
+            },
+            intolerances: [],
+            diet: ""
         };
     },
     computed: {
@@ -111,16 +135,22 @@ export default {
         ingredientsParams() {
             // create ingredients string from list
             // string format: apples,+flour,+sugar
-            var string = "";
+            var ingredientsString = "";
             for (var i = 0; i < this.ingredients.length; i++) {
                 if (i === 0) {
-                    string += this.ingredients[i].name;
+                    ingredientsString += this.ingredients[i].name;
                 } else {
-                    string += ",+" + this.ingredients[i].name;
+                    ingredientsString += ",+" + this.ingredients[i].name;
                 }
             }
             const params = new URLSearchParams();
-            params.append("ingredients", string);
+            params.append("ingredients", ingredientsString);
+            params.append("intolerances", "Egg,+Gluten");
+            params.append("diet", "Vegan");
+            params.append("sort", this.search_params.sort);
+            params.append("direction", this.search_params.direction);
+            params.append("offset", this.search_params.offset);
+            console.log(params);
             return params;
         }
     },
@@ -153,7 +183,7 @@ export default {
                     params: this.ingredientsParams
                 })
                 .then(response => {
-                    this.recipes = response.data;
+                    this.recipes = response.data.results;
                     console.log(response.data);
 
                     document.db.recipes.clear();
