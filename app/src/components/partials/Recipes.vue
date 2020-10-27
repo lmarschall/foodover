@@ -1,5 +1,5 @@
 <template>
-    <div id="recipeframe" class="row row-cols-1 row-cols-md-2">
+    <div class="row row-cols-1 row-cols-md-2">
         <div class="col mb-4" v-for="recipe in recipes" v-bind:key="recipe">
             <div class="card">
                 <img v-bind:src="recipe.image" class="card-img-top" alt="..." />
@@ -53,7 +53,6 @@ a.stretched-link {
 <script>
 export default {
     name: "Recipes",
-    el: "recipesframe",
     props: {
         recipes: Array,
         ingredients: Array

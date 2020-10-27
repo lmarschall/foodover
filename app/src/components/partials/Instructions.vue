@@ -1,5 +1,5 @@
 <template>
-    <div id="instructionsframe">
+    <div>
         <div v-for="step in instructions.steps" v-bind:key="step">
             <h5 class="instructions-header">Step {{ step.number }}</h5>
             <div class="d-flex flex-wrap">
@@ -73,7 +73,6 @@ h5.instructions-header {
 <script>
 export default {
     name: "Instructions",
-    el: "instructionsframe",
     props: {
         instructions: Object
     }

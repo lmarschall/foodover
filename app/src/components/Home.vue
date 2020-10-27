@@ -1,5 +1,5 @@
 <template>
-    <div id="searchframe">
+    <div>
         <Bar v-bind:page="0" />
 
         <Input
@@ -11,21 +11,7 @@
 
         <Filters />
 
-        <select class="custom-select" id="inputGroupSelect01">
-            <option selected>Choose...</option>
-            <option value="1">One</option>
-            <option value="2">Two</option>
-            <option value="3">Three</option>
-        </select>
-
-        <button
-            type="button"
-            class="btn btn-primary"
-            data-toggle="modal"
-            data-target="#filtersModal"
-        >
-            Launch demo modal
-        </button>
+        <Sort />
 
         <div class="accordion sticky-top" id="accordionExample">
             <div class="card">
@@ -76,17 +62,54 @@
                                 d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"
                             />
                         </svg>
+                        Input
+                    </span>
+                    <span
+                        class="badge badge-pill badge-primary"
+                        data-toggle="modal"
+                        data-target="#filtersModal"
+                    >
+                        <svg
+                            width="2em"
+                            height="2em"
+                            viewBox="0 0 16 16"
+                            class="bi bi-filter"
+                            fill="currentColor"
+                            xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <path
+                                fill-rule="evenodd"
+                                d="M6 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z"
+                            />
+                        </svg>
+                        Filter
+                    </span>
+                    <span
+                        class="badge badge-pill badge-primary"
+                        data-toggle="modal"
+                        data-target="#sortModal"
+                    >
+                        <svg
+                            width="2em"
+                            height="2em"
+                            viewBox="0 0 16 16"
+                            class="bi bi-sort-down"
+                            fill="currentColor"
+                            xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <path
+                                fill-rule="evenodd"
+                                d="M3 2a.5.5 0 0 1 .5.5v10a.5.5 0 0 1-1 0v-10A.5.5 0 0 1 3 2z"
+                            />
+                            <path
+                                fill-rule="evenodd"
+                                d="M5.354 10.146a.5.5 0 0 1 0 .708l-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 0 1 .708-.708L3 11.793l1.646-1.647a.5.5 0 0 1 .708 0zM7 9.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5zm0-3a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm0-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm0 9a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5z"
+                            />
+                        </svg>
+                        Sort
                     </span>
                 </div>
             </div>
-        </div>
-
-        <div class="dropdown-menu">
-            <a class="dropdown-item" href="#">Action</a>
-            <a class="dropdown-item" href="#">Another action</a>
-            <a class="dropdown-item" href="#">Something else here</a>
-            <div role="separator" class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Separated link</a>
         </div>
 
         <Recipes v-bind:recipes="recipes" v-bind:ingredients="ingredients" />
@@ -110,18 +133,19 @@ import Bar from "./partials/Bar";
 import Recipes from "./partials/Recipes";
 import Input from "./partials/Input";
 import Filters from "./partials/Filters";
+import Sort from "./partials/Sort";
 import Placeholder from "./partials/Placeholder";
 
 import axios from "axios";
 
 export default {
     name: "Search",
-    el: "searchframe",
     components: {
         Bar,
         Recipes,
         Filters,
         Input,
+        Sort,
         Placeholder
     },
     data() {

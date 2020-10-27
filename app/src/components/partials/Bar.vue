@@ -1,8 +1,5 @@
 <template>
-    <div
-        id="barframe"
-        class="card shadow p-3 mb-5 bg-white rounded-pill fixed-bottom"
-    >
+    <div class="card shadow p-3 mb-5 bg-white rounded-pill fixed-bottom">
         <ul class="nav nav-fill nav-pills">
             <li class="nav-item">
                 <router-link
@@ -31,7 +28,6 @@
 <script>
 export default {
     name: "Bar",
-    el: "barframe",
     props: {
         page: Number
     }

@@ -1,5 +1,5 @@
 <template>
-    <div id="timesframe" class="d-flex flex-row">
+    <div class="d-flex flex-row">
         <div class="flex-fill text-center">
             {{ readyInMinutes }}<br />Completion
         </div>
@@ -15,7 +15,6 @@
 <script>
 export default {
     name: "Times",
-    el: "timesframe",
     props: {
         // minutes for recipe to be ready
         readyInMinutes: Number,

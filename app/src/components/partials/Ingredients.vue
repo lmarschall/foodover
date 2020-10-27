@@ -1,5 +1,5 @@
 <template>
-    <div id="ingredientsframe">
+    <div>
         <h4>Ingredients</h4>
         <div class="d-flex flex-row">
             <p class="w-100">Portions</p>
@@ -39,7 +39,6 @@
 <script>
 export default {
     name: "Ingredients",
-    el: "ingredientsframe",
     props: {
         ingredients: Array
     },

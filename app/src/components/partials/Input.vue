@@ -1,5 +1,5 @@
 <template>
-    <div id="inputframe">
+    <div>
         <Scan v-on:scanned="findProduct" ref="scan" />
 
         <!-- Input Modal -->
@@ -120,7 +120,6 @@ import Scan from "./Scan";
 
 export default {
     name: "Input",
-    el: "inputframe",
     props: {
         ingredients: Array
     },

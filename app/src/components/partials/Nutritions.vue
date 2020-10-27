@@ -1,5 +1,5 @@
 <template>
-    <div id="nutritionsframe" class="d-flex flex-row">
+    <div class="d-flex flex-row">
         <div class="flex-fill text-center">
             {{ nutritions.calories }}<br />Calories
         </div>
@@ -16,7 +16,6 @@
 <script>
 export default {
     name: "Nutritions",
-    el: "nutritionsframe",
     props: {
         nutritions: Object
     }

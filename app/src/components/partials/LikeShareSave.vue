@@ -1,5 +1,5 @@
 <template>
-    <div id="likesharesaveframe" class="d-flex flex-row">
+    <div class="d-flex flex-row">
         <div class="flex-fill">
             <button class="btn flex-fill">
                 <svg
@@ -64,7 +64,6 @@
 <script>
 export default {
     name: "Like-Share-Save",
-    el: "likesharesaveframe",
     props: {
         aggregateLikes: Number
     },

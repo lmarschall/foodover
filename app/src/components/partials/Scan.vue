@@ -1,5 +1,5 @@
 <template>
-    <div v-if="scan" id="scanframe" class="video-container">
+    <div v-if="scan" class="video-container">
         <button
             type="button"
             class="btn btn-secondary rounded-pill"
@@ -50,7 +50,6 @@
 import { BrowserMultiFormatReader, NotFoundException } from "@zxing/library";
 export default {
     name: "Scan",
-    el: "scanframe",
     // props: {
     //     scan: Boolean
     // },

@@ -1,5 +1,5 @@
 <template>
-    <div id="profileframe">
+    <div>
         <Bar v-bind:page="1" />
         <input type="button" v-on:click="login" />
         <div class="accordion sticky-top" id="accordionProfile">
@@ -70,7 +70,6 @@ import Diets from "./partials/Diets";
 
 export default {
     name: "Profile",
-    el: "profileframe",
     components: {
         Bar,
         Placeholder,
