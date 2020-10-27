@@ -29,17 +29,19 @@
                             v-bind:key="sort"
                             class="list-group-item"
                         >
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">$</span>
-                            </div>
-                            <input
-                                type="text"
-                                class="form-control"
-                                v-bind:value="sort"
-                                aria-label="Amount (to the nearest dollar)"
-                            />
-                            <div class="input-group-append">
-                                <span class="input-group-text">X</span>
+                            <div class="input-group flex-nowrap">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">$</span>
+                                </div>
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    v-bind:value="sort"
+                                    aria-label="Amount (to the nearest dollar)"
+                                />
+                                <div class="input-group-append">
+                                    <span class="input-group-text">X</span>
+                                </div>
                             </div>
                         </li>
                     </ul>

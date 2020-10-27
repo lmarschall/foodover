@@ -64,6 +64,7 @@
                         </svg>
                         Input
                     </span>
+                    <div class="w-100" />
                     <span
                         class="badge badge-pill badge-primary"
                         data-toggle="modal"
@@ -84,6 +85,7 @@
                         </svg>
                         Filter
                     </span>
+                    <div class="w-100" />
                     <span
                         class="badge badge-pill badge-primary"
                         data-toggle="modal"
@@ -181,8 +183,8 @@ export default {
             }
             const params = new URLSearchParams();
             params.append("ingredients", ingredientsString);
-            params.append("intolerances", "Egg,+Gluten");
-            params.append("diet", "Vegan");
+            params.append("intolerances", ""); // "Egg,+Gluten"
+            params.append("diet", ""); // "Vegan"
             params.append("sort", this.search_params.sort);
             params.append("direction", this.search_params.direction);
             params.append("offset", this.search_params.offset);
