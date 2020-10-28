@@ -42,6 +42,9 @@ a.stretched-link {
 <script>
 export default {
     name: "Diets",
+    props: {
+        personal_diet: String
+    },
     data() {
         return {
             all_diets: [
@@ -55,8 +58,7 @@ export default {
                 "Paleo",
                 "Primal",
                 "Whole30"
-            ],
-            personal_diet: ""
+            ]
         };
     },
     mounted: function() {

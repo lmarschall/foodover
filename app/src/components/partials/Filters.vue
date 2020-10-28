@@ -26,11 +26,11 @@
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item">
                             <h4>Intolerances</h4>
-                            <Intolerances />
+                            <Intolerances v-bind:personal_intolerances="[]" />
                         </li>
                         <li class="list-group-item">
                             <h4>Diets</h4>
-                            <Diets />
+                            <Diets v-bind:personal_diet="''" />
                         </li>
                     </ul>
                 </div>

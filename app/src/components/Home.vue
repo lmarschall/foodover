@@ -131,14 +131,14 @@ button.btn.btn-outline-primary.rounded {
 </style>
 
 <script>
+import axios from "axios";
+
 import Bar from "./partials/Bar";
+import Placeholder from "./partials/Placeholder";
 import Recipes from "./partials/Recipes";
 import Input from "./partials/Input";
 import Filters from "./partials/Filters";
 import Sort from "./partials/Sort";
-import Placeholder from "./partials/Placeholder";
-
-import axios from "axios";
 
 export default {
     name: "Search",
@@ -156,7 +156,7 @@ export default {
             recipes: [],
             search_params: {
                 sort: "max-used-ingredients",
-                direction: "asc",
+                direction: "desc",
                 offset: 0
             },
             intolerances: [],
