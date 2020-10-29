@@ -1,10 +1,15 @@
 <template>
     <div class="row" v-if="ready">
-        <div v-if="$mq === 'lg' || $mq === 'xl'" class="col-lg-4 d-none d-lg-block" style="overflow: auto;">
+        <div
+            v-if="$mq === 'lg' || $mq === 'xl'"
+            class="col-lg-4 d-none d-lg-block"
+            style="overflow: auto;"
+        >
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">
                     <LikeShareSave
                         v-bind:aggregateLikes="recipe.aggregateLikes"
+                        v-on:saved="saveRecipe"
                     />
                 </li>
                 <li class="list-group-item">
@@ -25,7 +30,11 @@
             </ul>
         </div>
 
-        <div v-if="$mq === 'lg' || $mq === 'xl'" class="col-lg-8 d-none d-lg-block" style="overflow: auto;">
+        <div
+            v-if="$mq === 'lg' || $mq === 'xl'"
+            class="col-lg-8 d-none d-lg-block"
+            style="overflow: auto;"
+        >
             <ul class="list-group list-group-flush">
                 <li
                     class="list-group-item image-item"
@@ -57,7 +66,7 @@
                         </div>
                         <div class="flex-shrink-1">
                             <router-link
-                                v-bind:to="{ name: 'home' }"
+                                v-bind:to="{ name: 'search' }"
                                 type="button"
                                 class="close"
                                 data-dismiss="modal"
@@ -70,6 +79,7 @@
                     <li class="list-group-item">
                         <LikeShareSave
                             v-bind:aggregateLikes="recipe.aggregateLikes"
+                            v-on:saved="saveRecipe"
                         />
                     </li>
                     <li class="list-group-item" v-html="recipe.summary"></li>
@@ -90,7 +100,7 @@
                     <li class="list-group-item">
                         <Nutritions v-bind:nutritions="nutritions" />
                     </li>
-                    <li class="list-group-item">
+                    <li v-if="recipe.analyzedInstructions.length > 0" class="list-group-item">
                         <Instructions
                             v-bind:instructions="recipe.analyzedInstructions[0]"
                         />
@@ -189,7 +199,6 @@ export default {
                 })
                 .then(response => {
                     this.recipe = response.data;
-                    this.ready = true;
                     console.log(response.data);
                     // this.reservation_list = response.data;
                     // this.ready = true;
@@ -201,6 +210,10 @@ export default {
             // })
         },
 
+        saveRecipe: function() {
+            document.db.favorites.add(this.recipe);
+        },
+
         // get the nutritions of the selected recipe
         getNutritions: function() {
             axios
@@ -209,6 +222,7 @@ export default {
                 })
                 .then(response => {
                     this.nutritions = response.data;
+                    this.ready = true;
                     console.log(response.data);
                     // this.reservation_list = response.data;
                     // this.ready = true;

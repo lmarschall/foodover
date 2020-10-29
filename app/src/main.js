@@ -1,5 +1,5 @@
 import Vue from "vue";
-import VueMq from 'vue-mq'
+import VueMq from "vue-mq";
 
 import App from "./App.vue";
 import router from "./router";
@@ -14,12 +14,12 @@ Vue.prototype.db = null;
 
 Vue.use(VueMq, {
     breakpoints: {
-      sm: 576,
-      md: 768,
-      lg: 992,
-      xl: Infinity
+        sm: 576,
+        md: 768,
+        lg: 992,
+        xl: Infinity
     }
-})
+});
 
 new Vue({
     render: h => h(App),

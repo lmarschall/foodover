@@ -3,7 +3,11 @@
         <Bar v-bind:page="1" />
 
         <!-- Left Sidebar -->
-        <div v-if="$mq === 'lg' || $mq === 'xl'" class="col-lg-4 d-none d-lg-block" style="overflow: auto;">
+        <div
+            v-if="$mq === 'lg' || $mq === 'xl'"
+            class="col-lg-4 d-none d-lg-block"
+            style="overflow: auto;"
+        >
             <ul class="nav nav-tabs" id="myTab" role="tablist">
                 <li class="nav-item" role="presentation">
                     <a
@@ -72,7 +76,7 @@
                     aria-labelledby="contact-tab"
                 >
                     <Sort v-bind:actual_sort="search_params.sort" />
-                </div> 
+                </div>
             </div>
             <div class="modal-footer">
                 <button
@@ -94,7 +98,11 @@
             <Placeholder />
         </div>
         <!-- Mainframe  -->
-        <div v-if="$mq === 'lg' || $mq === 'xl'" class="col-lg-8 d-none d-lg-block" style="overflow: auto;">
+        <div
+            v-if="$mq === 'lg' || $mq === 'xl'"
+            class="col-lg-8 d-none d-lg-block"
+            style="overflow: auto;"
+        >
             <Recipes v-bind:recipes="recipes" />
             <Placeholder />
         </div>
@@ -131,7 +139,7 @@
                             class="badge badge-pill badge-secondary"
                             v-for="ingredient in search_params.ingredients"
                             v-bind:key="ingredient"
-                            ><h6>{{ ingredient.name }}</h6></span
+                            ><h6>{{ ingredient }}</h6></span
                         >
                         <span
                             class="badge badge-pill badge-primary"
@@ -391,12 +399,12 @@ export default {
         return {
             recipes: [],
             search_params: {
-                intolerances: [],
                 ingredients: [],
+                intolerances: [],
                 diet: "",
                 sort: "",
                 direction: "",
-                offset: 0
+                offset: "0"
             }
         };
     },
@@ -408,10 +416,10 @@ export default {
             var ingredientsString = "";
             for (var i = 0; i < this.search_params.ingredients.length; i++) {
                 if (i === 0) {
-                    ingredientsString += this.search_params.ingredients[i].name;
+                    ingredientsString += this.search_params.ingredients[i];
                 } else {
                     ingredientsString +=
-                        ",+" + this.search_params.ingredients[i].name;
+                        ",+" + this.search_params.ingredients[i];
                 }
             }
             const params = new URLSearchParams();
@@ -431,21 +439,20 @@ export default {
     methods: {
         // save the actual search params
         saveSearch: function() {
-            // const params = new URLSearchParams();
-            // params.append(
-            //     "intolerances",
-            //     JSON.parse(this.search_params.intolerances)
-            // );
 
-            // document.db.intolerances
-            //     .add({ intolerance: name })
-            //     .then(function(index) {
-            //         document.db.intolerances.get(index, function(intolerance) {
-            //             self.personal_intolerances.push(
-            //                 intolerance.intolerance
-            //             );
-            //         });
-            //     });
+            console.log("Save Search");
+            var newSearch = {
+                ingredients: this.search_params.ingredients,
+                intolerances: this.search_params.intolerances,
+                diet: this.search_params.diet,
+                sort: this.search_params.sort,
+                direction: this.search_params.direction,
+                offset: this.search_params.offset,
+                // recipes: JSON.stringify(this.recipes)
+                recipes: this.recipes
+            };
+
+            document.db.searches.add(newSearch);
         },
 
         // find the recipes by the selected ingredients params
@@ -458,7 +465,8 @@ export default {
                     params: this.ingredientsParams
                 })
                 .then(response => {
-                    this.recipes = response.data.results;
+                    console.log(response.data);
+                    this.recipes = response.data;
                     this.saveSearch();
                 });
             // .catch((err) => {
@@ -468,7 +476,7 @@ export default {
         },
 
         loadData: function() {
-            // const self = this;
+            const self = this;
 
             console.log("Load Data");
             console.log(document.db);
@@ -476,21 +484,19 @@ export default {
             // get the last search
             // get the params of the last search and provide them
 
-            // document.db.ingredients.toArray().then(function(ingredients) {
-            //     self.ingredients = ingredients;
-            // });
-
-            // document.db.recipes.toArray().then(function(recipes) {
-            //     for (var i = 0; i < recipes.length; i++) {
-            //         self.recipes.push(JSON.parse(recipes[i].recipe));
-            //     }
-            // });
-
-            // document.db.intolerances.toArray().then(function(intolerances) {
-            //     for (var i = 0; i < intolerances.length; i++) {
-            //         self.intolerances.push(intolerances[i].intolerance);
-            //     }
-            // });
+            document.db.searches.toArray().then(function(searches) {
+                if(searches.length > 0)
+                {
+                    const lastSearch = searches[searches.length-1];
+                    self.search_params.ingredients = lastSearch.ingredients;
+                    self.search_params.intolerances = lastSearch.intolerances;
+                    self.search_params.diet = lastSearch.diet;
+                    self.search_params.sort = lastSearch.sort;
+                    self.search_params.direction = lastSearch.direction;
+                    self.search_params.offset = lastSearch.offset;
+                    self.recipes = lastSearch.recipes;
+                }
+            });
         }
     }
 };

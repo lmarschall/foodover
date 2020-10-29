@@ -19,7 +19,7 @@
             </button>
         </div>
         <div class="flex-fill">
-            <button class="btn flex-fill">
+            <button class="btn flex-fill" v-on:click="save">
                 <svg
                     width="1em"
                     height="1em"
@@ -72,7 +72,9 @@ export default {
     // },
     methods: {
         // save recipe to favorite list
-        save: function() {},
+        save: function() {
+            this.$emit("saved");
+        },
 
         // share recipe url with web share api
         share: function() {

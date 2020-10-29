@@ -19,8 +19,8 @@ export default {
             console.log("Init Database");
             document.db = new Dexie("foodover_database");
             document.db.version(1).stores({
-                searches: "++id, ingredients, intolerances, diet, recipes",
-                favorites: "++id, recipe_id"
+                searches: "++id, ingredients, intolerances, diet, sort, direction, offset, recipes",
+                favorites: "++id, recipe"
             });
         }
     }
