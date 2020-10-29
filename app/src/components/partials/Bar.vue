@@ -11,10 +11,10 @@
             </li>
             <li class="nav-item">
                 <router-link
-                    v-bind:to="{ name: 'profile' }"
+                    v-bind:to="{ name: 'search' }"
                     class="nav-link rounded-pill"
                     v-bind:class="{ active: page == 1 }"
-                    >Profile</router-link
+                    >Search</router-link
                 >
                 <!-- <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-search" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                         <path fill-rule="evenodd" d="M10.442 10.442a1 1 0 0 1 1.415 0l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1 1 0 0 1 0-1.415z"/>

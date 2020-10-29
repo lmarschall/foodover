@@ -7,7 +7,7 @@ import Router from "vue-router";
 
 // import dynamicly
 const Home = () => import("@/components/Home");
-const Profile = () => import("@/components/Profile");
+const Search = () => import("@/components/Search");
 const Recipe = () => import("@/components/Recipe");
 
 Vue.use(Router);
@@ -21,9 +21,9 @@ export default new Router({
             component: Home
         },
         {
-            path: "/profile",
-            name: "profile",
-            component: Profile
+            path: "/search",
+            name: "search",
+            component: Search
         },
         {
             path: "/recipe/:id",

@@ -61,14 +61,7 @@ export default {
             ]
         };
     },
-    mounted: function() {
-        this.loadDiet();
-    },
     methods: {
-        loadDiet: function() {
-            this.personal_diet = "Vegan";
-        },
-
         selectDiet: function(index) {
             if (this.personal_diet === this.all_diets[index]) {
                 this.personal_diet = "";
