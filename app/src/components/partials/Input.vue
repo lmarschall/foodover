@@ -3,30 +3,6 @@
         <Scan v-on:scanned="findProduct" ref="scan" />
 
         <ul class="list-group list-group-flush">
-            <li
-                class="list-group-item input-item"
-                v-for="(ingredient, index) in ingredients"
-                v-bind:key="ingredient"
-            >
-                <div class="input-group mb-3">
-                    <input
-                        type="text"
-                        class="form-control-plaintext"
-                        v-bind:value="ingredient.name"
-                        style="border-width:0px; border:none;"
-                        readonly
-                    />
-                    <div class="input-group-append">
-                        <button
-                            type="button"
-                            class="close"
-                            v-on:click="dropIngredient(index)"
-                        >
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                </div>
-            </li>
             <li class="list-group-item">
                 <div class="input-group mb-3">
                     <input
@@ -58,6 +34,30 @@
                                     d="M3 4.5a.5.5 0 0 1 1 0v7a.5.5 0 0 1-1 0v-7zm2 0a.5.5 0 0 1 1 0v7a.5.5 0 0 1-1 0v-7zm2 0a.5.5 0 0 1 1 0v7a.5.5 0 0 1-1 0v-7zm2 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-7zm3 0a.5.5 0 0 1 1 0v7a.5.5 0 0 1-1 0v-7z"
                                 />
                             </svg>
+                        </button>
+                    </div>
+                </div>
+            </li>
+            <li
+                class="list-group-item input-item"
+                v-for="(ingredient, index) in ingredients"
+                v-bind:key="ingredient"
+            >
+                <div class="input-group mb-3">
+                    <input
+                        type="text"
+                        class="form-control-plaintext"
+                        v-bind:value="ingredient"
+                        style="border-width:0px; border:none;"
+                        readonly
+                    />
+                    <div class="input-group-append">
+                        <button
+                            type="button"
+                            class="close"
+                            v-on:click="dropIngredient(index)"
+                        >
+                            <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                 </div>
@@ -101,10 +101,7 @@ export default {
         validateInput: function(e) {
             if (e.keyCode === 13) {
                 console.log("Enter was pressed");
-                this.$emit(
-                    "ingredientAdded",
-                    document.getElementById("input_ingredient").value
-                );
+                this.addIngredient(document.getElementById("input_ingredient").value);
                 document.getElementById("input_ingredient").value = "";
             }
         },

@@ -3,7 +3,7 @@
         <Bar v-bind:page="1" />
 
         <!-- Left Sidebar -->
-        <div v-if="$mq === 'lg' || 'xl'" class="col-lg-4 d-none d-lg-block" style="overflow: auto;">
+        <div v-if="$mq === 'lg' || $mq === 'xl'" class="col-lg-4 d-none d-lg-block" style="overflow: auto;">
             <ul class="nav nav-tabs" id="myTab" role="tablist">
                 <li class="nav-item" role="presentation">
                     <a
@@ -72,18 +72,35 @@
                     aria-labelledby="contact-tab"
                 >
                     <Sort v-bind:actual_sort="search_params.sort" />
-                </div>
-                <Placeholder />
+                </div> 
             </div>
+            <div class="modal-footer">
+                <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-dismiss="modal"
+                >
+                    Close
+                </button>
+                <button
+                    type="button"
+                    class="btn btn-primary"
+                    v-on:click="findRecipes"
+                    data-dismiss="modal"
+                >
+                    Search for recipes
+                </button>
+            </div>
+            <Placeholder />
         </div>
         <!-- Mainframe  -->
-        <div v-if="$mq === 'lg' || 'xl'" class="col-lg-8 d-none d-lg-block" style="overflow: auto;">
+        <div v-if="$mq === 'lg' || $mq === 'xl'" class="col-lg-8 d-none d-lg-block" style="overflow: auto;">
             <Recipes v-bind:recipes="recipes" />
             <Placeholder />
         </div>
 
         <!-- Small Frame -->
-        <div v-if="$mq === 'sm' || 'md'" class="col d-lg-none">
+        <div v-if="$mq === 'sm' || $mq === 'md'" class="col d-lg-none">
             <div class="accordion sticky-top" id="accordionExample">
                 <div class="card">
                     <div class="card-header" id="headingOne">
@@ -414,11 +431,11 @@ export default {
     methods: {
         // save the actual search params
         saveSearch: function() {
-            const params = new URLSearchParams();
-            params.append(
-                "intolerances",
-                JSON.parse(this.search_params.intolerances)
-            );
+            // const params = new URLSearchParams();
+            // params.append(
+            //     "intolerances",
+            //     JSON.parse(this.search_params.intolerances)
+            // );
 
             // document.db.intolerances
             //     .add({ intolerance: name })
@@ -434,6 +451,7 @@ export default {
         // find the recipes by the selected ingredients params
         findRecipes: function() {
             this.recipes = [];
+            console.log("find Recipes clicked!");
 
             axios
                 .get("api/recipes", {

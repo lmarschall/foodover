@@ -1,6 +1,6 @@
 <template>
     <div class="row" v-if="ready">
-        <div class="col-md-4 d-none d-md-block" style="overflow: auto;">
+        <div v-if="$mq === 'lg' || $mq === 'xl'" class="col-lg-4 d-none d-lg-block" style="overflow: auto;">
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">
                     <LikeShareSave
@@ -25,7 +25,7 @@
             </ul>
         </div>
 
-        <div class="col-md-8 d-none d-md-block" style="overflow: auto;">
+        <div v-if="$mq === 'lg' || $mq === 'xl'" class="col-lg-8 d-none d-lg-block" style="overflow: auto;">
             <ul class="list-group list-group-flush">
                 <li
                     class="list-group-item image-item"
@@ -40,7 +40,7 @@
             </ul>
         </div>
 
-        <div class="col d-md-none">
+        <div v-if="$mq === 'sm' || $mq === 'md'" class="col d-lg-none">
             <div class="image-item">
                 <img
                     :src="recipe.image"

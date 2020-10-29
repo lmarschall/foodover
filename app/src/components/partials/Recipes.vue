@@ -18,8 +18,8 @@
                         >
                     </h5>
                     <p class="card-text">
-                        {{ recipe.usedIngredientCount }} of
-                        {{ ingredients.length }} ingredients used
+                        <!-- {{ recipe.usedIngredientCount }} of -->
+                        <!-- {{ ingredients.length }} ingredients used -->
                     </p>
                 </div>
             </div>
@@ -54,8 +54,8 @@ a.stretched-link {
 export default {
     name: "Recipes",
     props: {
-        recipes: Array,
-        ingredients: Array
+        recipes: Array
+        // ingredients: Array
     }
 };
 </script>
