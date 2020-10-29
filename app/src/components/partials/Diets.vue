@@ -62,6 +62,7 @@ export default {
         };
     },
     methods: {
+        // select the chosen diet, drop on selected click
         selectDiet: function(index) {
             if (this.personal_diet === this.all_diets[index]) {
                 this.personal_diet = "";

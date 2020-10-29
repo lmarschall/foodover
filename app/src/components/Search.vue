@@ -394,6 +394,8 @@ export default {
         };
     },
     computed: {
+
+        // computed params for the ingredients api call
         ingredientsParams() {
             // create ingredients string from list
             // string format: apples,+flour,+sugar
@@ -420,35 +422,25 @@ export default {
         this.loadData();
     },
     methods: {
-        // addIngredient: function(name) {
-        //     const self = this;
 
-        //     // this.ingredients.push(name)
-        //     document.db.ingredients.add({ name: name }).then(function(index) {
-        //         document.db.ingredients.get(index, function(ingredient) {
-        //             self.ingredients.push(ingredient);
-        //         });
-        //     });
-        // },
-
-        // dropIngredient: function(index) {
-        //     const ingredient = this.ingredients[index];
-        //     this.ingredients.splice(index, 1);
-        //     document.db.ingredients.delete(ingredient.id);
-        // },
-
+        // save the actual search params
         saveSearch: function() {
-            document.db.intolerances
-                .add({ intolerance: name })
-                .then(function(index) {
-                    document.db.intolerances.get(index, function(intolerance) {
-                        self.personal_intolerances.push(
-                            intolerance.intolerance
-                        );
-                    });
-                });
+
+            const save_params = {};
+            save_params.append("intolerances", JSON.parse(intolerances));
+
+            // document.db.intolerances
+            //     .add({ intolerance: name })
+            //     .then(function(index) {
+            //         document.db.intolerances.get(index, function(intolerance) {
+            //             self.personal_intolerances.push(
+            //                 intolerance.intolerance
+            //             );
+            //         });
+            //     });
         },
 
+        // find the recipes by the selected ingredients params
         findRecipes: function() {
             this.recipes = [];
 
@@ -458,6 +450,7 @@ export default {
                 })
                 .then(response => {
                     this.recipes = response.data.results;
+                    saveSearch();
                 });
             // .catch((err) => {
             // this.loading = false;
@@ -470,6 +463,9 @@ export default {
 
             console.log("Load Data");
             console.log(document.db);
+
+            // get the last search
+            // get the params of the last search and provide them
 
             document.db.ingredients.toArray().then(function(ingredients) {
                 self.ingredients = ingredients;

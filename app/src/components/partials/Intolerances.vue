@@ -81,10 +81,13 @@ export default {
         };
     },
     methods: {
+
+        // add intolerances to search params
         addIntolerance: function(name) {
             this.personal_intolerances.push(name);
         },
 
+        // drop intolerances from search params
         deleteIntolerance: function(index) {
             this.personal_intolerances.splice(index, 1);
         }

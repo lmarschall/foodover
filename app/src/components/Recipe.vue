@@ -162,12 +162,15 @@ export default {
         };
     },
     computed: {
+
+        // computed params of the recipe api call
         recipeParams() {
             const params = new URLSearchParams();
             params.append("id", this.$route.params.id);
             return params;
         },
 
+        // computed params of the nutritions api call
         nutritionsParams() {
             const params = new URLSearchParams();
             params.append("id", this.$route.params.id);
@@ -179,6 +182,8 @@ export default {
         this.getNutritions();
     },
     methods: {
+
+        // get the selected recipe by the provided recipe id
         getRecipe: function() {
             axios
                 .get("/api/recipe", {
@@ -198,6 +203,7 @@ export default {
             // })
         },
 
+        // get the nutritions of the selected recipe
         getNutritions: function() {
             axios
                 .get("/api/nutritions", {

@@ -71,6 +71,13 @@ export default {
     //     this.testFunction();
     // },
     methods: {
+
+        // save recipe to favorite list
+        save: function() {
+
+        },
+
+        // share recipe url with web share api
         share: function() {
             console.log("share");
             if (navigator.share) {

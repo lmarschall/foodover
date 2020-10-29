@@ -64,6 +64,8 @@ export default {
         this.initCamera();
     },
     methods: {
+        
+        // init the camera for scanning barcodes
         initCamera: function() {
             // this.codeReader = new ZXing.BrowserMultiFormatReader()
             this.codeReader = new BrowserMultiFormatReader();
@@ -82,6 +84,7 @@ export default {
             });
         },
 
+        // start the scanning of the camera frames and search for barcodes
         startScan: function() {
             this.scan = true;
 
@@ -107,6 +110,7 @@ export default {
             );
         },
 
+        // reset the scanning overlay
         resetScan: function() {
             this.codeReader.reset();
             this.scan = false;

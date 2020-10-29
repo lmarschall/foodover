@@ -20,7 +20,7 @@
                         <button
                             type="button"
                             class="close"
-                            v-on:click="deleteClicked(index)"
+                            v-on:click="dropIngredient(index)"
                         >
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -82,10 +82,23 @@ export default {
         Scan
     },
     methods: {
+
+        // add ingredient to search params
+        addIngredient: function(name) {
+            this.ingredients.push(name);
+        },
+
+        // drop ingredient from search params
+        dropIngredient: function(index) {
+            this.ingredients.splice(index, 1);
+        },
+
+        // trigger scanning of barcode
         scanClicked: function() {
             this.$refs.scan.startScan();
         },
 
+        // check if return was clicked and get the entered ingredients string
         validateInput: function(e) {
             if (e.keyCode === 13) {
                 console.log("Enter was pressed");
@@ -97,14 +110,12 @@ export default {
             }
         },
 
-        deleteClicked: function(index) {
-            this.$emit("ingredientDropped", index);
-        },
-
+        // trigger search for recipes with chosen ingredients
         searchRecipes: function() {
             this.$emit("searchRecipes");
         },
 
+        // check for product with barcode api on returned barcode from scanner
         findProduct: function(code) {
             console.log(code);
             this.code = code;
@@ -117,7 +128,7 @@ export default {
                     console.log(response.data);
 
                     if (response.data !== "") {
-                        this.$emit("ingredientAdded", response.data);
+                        this.addIngredient(response.data);
                     } else {
                         console.log("No Product found!");
                     }
