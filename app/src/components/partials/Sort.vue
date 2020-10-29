@@ -10,6 +10,7 @@
                     class="form-control"
                     v-bind:value="sort"
                     aria-label="Amount (to the nearest dollar)"
+                    disabled
                 />
                 <div class="input-group-append">
                     <span class="input-group-text">X</span>
@@ -28,6 +29,9 @@
 
 export default {
     name: "Sort",
+    props: {
+        actual_sort: String
+    },
     data() {
         return {
             all_sorts: [
@@ -35,8 +39,7 @@ export default {
                 "max-used-ingredients",
                 "min-missing-ingredients",
                 "time"
-            ],
-            sort: ""
+            ]
         };
     }
     // components: {

@@ -64,7 +64,6 @@ export default {
         this.initCamera();
     },
     methods: {
-        
         // init the camera for scanning barcodes
         initCamera: function() {
             // this.codeReader = new ZXing.BrowserMultiFormatReader()

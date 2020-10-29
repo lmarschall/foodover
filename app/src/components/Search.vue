@@ -3,7 +3,7 @@
         <Bar v-bind:page="1" />
 
         <!-- Left Sidebar -->
-        <div class="col-md-4 d-none d-md-block" style="overflow: auto;">
+        <div v-if="$mq === 'lg' || 'xl'" class="col-lg-4 d-none d-lg-block" style="overflow: auto;">
             <ul class="nav nav-tabs" id="myTab" role="tablist">
                 <li class="nav-item" role="presentation">
                     <a
@@ -51,9 +51,7 @@
                 >
                     <Input
                         v-on:searchRecipes="findRecipes"
-                        v-on:ingredientAdded="addIngredient"
-                        v-on:ingredientDropped="dropIngredient"
-                        v-bind:ingredients="ingredients"
+                        v-bind:ingredients="search_params.ingredients"
                     />
                 </div>
                 <div
@@ -63,8 +61,8 @@
                     aria-labelledby="profile-tab"
                 >
                     <Filters
-                        v-bind:intolerances="search.intolerances"
-                        v-bind:diet="search.diet"
+                        v-bind:intolerances="search_params.intolerances"
+                        v-bind:diet="search_params.diet"
                     />
                 </div>
                 <div
@@ -73,22 +71,19 @@
                     role="tabpanel"
                     aria-labelledby="contact-tab"
                 >
-                    <Sort />
+                    <Sort v-bind:actual_sort="search_params.sort" />
                 </div>
                 <Placeholder />
             </div>
         </div>
         <!-- Mainframe  -->
-        <div class="col-md-8 d-none d-md-block" style="overflow: auto;">
-            <Recipes
-                v-bind:recipes="recipes"
-                v-bind:ingredients="ingredients"
-            />
+        <div v-if="$mq === 'lg' || 'xl'" class="col-lg-8 d-none d-lg-block" style="overflow: auto;">
+            <Recipes v-bind:recipes="recipes" />
             <Placeholder />
         </div>
 
         <!-- Small Frame -->
-        <div class="col d-md-none">
+        <div v-if="$mq === 'sm' || 'md'" class="col d-lg-none">
             <div class="accordion sticky-top" id="accordionExample">
                 <div class="card">
                     <div class="card-header" id="headingOne">
@@ -117,7 +112,7 @@
                     <div class="card-body d-flex flex-wrap">
                         <span
                             class="badge badge-pill badge-secondary"
-                            v-for="ingredient in ingredients"
+                            v-for="ingredient in search_params.ingredients"
                             v-bind:key="ingredient"
                             ><h6>{{ ingredient.name }}</h6></span
                         >
@@ -217,9 +212,7 @@
                         <div class="modal-body">
                             <Input
                                 v-on:searchRecipes="findRecipes"
-                                v-on:ingredientAdded="addIngredient"
-                                v-on:ingredientDropped="dropIngredient"
-                                v-bind:ingredients="ingredients"
+                                v-bind:ingredients="search_params.ingredients"
                             />
                         </div>
                         <div class="modal-footer">
@@ -233,7 +226,7 @@
                             <button
                                 type="button"
                                 class="btn btn-primary"
-                                v-on:click="searchRecipes"
+                                v-on:click="findRecipes"
                                 data-dismiss="modal"
                             >
                                 Search for recipes
@@ -268,8 +261,8 @@
                         </div>
                         <div class="modal-body" style="overflow: auto">
                             <Filters
-                                v-bind:intolerances="search.intolerances"
-                                v-bind:diet="search.diet"
+                                v-bind:intolerances="search_params.intolerances"
+                                v-bind:diet="search_params.diet"
                             />
                         </div>
                         <div class="modal-footer">
@@ -317,7 +310,7 @@
                             </button>
                         </div>
                         <div class="modal-body" style="overflow: auto">
-                            <Sort />
+                            <Sort v-bind:actual_sort="search_params.sort" />
                         </div>
                         <div class="modal-footer">
                             <button
@@ -340,10 +333,7 @@
                 </div>
             </div>
 
-            <Recipes
-                v-bind:recipes="recipes"
-                v-bind:ingredients="ingredients"
-            />
+            <Recipes v-bind:recipes="recipes" />
 
             <Placeholder />
         </div>
@@ -394,17 +384,17 @@ export default {
         };
     },
     computed: {
-
         // computed params for the ingredients api call
         ingredientsParams() {
             // create ingredients string from list
             // string format: apples,+flour,+sugar
             var ingredientsString = "";
-            for (var i = 0; i < this.ingredients.length; i++) {
+            for (var i = 0; i < this.search_params.ingredients.length; i++) {
                 if (i === 0) {
-                    ingredientsString += this.ingredients[i].name;
+                    ingredientsString += this.search_params.ingredients[i].name;
                 } else {
-                    ingredientsString += ",+" + this.ingredients[i].name;
+                    ingredientsString +=
+                        ",+" + this.search_params.ingredients[i].name;
                 }
             }
             const params = new URLSearchParams();
@@ -422,12 +412,13 @@ export default {
         this.loadData();
     },
     methods: {
-
         // save the actual search params
         saveSearch: function() {
-
-            const save_params = {};
-            save_params.append("intolerances", JSON.parse(intolerances));
+            const params = new URLSearchParams();
+            params.append(
+                "intolerances",
+                JSON.parse(this.search_params.intolerances)
+            );
 
             // document.db.intolerances
             //     .add({ intolerance: name })
@@ -450,7 +441,7 @@ export default {
                 })
                 .then(response => {
                     this.recipes = response.data.results;
-                    saveSearch();
+                    this.saveSearch();
                 });
             // .catch((err) => {
             // this.loading = false;
@@ -459,7 +450,7 @@ export default {
         },
 
         loadData: function() {
-            const self = this;
+            // const self = this;
 
             console.log("Load Data");
             console.log(document.db);
@@ -467,21 +458,21 @@ export default {
             // get the last search
             // get the params of the last search and provide them
 
-            document.db.ingredients.toArray().then(function(ingredients) {
-                self.ingredients = ingredients;
-            });
+            // document.db.ingredients.toArray().then(function(ingredients) {
+            //     self.ingredients = ingredients;
+            // });
 
-            document.db.recipes.toArray().then(function(recipes) {
-                for (var i = 0; i < recipes.length; i++) {
-                    self.recipes.push(JSON.parse(recipes[i].recipe));
-                }
-            });
+            // document.db.recipes.toArray().then(function(recipes) {
+            //     for (var i = 0; i < recipes.length; i++) {
+            //         self.recipes.push(JSON.parse(recipes[i].recipe));
+            //     }
+            // });
 
-            document.db.intolerances.toArray().then(function(intolerances) {
-                for (var i = 0; i < intolerances.length; i++) {
-                    self.intolerances.push(intolerances[i].intolerance);
-                }
-            });
+            // document.db.intolerances.toArray().then(function(intolerances) {
+            //     for (var i = 0; i < intolerances.length; i++) {
+            //         self.intolerances.push(intolerances[i].intolerance);
+            //     }
+            // });
         }
     }
 };

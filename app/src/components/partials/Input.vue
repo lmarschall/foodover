@@ -82,7 +82,6 @@ export default {
         Scan
     },
     methods: {
-
         // add ingredient to search params
         addIngredient: function(name) {
             this.ingredients.push(name);

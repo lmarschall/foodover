@@ -162,7 +162,6 @@ export default {
         };
     },
     computed: {
-
         // computed params of the recipe api call
         recipeParams() {
             const params = new URLSearchParams();
@@ -182,7 +181,6 @@ export default {
         this.getNutritions();
     },
     methods: {
-
         // get the selected recipe by the provided recipe id
         getRecipe: function() {
             axios

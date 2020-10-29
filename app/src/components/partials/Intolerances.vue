@@ -81,7 +81,6 @@ export default {
         };
     },
     methods: {
-
         // add intolerances to search params
         addIntolerance: function(name) {
             this.personal_intolerances.push(name);
