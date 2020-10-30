@@ -9,6 +9,7 @@
                 <li class="list-group-item">
                     <LikeShareSave
                         v-bind:aggregateLikes="recipe.aggregateLikes"
+                        v-bind:saved="saved"
                         v-on:saved="saveRecipe"
                     />
                 </li>
@@ -79,6 +80,7 @@
                     <li class="list-group-item">
                         <LikeShareSave
                             v-bind:aggregateLikes="recipe.aggregateLikes"
+                            v-bind:saved="saved"
                             v-on:saved="saveRecipe"
                         />
                     </li>
@@ -154,13 +156,13 @@ div#recipeframe {
  * Component to display the selected recipe.
  */
 
+import axios from "axios";
+
 import Ingredients from "./partials/Ingredients";
 import LikeShareSave from "./partials/LikeShareSave";
 import Nutritions from "./partials/Nutritions";
 import Times from "./partials/Times";
 import Instructions from "./partials/Instructions";
-
-import axios from "axios";
 
 export default {
     name: "Recipe",
@@ -191,6 +193,15 @@ export default {
             const params = new URLSearchParams();
             params.append("id", this.$route.params.id);
             return params;
+        },
+
+        saved() {
+            // document.db.favorites.get({firstName: "Austin", lastName: "Powers"}, austin => {
+            // return db.vehicles.where({owner: austin.id}).toArray(austinsVehicles => {
+            //     austin.vehicles = austinsVehicles;
+            //     return austin;
+            // });
+            return true;
         }
     },
     mounted: function() {
