@@ -433,7 +433,6 @@ export default {
             params.append("sort", this.search_params.sort);
             params.append("direction", this.search_params.direction);
             params.append("offset", this.search_params.offset);
-            console.log(params);
             return params;
         }
     },
@@ -443,7 +442,6 @@ export default {
     methods: {
         // save the actual search params
         saveSearch: function() {
-            console.log("Save Search");
             var newSearch = {
                 ingredients: this.search_params.ingredients,
                 intolerances: this.search_params.intolerances,
@@ -461,14 +459,12 @@ export default {
         // find the recipes by the selected ingredients params
         findRecipes: function() {
             this.recipes = [];
-            console.log("find Recipes clicked!");
 
             axios
                 .get("api/recipes", {
                     params: this.ingredientsParams
                 })
                 .then(response => {
-                    console.log(response.data);
                     this.recipes = response.data;
                     this.saveSearch();
                 });
@@ -482,7 +478,6 @@ export default {
         loadData: function() {
             const self = this;
 
-            console.log("Load Data");
             console.log(document.db);
 
             // get the last search

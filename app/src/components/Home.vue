@@ -2,15 +2,21 @@
     <div>
         <Bar v-bind:page="0" />
 
-        <p v-if="random">RANDOM RECOMMENDS</p>
-        <p v-else-if="!random">LAST SEARCH RECOMMENDS</p>
+        <h2 v-if="random">For your inpspiration</h2>
+        <h2 v-else-if="!random">Inpired by your last searches</h2>
         <Recipes v-bind:recipes="recommends" v-bind:display="'ROW'" />
-        <p>FAVORITES</p>
+        <h2>Your favorites</h2>
         <Recipes v-bind:recipes="favorites" v-bind:display="'ROW'" />
 
         <Placeholder />
     </div>
 </template>
+
+<style scoped>
+h2 {
+    margin: 1rem 2rem 0 2rem;
+}
+</style>
 
 <script>
 /**
@@ -55,7 +61,6 @@ export default {
         getRecommends: function() {
             const self = this;
             document.db.searches.toArray().then(function(searches) {
-                console.log(searches);
                 // get exisiting last searches
                 if (searches.length > 0) {
                     const lastSearch = searches[searches.length - 1];
@@ -68,7 +73,6 @@ export default {
                         })
                         .then(response => {
                             self.random = false;
-                            console.log(response.data);
                             self.recommends = response.data;
 
                             // populate the results with images
@@ -90,7 +94,6 @@ export default {
                         })
                         .then(response => {
                             self.random = true;
-                            console.log(response.data.recipes);
                             self.recommends = response.data.recipes;
                         });
                     // .catch((err) => {

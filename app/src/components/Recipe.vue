@@ -217,7 +217,6 @@ export default {
                 })
                 .then(response => {
                     this.recipe = response.data;
-                    console.log(response.data);
                     // this.reservation_list = response.data;
                     // this.ready = true;
                     // this.setupMarkers(this.schnors);
@@ -242,7 +241,6 @@ export default {
                 .then(response => {
                     this.nutritions = response.data;
                     this.ready = true;
-                    console.log(response.data);
                     // this.reservation_list = response.data;
                     // this.ready = true;
                     // this.setupMarkers(this.schnors);

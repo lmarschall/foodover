@@ -63,8 +63,8 @@
 }
 
 .card.row-card {
-    min-width: 500px;
-    margin: 20px;
+    min-width: 250px;
+    margin: 1rem;
 }
 
 .card.column-card {
@@ -73,6 +73,7 @@
 
 img.card-img-top {
     border-radius: 2rem 2rem 0 0;
+    min-height: 250px;
 }
 
 a.stretched-link {

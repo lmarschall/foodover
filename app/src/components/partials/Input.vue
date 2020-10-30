@@ -108,7 +108,6 @@ export default {
         // check if return was clicked and get the entered ingredients string
         validateInput: function(e) {
             if (e.keyCode === 13) {
-                console.log("Enter was pressed");
                 this.addIngredient(
                     document.getElementById("input_ingredient").value
                 );
@@ -126,7 +125,6 @@ export default {
 
         // check for product with barcode api on returned barcode from scanner
         findProduct: function(code) {
-            console.log(code);
             this.code = code;
 
             axios
@@ -134,8 +132,6 @@ export default {
                     params: this.productParams
                 })
                 .then(response => {
-                    console.log(response.data);
-
                     if (response.data !== "") {
                         this.addIngredient(response.data);
                     } else {

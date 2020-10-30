@@ -35,7 +35,11 @@
                 </svg>
                 Saved
             </button>
-            <button v-else-if="saved===false" class="btn flex-fill" v-on:click="save">
+            <button
+                v-else-if="saved === false"
+                class="btn flex-fill"
+                v-on:click="save"
+            >
                 <svg
                     width="1em"
                     height="1em"
@@ -109,7 +113,6 @@ export default {
 
         // share recipe url with web share api
         share: function() {
-            console.log("share");
             if (navigator.share) {
                 navigator
                     .share({
