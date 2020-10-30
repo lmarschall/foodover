@@ -44,7 +44,7 @@ export default {
 </script>
 
 <style scoped>
-div#barframe {
+.card.shadow.p-3.mb-5.bg-white.rounded-pill.fixed-bottom {
     /* height: 10vh; */
     width: 90vw;
     left: 5vw;

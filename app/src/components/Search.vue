@@ -1,6 +1,6 @@
 <template>
     <div class="row">
-        <Bar v-bind:page="1" />
+    <Bar v-bind:page="1" />
 
         <!-- Left Sidebar -->
         <div

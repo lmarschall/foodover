@@ -15,7 +15,7 @@
                     />
                     <div class="input-group-append">
                         <button
-                            class="btn btn-outline-primary rounded"
+                            class="btn btn-outline-primary rounded scan-button"
                             v-on:click="scanClicked"
                         >
                             <svg
@@ -41,7 +41,7 @@
             <li class="list-group-item input-item">  
                 <div class="d-flex flex-wrap">
                     <div
-                        v-for="ingredient in ingredients"
+                        v-for="(ingredient, index) in ingredients"
                         v-bind:key="ingredient"
                         class="card ingredients-card"
                     >
@@ -83,6 +83,9 @@
 .card-body.ingredients-body {
     padding: 0 0 0 0;
     margin: 0 auto;
+}
+button.btn.btn-outline-primary.rounded.scan-button {
+    padding-bottom: 10px;
 }
 </style>
 
@@ -143,7 +146,7 @@ export default {
         // assemble path for ingredient image with ingredient name
         getIngredientImage(name) {
             const found = this.all_ingredients.find(element => element === name);
-            var path = `https://spoonacular.com/cdn/ingredients_100x100/apple.jpg`;
+            var path = `https://spoonacular.com/cdn/ingredients_100x100/placeholder.jpg`;
 
             // check if ingredient was found
             if(found.length)
