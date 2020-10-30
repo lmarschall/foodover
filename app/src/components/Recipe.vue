@@ -1,8 +1,8 @@
 <template>
     <div class="row" v-if="ready">
         <div
-            v-if="$mq === 'lg' || $mq === 'xl'"
-            class="col-lg-4 d-none d-lg-block"
+            v-if="split"
+            class="col-md-4 d-none d-md-block"
             style="overflow: auto;"
         >
             <ul class="list-group list-group-flush">
@@ -32,10 +32,18 @@
         </div>
 
         <div
-            v-if="$mq === 'lg' || $mq === 'xl'"
-            class="col-lg-8 d-none d-lg-block"
+            v-if="split"
+            class="col-md-8 d-none d-md-block"
             style="overflow: auto;"
         >
+            <div class="image-item-split">
+                <img
+                    :src="recipe.image"
+                    class="img-fluid"
+                    alt="Responsive image"
+                />
+            </div>
+            <div class="image-placeholder"></div>
             <ul class="list-group list-group-flush">
                 <li
                     class="list-group-item image-item"
@@ -50,7 +58,7 @@
             </ul>
         </div>
 
-        <div v-if="$mq === 'sm' || $mq === 'md'" class="col d-lg-none">
+        <div v-if="split === false" class="col d-lg-none">
             <div class="image-item">
                 <img
                     :src="recipe.image"
@@ -130,6 +138,14 @@ img.img-fluid {
     top: 0;
 }
 
+.image-item-split {
+    height: 60vh;
+    position: fixed;
+    z-index: -1;
+    left: 33vw;
+    top: 0;
+}
+
 .image-placeholder {
     height: 55vh;
 }
@@ -176,11 +192,23 @@ export default {
     data() {
         return {
             recipe: null,
+            saved: false,
             nutritions: null,
             ready: false
         };
     },
     computed: {
+
+        // show splitted view on bigger screens
+        split() {
+
+            var bool = false;
+            if(this.$mq === "large" || this.$mq === "extra") {
+                bool = true;
+            }
+            return bool;
+        },
+
         // computed params of the recipe api call
         recipeParams() {
             const params = new URLSearchParams();
@@ -193,15 +221,6 @@ export default {
             const params = new URLSearchParams();
             params.append("id", this.$route.params.id);
             return params;
-        },
-
-        saved() {
-            // document.db.favorites.get({firstName: "Austin", lastName: "Powers"}, austin => {
-            // return db.vehicles.where({owner: austin.id}).toArray(austinsVehicles => {
-            //     austin.vehicles = austinsVehicles;
-            //     return austin;
-            // });
-            return true;
         }
     },
     mounted: function() {
@@ -209,17 +228,30 @@ export default {
         this.getNutritions();
     },
     methods: {
+
         // get the selected recipe by the provided recipe id
         getRecipe: function() {
+            const self = this;
+
             axios
                 .get("/api/recipe", {
                     params: this.recipeParams
                 })
                 .then(response => {
-                    this.recipe = response.data;
-                    // this.reservation_list = response.data;
-                    // this.ready = true;
-                    // this.setupMarkers(this.schnors);
+                    self.recipe = response.data;
+
+                    // check if recipe is in favorites
+                    document.db.favorites.toArray().then(function(favorites) {
+                        console.log(favorites);
+
+                        for(var i=0;i<favorites.length;i++)
+                        {
+                            if(favorites[i].id === self.recipe.id)
+                            {
+                                self.saved = true;
+                            }
+                        }
+                    });
                 });
             // .catch((err) => {
             // this.loading = false;
@@ -230,6 +262,7 @@ export default {
         // save the recipe to the users favorites
         saveRecipe: function() {
             document.db.favorites.add(this.recipe);
+            this.saved = true;
         },
 
         // get the nutritions of the selected recipe

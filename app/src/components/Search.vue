@@ -4,8 +4,8 @@
 
         <!-- Left Sidebar -->
         <div
-            v-if="$mq === 'lg' || $mq === 'xl'"
-            class="col-lg-4 d-none d-lg-block"
+            v-if="split"
+            class="col-md-4 d-none d-md-block"
             style="overflow: auto;"
         >
             <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -99,8 +99,8 @@
         </div>
         <!-- Mainframe  -->
         <div
-            v-if="$mq === 'lg' || $mq === 'xl'"
-            class="col-lg-8 d-none d-lg-block"
+            v-if="split"
+            class="col-md-8 d-none d-md-block"
             style="overflow: auto;"
         >
             <Recipes v-bind:recipes="recipes" v-bind:display="'COLUMN'" />
@@ -108,7 +108,7 @@
         </div>
 
         <!-- Small Frame -->
-        <div v-if="$mq === 'sm' || $mq === 'md'" class="col d-lg-none">
+        <div v-if="split === false" class="col d-lg-none">
             <div class="accordion sticky-top" id="accordionExample">
                 <div class="card">
                     <div class="card-header" id="headingOne">
@@ -413,6 +413,17 @@ export default {
         };
     },
     computed: {
+
+        // show splitted view on bigger screens
+        split() {
+
+            var bool = false;
+            if(this.$mq === "large" || this.$mq === "extra") {
+                bool = true;
+            }
+            return bool;
+        },
+
         // computed params for the ingredients api call
         ingredientsParams() {
             // create ingredients string from list

@@ -7,19 +7,19 @@
         >
             <div
                 class="card row-card"
-                v-for="recipe in recipes"
-                v-bind:key="recipe"
+                v-for="row_recipe in recipes"
+                v-bind:key="row_recipe.id"
             >
-                <img v-bind:src="recipe.image" class="card-img-top" alt="..." />
+                <img v-bind:src="row_recipe.image" class="card-img-top" alt="..." />
                 <div class="card-body">
                     <h5 class="card-title">
                         <router-link
                             v-bind:to="{
                                 name: 'recipe',
-                                params: { id: recipe.id }
+                                params: { id: row_recipe.id }
                             }"
                             class="stretched-link"
-                            >{{ recipe.title }}</router-link
+                            >{{ row_recipe.title }}</router-link
                         >
                     </h5>
                     <p class="card-text">
@@ -32,19 +32,19 @@
         <div v-else-if="display == 'COLUMN'" class="d-flex flex-column">
             <div
                 class="card column-card"
-                v-for="recipe in recipes"
-                v-bind:key="recipe"
+                v-for="column_recipe in recipes"
+                v-bind:key="column_recipe.id"
             >
-                <img v-bind:src="recipe.image" class="card-img-top" alt="..." />
+                <img v-bind:src="column_recipe.image" class="card-img-top" alt="..." />
                 <div class="card-body">
                     <h5 class="card-title">
                         <router-link
                             v-bind:to="{
                                 name: 'recipe',
-                                params: { id: recipe.id }
+                                params: { id: column_recipe.id }
                             }"
                             class="stretched-link"
-                            >{{ recipe.title }}</router-link
+                            >{{ column_recipe.title }}</router-link
                         >
                     </h5>
                     <p class="card-text">
@@ -64,6 +64,7 @@
 
 .card.row-card {
     min-width: 250px;
+    max-width: 250px;
     margin: 1rem;
 }
 

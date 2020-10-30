@@ -14,10 +14,10 @@ Vue.prototype.db = null;
 
 Vue.use(VueMq, {
     breakpoints: {
-        sm: 576,
-        md: 768,
-        lg: 992,
-        xl: Infinity
+        small: 576,
+        medium: 768,
+        large: 992,
+        extra: Infinity
     }
 });
 

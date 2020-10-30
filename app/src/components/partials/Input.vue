@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div v-if="file_ready">
         <Scan v-on:scanned="findProduct" ref="scan" />
 
         <ul class="list-group list-group-flush">
@@ -51,6 +51,11 @@
                         style="border-width:0px; border:none;"
                         readonly
                     />
+                    <img
+                        :src="getIngredientImage(ingredient)"
+                        class="img-fluid"
+                        alt="Responsive image"
+                    />
                     <div class="input-group-append">
                         <button
                             type="button"
@@ -86,10 +91,57 @@ export default {
             required: true
         }
     },
+    data() {
+        return {
+            all_ingredients: "",
+            file_ready: false
+        }
+    },
     components: {
         Scan
     },
+    mounted: function() {
+        this.readFile();
+    },
     methods: {
+
+        readFile() {
+            const self = this;
+
+            axios
+                .get("/top-1k-ingredients.csv")
+                .then(response => {
+
+                    var rawString = response.data;
+                    var splittedLines = rawString.split('\n');
+                    var resultArray = [];
+
+                    for(var i=0;i<splittedLines.length;i++)
+                    {
+                        var line = splittedLines[i].split(';')[0]
+                        resultArray.push(line);
+                    }
+
+                    self.all_ingredients = resultArray;
+                    self.file_ready = true;
+                });
+        },
+
+        // assemble path for ingredient image with ingredient name
+        getIngredientImage(name) {
+            const found = this.all_ingredients.find(element => element === name);
+            var path = `https://spoonacular.com/cdn/ingredients_100x100/apple.jpg`;
+
+            // check if ingredient was found
+            if(found.length)
+            {
+                // assemble path
+                path = `https://spoonacular.com/cdn/ingredients_100x100/${found}.jpg`;
+            }
+
+            return path;
+        },
+
         // add ingredient to search params
         addIngredient: function(name) {
             this.ingredients.push(name);
@@ -147,5 +199,5 @@ export default {
             // })
         }
     }
-};
+}
 </script>
