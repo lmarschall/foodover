@@ -38,32 +38,30 @@
                     </div>
                 </div>
             </li>
-            <li
-                class="list-group-item input-item"
-                v-for="(ingredient, index) in ingredients"
-                v-bind:key="ingredient"
-            >
-                <div class="input-group mb-3">
-                    <input
-                        type="text"
-                        class="form-control-plaintext"
-                        v-bind:value="ingredient"
-                        style="border-width:0px; border:none;"
-                        readonly
-                    />
-                    <img
-                        :src="getIngredientImage(ingredient)"
-                        class="img-fluid"
-                        alt="Responsive image"
-                    />
-                    <div class="input-group-append">
-                        <button
-                            type="button"
-                            class="close"
-                            v-on:click="dropIngredient(index)"
-                        >
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+            <li class="list-group-item input-item">  
+                <div class="d-flex flex-wrap">
+                    <div
+                        v-for="ingredient in ingredients"
+                        v-bind:key="ingredient"
+                        class="card ingredients-card"
+                    >
+                        <img
+                            :src="getIngredientImage(ingredient)"
+                            class="img-fluid"
+                            alt="Responsive image"
+                        />
+                        <div class="card-body ingredients-body">
+                            {{ingredient}}
+                        </div>
+                        <div class="card-footer ingredients-footer">
+                            <button
+                                type="button"
+                                class="close"
+                                v-on:click="dropIngredient(index)"
+                            >
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </li>
@@ -71,7 +69,22 @@
     </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.card.ingredients-card {
+    width: 70px;
+    margin: auto 5px;
+    margin-bottom: 5px;
+}
+.card-footer.ingredients-footer {
+    position: absolute;
+    padding: 0 0 0 0;
+    right: 0;
+}
+.card-body.ingredients-body {
+    padding: 0 0 0 0;
+    margin: 0 auto;
+}
+</style>
 
 <script>
 /**

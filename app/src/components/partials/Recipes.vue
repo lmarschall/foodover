@@ -29,7 +29,7 @@
                 </div>
             </div>
         </div>
-        <div v-else-if="display == 'COLUMN'" class="d-flex flex-column">
+        <div v-else-if="display == 'COLUMN'" class="d-flex flex-wrap">
             <div
                 class="card column-card"
                 v-for="column_recipe in recipes"
@@ -69,7 +69,8 @@
 }
 
 .card.column-card {
-    margin: 20px;
+    margin: 10px auto;
+    max-width: 250px;
 }
 
 img.card-img-top {
