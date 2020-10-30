@@ -4,10 +4,9 @@
 
         <p v-if="random">RANDOM RECOMMENDS</p>
         <p v-else-if="!random">LAST SEARCH RECOMMENDS</p>
-        <p v-for="recommend in recommends" v-bind:key="recommend">{{recommend}}</p>
-
+        <Recipes v-bind:recipes="recommends" v-bind:display="'ROW'" />
         <p>FAVORITES</p>
-        <p v-for="favorite in favorites" v-bind:key="favorite">{{favorite}}</p>
+        <Recipes v-bind:recipes="favorites" v-bind:display="'ROW'"/>
 
         <Placeholder />
     </div>
@@ -18,12 +17,14 @@ import axios from "axios";
 
 import Bar from "./partials/Bar";
 import Placeholder from "./partials/Placeholder";
+import Recipes from "./partials/Recipes"
 
 export default {
-    name: "Profile",
+    name: "Home",
     components: {
         Bar,
-        Placeholder
+        Placeholder,
+        Recipes
     },
     mounted: function() {
         this.getRecommends();
@@ -78,8 +79,8 @@ export default {
                     })
                     .then(response => {
                         self.random = true;
-                        console.log(response.data);
-                        self.recommends = response.data;
+                        console.log(response.data.recipes);
+                        self.recommends = response.data.recipes;
                     });
                     // .catch((err) => {
                     // this.loading = false;

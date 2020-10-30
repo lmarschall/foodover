@@ -1,7 +1,31 @@
 <template>
-    <div class="row row-cols-1 row-cols-md-2">
-        <div class="col mb-4" v-for="recipe in recipes" v-bind:key="recipe">
-            <div class="card">
+    <div>
+        <div v-if="display == 'ROW'" class="d-flex flex-nowrap" style="overflow:auto">
+            <div class="card row-card" v-for="recipe in recipes" v-bind:key="recipe">
+                <img v-bind:src="recipe.image" class="card-img-top" alt="..." />
+                <!-- <div class="card-img-overlay">
+                <P>LIKE</P>
+                </div> -->
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <router-link
+                            v-bind:to="{
+                                name: 'recipe',
+                                params: { id: recipe.id }
+                            }"
+                            class="stretched-link"
+                            >{{ recipe.title }}</router-link
+                        >
+                    </h5>
+                    <p class="card-text">
+                        <!-- {{ recipe.usedIngredientCount }} of -->
+                        <!-- {{ ingredients.length }} ingredients used -->
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div v-else-if="display == 'COLUMN'" class="d-flex flex-column">
+            <div class="card column-card" v-for="recipe in recipes" v-bind:key="recipe">
                 <img v-bind:src="recipe.image" class="card-img-top" alt="..." />
                 <!-- <div class="card-img-overlay">
                 <P>LIKE</P>
@@ -28,17 +52,17 @@
 </template>
 
 <style scoped>
-.col.md-4 {
-    margin: 2rem;
-}
-
-.row.row-cols-1.row-cols-md-2 {
-    margin: 0;
-    margin-top: 2rem;
-    max-width: 100vw;
-}
 .card {
     border-radius: 2rem;
+}
+
+.card.row-card {
+    min-width: 500px;
+    margin: 20px;
+}
+
+.card.column-card {
+    margin: 20px;
 }
 
 img.card-img-top {
@@ -54,7 +78,8 @@ a.stretched-link {
 export default {
     name: "Recipes",
     props: {
-        recipes: Array
+        recipes: Array,
+        display: String
         // ingredients: Array
     }
 };

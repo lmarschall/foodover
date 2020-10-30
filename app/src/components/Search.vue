@@ -103,7 +103,7 @@
             class="col-lg-8 d-none d-lg-block"
             style="overflow: auto;"
         >
-            <Recipes v-bind:recipes="recipes" />
+            <Recipes v-bind:recipes="recipes" v-bind:display="'COLUMN'" />
             <Placeholder />
         </div>
 
@@ -358,7 +358,7 @@
                 </div>
             </div>
 
-            <Recipes v-bind:recipes="recipes" />
+            <Recipes v-bind:recipes="recipes" v-bind:display="'COLUMN'"/>
 
             <Placeholder />
         </div>
