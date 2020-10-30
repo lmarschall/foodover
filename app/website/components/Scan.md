@@ -5,7 +5,7 @@
 <!-- @vuese:Scan:events:start -->
 |Event Name|Description|Parameters|
 |---|---|---|
-|scanned|-|-|
+|scanned|Triggers when a barcode was scanned.|-|
 
 <!-- @vuese:Scan:events:end -->
 

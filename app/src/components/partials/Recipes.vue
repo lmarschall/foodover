@@ -1,11 +1,16 @@
 <template>
     <div>
-        <div v-if="display == 'ROW'" class="d-flex flex-nowrap" style="overflow:auto">
-            <div class="card row-card" v-for="recipe in recipes" v-bind:key="recipe">
+        <div
+            v-if="display == 'ROW'"
+            class="d-flex flex-nowrap"
+            style="overflow:auto"
+        >
+            <div
+                class="card row-card"
+                v-for="recipe in recipes"
+                v-bind:key="recipe"
+            >
                 <img v-bind:src="recipe.image" class="card-img-top" alt="..." />
-                <!-- <div class="card-img-overlay">
-                <P>LIKE</P>
-                </div> -->
                 <div class="card-body">
                     <h5 class="card-title">
                         <router-link
@@ -25,11 +30,12 @@
             </div>
         </div>
         <div v-else-if="display == 'COLUMN'" class="d-flex flex-column">
-            <div class="card column-card" v-for="recipe in recipes" v-bind:key="recipe">
+            <div
+                class="card column-card"
+                v-for="recipe in recipes"
+                v-bind:key="recipe"
+            >
                 <img v-bind:src="recipe.image" class="card-img-top" alt="..." />
-                <!-- <div class="card-img-overlay">
-                <P>LIKE</P>
-                </div> -->
                 <div class="card-body">
                     <h5 class="card-title">
                         <router-link
@@ -75,12 +81,24 @@ a.stretched-link {
 </style>
 
 <script>
+/**
+ * Component to display the recipes of the search result.
+ */
+
 export default {
     name: "Recipes",
     props: {
-        recipes: Array,
-        display: String
-        // ingredients: Array
+        // the array of recipes to be displayed
+        recipes: {
+            type: Array,
+            required: true
+        },
+        // flag for displaying the recipes in a row or column
+        display: {
+            type: String,
+            required: true,
+            default: "ROW"
+        }
     }
 };
 </script>

@@ -14,15 +14,27 @@
 <style scoped></style>
 
 <script>
-// import axios from "axios";
+/**
+ * Component to display the filters of the search.
+ */
+
 import Intolerances from "./Intolerances";
 import Diets from "./Diets";
 
 export default {
     name: "Filters",
     props: {
-        intolerances: Array,
-        diet: String
+        // intolerances to filter the search results
+        intolerances: {
+            type: Array,
+            required: true
+        },
+        // current user diet to filter the search results
+        diet: {
+            type: String,
+            required: true,
+            default: ""
+        }
     },
     components: {
         Intolerances,

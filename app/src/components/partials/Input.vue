@@ -69,6 +69,10 @@
 <style scoped></style>
 
 <script>
+/**
+ * Component to handle the input of ingredients.
+ */
+
 import axios from "axios";
 
 import Scan from "./Scan";
@@ -76,7 +80,11 @@ import Scan from "./Scan";
 export default {
     name: "Input",
     props: {
-        ingredients: Array
+        // ingredients input of user
+        ingredients: {
+            type: Array,
+            required: true
+        }
     },
     components: {
         Scan
@@ -110,6 +118,9 @@ export default {
 
         // trigger search for recipes with chosen ingredients
         searchRecipes: function() {
+            /**
+             * Triggers to look for recipes with the current ingredients selection
+             */
             this.$emit("searchRecipes");
         },
 

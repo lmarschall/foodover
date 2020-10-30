@@ -40,10 +40,19 @@ a.stretched-link {
 </style>
 
 <script>
+/**
+ * Component to display the diets of the search.
+ */
+
 export default {
     name: "Diets",
     props: {
-        personal_diet: String
+        // the current selected diet of the user
+        personal_diet: {
+            type: String,
+            required: true,
+            default: ""
+        }
     },
     data() {
         return {

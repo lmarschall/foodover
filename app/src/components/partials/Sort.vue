@@ -23,14 +23,19 @@
 <style scoped></style>
 
 <script>
-// import axios from "axios";
-// import Intolerances from "./Intolerances";
-// import Diets from "./Diets";
+/**
+ * Component to display the sorting options for the search.
+ */
 
 export default {
     name: "Sort",
     props: {
-        actual_sort: String
+        // the current selected sort option
+        actual_sort: {
+            type: String,
+            required: true,
+            default: "popularity"
+        }
     },
     data() {
         return {
@@ -42,9 +47,5 @@ export default {
             ]
         };
     }
-    // components: {
-    //     Intolerances,
-    //     Diets
-    // }
 };
 </script>

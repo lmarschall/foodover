@@ -7,3 +7,13 @@
     height: 20vh;
 }
 </style>
+
+<script>
+/**
+ * Component to create a free space at the bottom.
+ */
+
+export default {
+    name: "Placeholder"
+};
+</script>

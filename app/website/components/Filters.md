@@ -5,21 +5,9 @@
 <!-- @vuese:Filters:props:start -->
 |Name|Description|Type|Required|Default|
 |---|---|---|---|---|
-|intolerances|-|`Array`|`false`|-|
-|diet|-|`String`|`false`|-|
+|intolerances|intolerances to filter the search results|`Array`|`true`|-|
+|diet|current user diet to filter the search results|`String`|`true`|-|
 
 <!-- @vuese:Filters:props:end -->
-
-
-## Events
-
-<!-- @vuese:Filters:events:start -->
-|Event Name|Description|Parameters|
-|---|---|---|
-|ingredientAdded|-|-|
-|ingredientDropped|-|-|
-|searchRecipes|-|-|
-
-<!-- @vuese:Filters:events:end -->
 
 

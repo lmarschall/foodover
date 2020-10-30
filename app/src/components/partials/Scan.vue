@@ -47,12 +47,14 @@
 </style>
 
 <script>
+/**
+ * Component to create a video container for scanning barcodes.
+ */
+
 import { BrowserMultiFormatReader, NotFoundException } from "@zxing/library";
+
 export default {
     name: "Scan",
-    // props: {
-    //     scan: Boolean
-    // },
     data() {
         return {
             codeReader: null,
@@ -66,20 +68,10 @@ export default {
     methods: {
         // init the camera for scanning barcodes
         initCamera: function() {
-            // this.codeReader = new ZXing.BrowserMultiFormatReader()
             this.codeReader = new BrowserMultiFormatReader();
-            // selectedDeviceId = videoInputDevices[0].deviceId
             console.log("ZXing code reader initialized");
             this.codeReader.listVideoInputDevices().then(videoInputDevices => {
-                // const sourceSelect = document.getElementById('sourceSelect')
                 this.selectedDeviceId = videoInputDevices[0].deviceId;
-                // if (videoInputDevices.length >= 1) {
-                //     videoInputDevices.forEach((element) => {
-                //     const sourceOption = document.createElement('option')
-                //     sourceOption.text = element.label
-                //     sourceOption.value = element.deviceId
-                //     sourceSelect.appendChild(sourceOption)
-                // })
             });
         },
 
@@ -93,14 +85,18 @@ export default {
                 (result, err) => {
                     if (result) {
                         console.log(result);
-                        this.$emit("scanned", result.text);
+                        const barcode = result.text;
+                        /**
+                         * Triggers when a barcode was scanned.
+                         *
+                         * @property {String} barcode scanned barcode string
+                         */
+                        this.$emit("scanned", barcode);
                         this.scan = false;
                         this.codeReader.reset();
                     }
-                    // if (err && !(err instanceof ZXing.NotFoundException)) {
                     if (err && !(err instanceof NotFoundException)) {
                         console.error(err);
-                        document.getElementById("result").textContent = err;
                     }
                 }
             );

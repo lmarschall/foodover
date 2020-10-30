@@ -26,10 +26,19 @@
 </template>
 
 <script>
+/**
+ * Component to display a navigation bar at the bottom.
+ */
+
 export default {
     name: "Bar",
     props: {
-        page: Number
+        // selection of the current displayed page
+        page: {
+            type: Number,
+            required: true,
+            default: 0
+        }
     }
 };
 </script>

@@ -37,10 +37,18 @@
 </template>
 
 <script>
+/**
+ * Component to display ingredients of the recipe.
+ */
+
 export default {
     name: "Ingredients",
     props: {
-        ingredients: Array
+        // ingredients of the recipe
+        ingredients: {
+            type: Array,
+            required: true
+        }
     },
     data() {
         return {

@@ -358,7 +358,7 @@
                 </div>
             </div>
 
-            <Recipes v-bind:recipes="recipes" v-bind:display="'COLUMN'"/>
+            <Recipes v-bind:recipes="recipes" v-bind:display="'COLUMN'" />
 
             <Placeholder />
         </div>
@@ -376,6 +376,10 @@ button.btn.btn-outline-primary.rounded {
 </style>
 
 <script>
+/**
+ * Component to display the search results.
+ */
+
 import axios from "axios";
 
 import Bar from "./partials/Bar";
@@ -439,7 +443,6 @@ export default {
     methods: {
         // save the actual search params
         saveSearch: function() {
-
             console.log("Save Search");
             var newSearch = {
                 ingredients: this.search_params.ingredients,
@@ -475,6 +478,7 @@ export default {
             // })
         },
 
+        // load the last search in the component
         loadData: function() {
             const self = this;
 
@@ -485,9 +489,8 @@ export default {
             // get the params of the last search and provide them
 
             document.db.searches.toArray().then(function(searches) {
-                if(searches.length > 0)
-                {
-                    const lastSearch = searches[searches.length-1];
+                if (searches.length > 0) {
+                    const lastSearch = searches[searches.length - 1];
                     self.search_params.ingredients = lastSearch.ingredients;
                     self.search_params.intolerances = lastSearch.intolerances;
                     self.search_params.diet = lastSearch.diet;

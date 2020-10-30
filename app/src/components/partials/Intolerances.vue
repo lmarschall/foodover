@@ -53,12 +53,18 @@ a.stretched-link {
 </style>
 
 <script>
-// import InlineSvg from 'vue-inline-svg';
+/**
+ * Component to display the intolerances of food.
+ */
 
 export default {
     name: "Intolerances",
     props: {
-        personal_intolerances: Array
+        // selected intolerances of the user
+        personal_intolerances: {
+            tpye: Array,
+            required: true
+        }
     },
     // components: {
     //     InlineSvg

@@ -5,7 +5,7 @@
 <!-- @vuese:Input:props:start -->
 |Name|Description|Type|Required|Default|
 |---|---|---|---|---|
-|ingredients|-|`Array`|`false`|-|
+|ingredients|ingredients input of user|`Array`|`true`|-|
 
 <!-- @vuese:Input:props:end -->
 
@@ -15,9 +15,7 @@
 <!-- @vuese:Input:events:start -->
 |Event Name|Description|Parameters|
 |---|---|---|
-|ingredientAdded|-|-|
-|ingredientDropped|-|-|
-|searchRecipes|-|-|
+|searchRecipes|Triggers to look for recipes with the current ingredients selection|-|
 
 <!-- @vuese:Input:events:end -->
 

@@ -14,10 +14,19 @@
 </template>
 
 <script>
+/**
+ * Component to display nutritions of the recipe.
+ */
+
 export default {
     name: "Nutritions",
     props: {
-        nutritions: Object
+        // nutritions of the recipe
+        nutritions: {
+            type: Object,
+            required: true,
+            default: null
+        }
     }
 };
 </script>

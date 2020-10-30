@@ -13,15 +13,31 @@
 </template>
 
 <script>
+/**
+ * Component to display Completion, Preperation and Cooking Times of the recipe.
+ */
+
 export default {
     name: "Times",
     props: {
         // minutes for recipe to be ready
-        readyInMinutes: Number,
+        readyInMinutes: {
+            type: Number,
+            required: true,
+            default: 0
+        },
         // minutes to prepare the recipe
-        preparationMinutes: Number,
+        preparationMinutes: {
+            type: Number,
+            required: true,
+            default: 0
+        },
         // minutes for cooking
-        cookingMinutes: Number
+        cookingMinutes: {
+            type: Number,
+            required: true,
+            default: 0
+        }
     }
 };
 </script>

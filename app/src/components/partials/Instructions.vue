@@ -71,10 +71,19 @@ h5.instructions-header {
 </style>
 
 <script>
+/**
+ * Component to display the instructions of the recipe.
+ */
+
 export default {
     name: "Instructions",
     props: {
-        instructions: Object
+        // instructions of the recipe
+        instructions: {
+            type: Object,
+            required: true,
+            default: null
+        }
     }
 };
 </script>

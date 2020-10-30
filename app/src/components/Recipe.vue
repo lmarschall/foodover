@@ -100,7 +100,10 @@
                     <li class="list-group-item">
                         <Nutritions v-bind:nutritions="nutritions" />
                     </li>
-                    <li v-if="recipe.analyzedInstructions.length > 0" class="list-group-item">
+                    <li
+                        v-if="recipe.analyzedInstructions.length > 0"
+                        class="list-group-item"
+                    >
                         <Instructions
                             v-bind:instructions="recipe.analyzedInstructions[0]"
                         />
@@ -147,6 +150,10 @@ div#recipeframe {
 </style>
 
 <script>
+/**
+ * Component to display the selected recipe.
+ */
+
 import Ingredients from "./partials/Ingredients";
 import LikeShareSave from "./partials/LikeShareSave";
 import Nutritions from "./partials/Nutritions";
@@ -210,6 +217,7 @@ export default {
             // })
         },
 
+        // save the recipe to the users favorites
         saveRecipe: function() {
             document.db.favorites.add(this.recipe);
         },
