@@ -66,6 +66,11 @@ export default {
                         self.random = false;
                         console.log(response.data);
                         self.recommends = response.data;
+
+                        for(var i=0; i<self.recommends.length;i++)
+                        {
+                            self.recommends[i].image = `https://spoonacular.com/recipeImages/${self.recommends[i].id}-556x370.jpg`
+                        }
                     });
                     // .catch((err) => {
                     // this.loading = false;
