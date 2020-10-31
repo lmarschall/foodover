@@ -1,7 +1,7 @@
 # foodover
 
 powered by
-![alt text](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Logo Title Text 1")
+[alt text](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Logo Title Text 1")
 ![alt text](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Logo Title Text 1")
 ![alt text](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Logo Title Text 1")
 
@@ -24,7 +24,7 @@ npm install
 npm install
 ```
 
-### start server
+### start localhost server
 ```cmd
 # execute the following command in the root folder
 node server.js
