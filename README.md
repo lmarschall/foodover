@@ -2,9 +2,9 @@
 
 powered by
 
-![alt text](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Logo Title Text 1")
-![alt text](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Logo Title Text 1")
-![alt text](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Logo Title Text 1")
+![alt text](https://vuejs.org/images/logo.png "Vue.js Logo")
+![alt text](https://nodejs.org/static/images/logo.svg "Node.js Logo")
+![alt text](https://dexie.org/assets/images/dexie-logo-icon.svg "Dexie.js Logo")Dexie.js
 
 
 [md cheat sheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet)
