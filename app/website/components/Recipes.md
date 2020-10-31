@@ -9,6 +9,7 @@ Component to display the recipes of the search result.
 |---|---|---|---|---|
 |recipes|the array of recipes to be displayed|`Array`|`true`|-|
 |display|flag for displaying the recipes in a row or column|`String`|`true`|ROW|
+|ingredients|ingredients of recipe|`Array`|`false`|-|
 
 <!-- @vuese:Recipes:props:end -->
 

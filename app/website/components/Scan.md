@@ -1,5 +1,7 @@
 # Scan
 
+import { BrowserMultiFormatReader } from "@zxing/library";
+
 ## Events
 
 <!-- @vuese:Scan:events:start -->
