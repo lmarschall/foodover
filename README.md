@@ -2,9 +2,9 @@
 
 powered by
 <br/>
-<img src="https://vuejs.org/images/logo.png" width="100">
-<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Node.js_logo.svg/2000px-Node.js_logo.svg.png" width="100">
-<img src="https://www.findbestopensource.com/AppImages/Product/dfahlander-dexie-js_thumb.jpg" width="100">
+<img src="https://vuejs.org/images/logo.png" width="100" style="margin: 20px;">
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Node.js_logo.svg/2000px-Node.js_logo.svg.png" width="100" style="margin: 20px;">
+<img src="https://www.findbestopensource.com/AppImages/Product/dfahlander-dexie-js_thumb.jpg" width="100" style="margin: 20px;">
 
 [md cheat sheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet)
 
