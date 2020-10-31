@@ -13,12 +13,12 @@
 
 <style scoped>
 .video-container {
-    position: absolute;
+    position: fixed;
     top: 0;
-    bottom: 0;
+    left: 0;
     width: 100vw;
     height: 100vh;
-    overflow: hidden;
+    /* overflow: hidden; */
     z-index: 10000;
 }
 
@@ -52,6 +52,7 @@
  */
 
 import { BrowserMultiFormatReader, NotFoundException } from "@zxing/library";
+// import { BrowserMultiFormatReader } from "@zxing/library";
 
 export default {
     name: "Scan",

@@ -6,7 +6,6 @@
         <div
             v-if="split"
             class="col-md-4 d-none d-md-block"
-            style="overflow: auto;"
         >
             <ul class="nav nav-tabs" id="myTab" role="tablist">
                 <li class="nav-item" role="presentation">
