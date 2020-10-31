@@ -1,7 +1,7 @@
 {
-    "name": "Progressive Web App example",
-    "short_name": "pwa-tutorial",
-    "description": "Progressive Web App example to be used in conjuction with the article in LogRocket",
+    "name": "Fooder",
+    "short_name": "Foodover",
+    "description": "Progressive Web App for utilizing your leftover food",
     "icons": [
       {
         "src": "/img/splash-screen.png",
