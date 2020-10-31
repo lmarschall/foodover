@@ -6,7 +6,7 @@
             <button
                 type="button"
                 class="btn flex-shrink-1"
-                v-on:click="portions--"
+                v-on:click="decreasePortions"
             >
                 -
             </button>
@@ -16,7 +16,7 @@
             <button
                 type="button"
                 class="btn flex-shrink-1"
-                v-on:click="portions++"
+                v-on:click="increasePortions"
             >
                 +
             </button>
@@ -26,7 +26,7 @@
             <tbody>
                 <tr v-for="ingredient in ingredients" v-bind:key="ingredient">
                     <td>
-                        {{ ingredient.measures.metric.amount * portions }}
+                        {{ (ingredient.measures.metric.amount * portions).toFixed(0) }}
                         {{ ingredient.measures.metric.unitShort }}
                     </td>
                     <td>{{ ingredient.name }}</td>
@@ -54,6 +54,23 @@ export default {
         return {
             portions: 2
         };
+    },
+    methods: {
+        increasePortions: function() {
+
+            if(this.portions<9)
+            {
+                this.portions = this.portions + 1;
+            }
+        },
+
+        decreasePortions: function() {
+
+            if(this.portions>1)
+            {
+                this.portions = this.portions - 1;
+            }
+        }
     }
 };
 </script>

@@ -104,8 +104,11 @@ a.stretched-link {
 
 .recipe-likes {
     position: absolute;
-    top: 1rem;
-    left: 1rem;
+    top: 0;
+    left: 0;
+    background-color: white;
+    padding: 1rem;
+    border-radius: 2rem 0;
 }
 </style>
 
