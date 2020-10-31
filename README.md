@@ -24,6 +24,17 @@ npm install
 npm install
 ```
 
+### developing commands for vue.js frontend
+```cmd
+# execute the following commands in the app folder
+# build the static files
+npm run build
+# create frontend debug server
+npm run serve
+# improve code styling
+npm run lint
+```
+
 ### start localhost server
 ```cmd
 # execute the following command in the root folder
