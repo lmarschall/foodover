@@ -8,28 +8,30 @@ powered by
 
 [md cheat sheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet)
 
-## installation for production
+## important commands
+
+### installation for production
 
 ```cmd
 # execute the following command in the root folder
 npm install
 ```
 
-## installation for development
+### installation for development
 
 ```cmd
 # execute the following command in the app folder
 npm install
 ```
 
-## show code documentation
+### show code documentation
 
 ```cmd
 # execute the following command in the app folder
 vuese server --open
 ```
 
-## create code documentation
+### create code documentation
 
 ```cmd
 # execute the following command in the app folder
