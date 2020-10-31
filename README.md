@@ -3,7 +3,7 @@
 powered by
 <br/>
 <img src="https://vuejs.org/images/logo.png" width="200">
-<img src="https://nodejs.org/static/images/logo.svg" width="200">
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Node.js_logo.svg/2000px-Node.js_logo.svg.png" width="200">
 <img src="https://dexie.org/assets/images/dexie-logo-icon.svg" width="200">
 ![alt text](https://vuejs.org/images/logo.png =100x100 "Vue.js Logo")
 ![alt text](https://nodejs.org/static/images/logo.svg =100x100 "Node.js Logo")
