@@ -24,6 +24,12 @@ npm install
 npm install
 ```
 
+### start server
+```cmd
+# execute the following command in the root folder
+node server.js
+```
+
 ### show code documentation
 
 ```cmd
