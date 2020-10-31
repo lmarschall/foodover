@@ -10,7 +10,11 @@
                 v-for="row_recipe in recipes"
                 v-bind:key="row_recipe.id"
             >
-                <img v-bind:src="row_recipe.image" class="card-img-top" alt="...">
+                <img
+                    v-bind:src="row_recipe.image"
+                    class="card-img-top"
+                    alt="..."
+                />
                 <div class="card-body">
                     <h5 class="card-title">
                         <router-link
@@ -47,7 +51,11 @@
                     </svg>
                     {{ column_recipe.likes }}
                 </div>
-                <img v-bind:src="column_recipe.image" class="card-img-top" alt="..." />
+                <img
+                    v-bind:src="column_recipe.image"
+                    class="card-img-top"
+                    alt="..."
+                />
                 <div class="card-body">
                     <p v-if="ingredients" class="card-text">
                         {{ column_recipe.usedIngredientCount }} of

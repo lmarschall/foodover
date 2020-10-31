@@ -38,7 +38,7 @@
                     </div>
                 </div>
             </li>
-            <li class="list-group-item input-item">  
+            <li class="list-group-item input-item">
                 <div class="d-flex flex-wrap">
                     <div
                         v-for="(ingredient, index) in ingredients"
@@ -51,7 +51,7 @@
                             alt="Responsive image"
                         />
                         <div class="card-body ingredients-body">
-                            {{ingredient}}
+                            {{ ingredient }}
                         </div>
                         <div class="card-footer ingredients-footer">
                             <button
@@ -111,7 +111,7 @@ export default {
         return {
             all_ingredients: "",
             file_ready: false
-        }
+        };
     },
     components: {
         Scan
@@ -120,37 +120,33 @@ export default {
         this.readFile();
     },
     methods: {
-
         readFile() {
             const self = this;
 
-            axios
-                .get("/top-1k-ingredients.csv")
-                .then(response => {
+            axios.get("/top-1k-ingredients.csv").then(response => {
+                var rawString = response.data;
+                var splittedLines = rawString.split("\n");
+                var resultArray = [];
 
-                    var rawString = response.data;
-                    var splittedLines = rawString.split('\n');
-                    var resultArray = [];
+                for (var i = 0; i < splittedLines.length; i++) {
+                    var line = splittedLines[i].split(";")[0];
+                    resultArray.push(line);
+                }
 
-                    for(var i=0;i<splittedLines.length;i++)
-                    {
-                        var line = splittedLines[i].split(';')[0]
-                        resultArray.push(line);
-                    }
-
-                    self.all_ingredients = resultArray;
-                    self.file_ready = true;
-                });
+                self.all_ingredients = resultArray;
+                self.file_ready = true;
+            });
         },
 
         // assemble path for ingredient image with ingredient name
         getIngredientImage(name) {
-            const found = this.all_ingredients.find(element => element === name);
+            const found = this.all_ingredients.find(
+                element => element === name
+            );
             var path = `https://spoonacular.com/cdn/ingredients_100x100/placeholder.jpg`;
 
             // check if ingredient was found
-            if(found.length)
-            {
+            if (found.length) {
                 // assemble path
                 path = `https://spoonacular.com/cdn/ingredients_100x100/${found}.jpg`;
             }
@@ -215,5 +211,5 @@ export default {
             // })
         }
     }
-}
+};
 </script>

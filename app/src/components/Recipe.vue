@@ -198,12 +198,10 @@ export default {
         };
     },
     computed: {
-
         // show splitted view on bigger screens
         split() {
-
             var bool = false;
-            if(this.$mq === "large" || this.$mq === "extra") {
+            if (this.$mq === "large" || this.$mq === "extra") {
                 bool = true;
             }
             return bool;
@@ -228,7 +226,6 @@ export default {
         this.getNutritions();
     },
     methods: {
-
         // get the selected recipe by the provided recipe id
         getRecipe: function() {
             const self = this;
@@ -244,10 +241,8 @@ export default {
                     document.db.favorites.toArray().then(function(favorites) {
                         console.log(favorites);
 
-                        for(var i=0;i<favorites.length;i++)
-                        {
-                            if(favorites[i].id === self.recipe.id)
-                            {
+                        for (var i = 0; i < favorites.length; i++) {
+                            if (favorites[i].id === self.recipe.id) {
                                 self.saved = true;
                             }
                         }
