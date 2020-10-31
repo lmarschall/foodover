@@ -1,4 +1,0 @@
-https://spoonacular.com/recipeImages/611026-556x370.jpg
-https://spoonacular.com/recipeImages/611026-636x393.jpg
-background-image: url("https://spoonacular.com/recipeImages/611026-636x393.jpg");
-636x393
