@@ -1,6 +1,7 @@
 # foodover
 
 powered by
+<br/>
 <img src="https://vuejs.org/images/logo.png" width="200">
 <img src="https://nodejs.org/static/images/logo.svg" width="200">
 <img src="https://dexie.org/assets/images/dexie-logo-icon.svg" width="200">
