@@ -1,7 +1,9 @@
 # foodover
 
 powered by
-
+<img src="https://vuejs.org/images/logo.png" width="200">
+<img src="https://nodejs.org/static/images/logo.svg" width="200">
+<img src="https://dexie.org/assets/images/dexie-logo-icon.svg" width="200">
 ![alt text](https://vuejs.org/images/logo.png =100x100 "Vue.js Logo")
 ![alt text](https://nodejs.org/static/images/logo.svg =100x100 "Node.js Logo")
 ![alt text](https://dexie.org/assets/images/dexie-logo-icon.svg =100x100 "Dexie.js Logo")Dexie.js
