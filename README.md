@@ -35,7 +35,7 @@ node server.js
 
 ```cmd
 # execute the following command in the app folder
-vuese server --open
+vuese serve --open
 ```
 
 ### create code documentation
