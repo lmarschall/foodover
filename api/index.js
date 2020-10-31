@@ -18,17 +18,7 @@ api.get("/recipes", async (req, res) => {
 
     const params = new URLSearchParams();
     params.append('apiKey', process.env.apikey)
-    // console.log(req.query.intolerances)
-    if (req.query.ingredients != "") {params.append('ingredients', req.query.ingredients)}
-    // (req.query.intolerances != "") ? params.append('intolerances', req.query.intolerances) : console.log(req.query.intolerances)
-    // (req.query.diet != "") ? params.append('diet', req.query.diet) : console.log(req.query.intolerances)
-    // (req.query.sort != "") ? params.append('sort', req.query.sort) : console.log(req.query.intolerances)                      // popularity, max-used-ingredients, min-missing-ingredients, time
-    // (req.query.direction != "") ? params.append('sortDirection', req.query.direction) : console.log(req.query.intolerances)  // asc, desc
-    // (req.query.offset != "") ? params.append('offset', req.query.offset) : console.log(req.query.intolerances)
-    // params.append('sort', 'popularity')
-    // params.append('sortDirection', 'desc')
-    // params.append('offset', '0')
-    params.append('number', '10')
+    params.append('ingredients', req.query.ingredients)
 
     const recipes = await findRecipesbyIngredients(params)
     res.send(recipes)

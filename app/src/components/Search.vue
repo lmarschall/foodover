@@ -22,7 +22,7 @@
                 </li>
                 <li class="nav-item" role="presentation">
                     <a
-                        class="nav-link"
+                        class="nav-link disabled"
                         id="profile-tab"
                         data-toggle="tab"
                         href="#profile"
@@ -34,7 +34,7 @@
                 </li>
                 <li class="nav-item" role="presentation">
                     <a
-                        class="nav-link"
+                        class="nav-link disabled"
                         id="contact-tab"
                         data-toggle="tab"
                         href="#contact"
@@ -78,13 +78,6 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button
-                    type="button"
-                    class="btn btn-secondary"
-                    data-dismiss="modal"
-                >
-                    Close
-                </button>
                 <button
                     type="button"
                     class="btn btn-primary"
@@ -161,8 +154,8 @@
                             Input
                         </span>
                         <div class="w-100" />
-                        <span
-                            class="badge badge-pill badge-primary"
+                        <!-- <span
+                            class="badge badge-pill badge-primary disabled"
                             data-toggle="modal"
                             data-target="#filtersModal"
                         >
@@ -183,7 +176,7 @@
                         </span>
                         <div class="w-100" />
                         <span
-                            class="badge badge-pill badge-primary"
+                            class="badge badge-pill badge-primary disabled"
                             data-toggle="modal"
                             data-target="#sortModal"
                         >
@@ -205,7 +198,7 @@
                                 />
                             </svg>
                             Sort
-                        </span>
+                        </span> -->
                     </div>
                 </div>
             </div>
@@ -438,11 +431,11 @@ export default {
             }
             const params = new URLSearchParams();
             params.append("ingredients", ingredientsString);
-            params.append("intolerances", this.search_params.intolerances); // "Egg,+Gluten"
-            params.append("diet", this.search_params.diet); // "Vegan"
-            params.append("sort", this.search_params.sort);
-            params.append("direction", this.search_params.direction);
-            params.append("offset", this.search_params.offset);
+            // params.append("intolerances", this.search_params.intolerances); // "Egg,+Gluten"
+            // params.append("diet", this.search_params.diet); // "Vegan"
+            // params.append("sort", this.search_params.sort);
+            // params.append("direction", this.search_params.direction);
+            // params.append("offset", this.search_params.offset);
             return params;
         }
     },
