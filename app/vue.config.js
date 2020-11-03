@@ -3,3 +3,11 @@
 //         devtool: "source-map"
 //     }
 // };
+
+module.exports = {
+    configureWebpack: {
+      output: {
+          crossOriginLoading: 'anonymous'
+      },
+    }
+  }
