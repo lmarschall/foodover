@@ -109,6 +109,7 @@ export default {
     },
     data() {
         return {
+            code: "",
             all_ingredients: "",
             file_ready: false
         };
@@ -118,6 +119,15 @@ export default {
     },
     mounted: function() {
         this.readFile();
+    },
+    computed: {
+
+        // computed params of the recipe api call
+        productParams() {
+            const params = new URLSearchParams();
+            params.append("code", this.code);
+            return params;
+        },
     },
     methods: {
         readFile() {
@@ -146,7 +156,7 @@ export default {
             var path = `https://spoonacular.com/cdn/ingredients_100x100/placeholder.jpg`;
 
             // check if ingredient was found
-            if (found.length) {
+            if (found) {
                 // assemble path
                 path = `https://spoonacular.com/cdn/ingredients_100x100/${found}.jpg`;
             }
