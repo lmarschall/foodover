@@ -397,7 +397,7 @@ div#accordionExample {
 }
 
 h2 {
-    color:  #213409;
+    color: #213409;
 }
 </style>
 

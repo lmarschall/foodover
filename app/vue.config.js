@@ -6,8 +6,8 @@
 
 module.exports = {
     configureWebpack: {
-      output: {
-          crossOriginLoading: 'anonymous'
-      },
+        output: {
+            crossOriginLoading: "anonymous"
+        }
     }
-  }
+};

@@ -1,8 +1,11 @@
 import Vue from "vue";
+// import Vuex from "vuex";
+// import { createStore } from 'vuex'
 import VueMq from "vue-mq";
 
 import App from "./App.vue";
 import router from "./router";
+import store from "./store";
 
 import "bootstrap";
 import "bootstrap/dist/css/bootstrap.css";
@@ -22,6 +25,7 @@ Vue.use(VueMq, {
 });
 
 new Vue({
-    render: h => h(App),
-    router
+    router,
+    store,
+    render: h => h(App)
 }).$mount("#app");

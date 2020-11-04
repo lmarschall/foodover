@@ -121,13 +121,12 @@ export default {
         this.readFile();
     },
     computed: {
-
         // computed params of the recipe api call
         productParams() {
             const params = new URLSearchParams();
             params.append("code", this.code);
             return params;
-        },
+        }
     },
     methods: {
         readFile() {

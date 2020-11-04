@@ -26,7 +26,11 @@
             <tbody>
                 <tr v-for="ingredient in ingredients" v-bind:key="ingredient">
                     <td>
-                        {{ (ingredient.measures.metric.amount * portions).toFixed(0) }}
+                        {{
+                            (
+                                ingredient.measures.metric.amount * portions
+                            ).toFixed(0)
+                        }}
                         {{ ingredient.measures.metric.unitShort }}
                     </td>
                     <td>{{ ingredient.name }}</td>
@@ -57,17 +61,13 @@ export default {
     },
     methods: {
         increasePortions: function() {
-
-            if(this.portions<9)
-            {
+            if (this.portions < 9) {
                 this.portions = this.portions + 1;
             }
         },
 
         decreasePortions: function() {
-
-            if(this.portions>1)
-            {
+            if (this.portions > 1) {
                 this.portions = this.portions - 1;
             }
         }

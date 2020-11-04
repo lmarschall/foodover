@@ -51,7 +51,7 @@
                         backgroundImage: 'url(' + recipe.image + ')'
                     }"
                 > -->
-                    <!-- <img :src="recipe.image" class="img-fluid" alt="Responsive image"> -->
+                <!-- <img :src="recipe.image" class="img-fluid" alt="Responsive image"> -->
                 <!-- </li> -->
                 <li class="list-group-item" v-html="recipe.summary"></li>
                 <li class="list-group-item" v-html="recipe.instructions"></li>
