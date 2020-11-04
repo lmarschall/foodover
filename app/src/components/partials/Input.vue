@@ -41,7 +41,7 @@
             <li class="list-group-item input-item">
                 <div class="d-flex flex-wrap">
                     <div
-                        v-for="(ingredient, index) in ingredients"
+                        v-for="ingredient in ingredients"
                         v-bind:key="ingredient"
                         class="card ingredients-card"
                     >
@@ -57,7 +57,7 @@
                             <button
                                 type="button"
                                 class="close"
-                                v-on:click="dropIngredient(index)"
+                                v-on:click="dropIngredient(ingredient)"
                             >
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -100,13 +100,6 @@ import Scan from "./Scan";
 
 export default {
     name: "Input",
-    props: {
-        // ingredients input of user
-        ingredients: {
-            type: Array,
-            required: true
-        }
-    },
     data() {
         return {
             code: "",
@@ -126,6 +119,10 @@ export default {
             const params = new URLSearchParams();
             params.append("code", this.code);
             return params;
+        },
+
+        ingredients() {
+            return this.$store.state.search_params.ingredients;
         }
     },
     methods: {
@@ -165,12 +162,12 @@ export default {
 
         // add ingredient to search params
         addIngredient: function(name) {
-            this.ingredients.push(name);
+            this.$store.commit("add_ingredient", name);
         },
 
         // drop ingredient from search params
-        dropIngredient: function(index) {
-            this.ingredients.splice(index, 1);
+        dropIngredient: function(name) {
+            this.$store.commit("drop_ingredient", name);
         },
 
         // trigger scanning of barcode

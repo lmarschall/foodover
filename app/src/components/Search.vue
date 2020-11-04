@@ -19,7 +19,7 @@
                 </li>
                 <li class="nav-item" role="presentation">
                     <a
-                        class="nav-link disabled"
+                        class="nav-link"
                         id="profile-tab"
                         data-toggle="tab"
                         href="#profile"
@@ -31,7 +31,7 @@
                 </li>
                 <li class="nav-item" role="presentation">
                     <a
-                        class="nav-link disabled"
+                        class="nav-link"
                         id="contact-tab"
                         data-toggle="tab"
                         href="#contact"
@@ -49,10 +49,7 @@
                     role="tabpanel"
                     aria-labelledby="home-tab"
                 >
-                    <Input
-                        v-on:searchRecipes="findRecipes"
-                        v-bind:ingredients="search_params.ingredients"
-                    />
+                    <Input v-on:searchRecipes="findRecipes" />
                 </div>
                 <div
                     class="tab-pane fade"
@@ -60,10 +57,7 @@
                     role="tabpanel"
                     aria-labelledby="profile-tab"
                 >
-                    <Filters
-                        v-bind:intolerances="search_params.intolerances"
-                        v-bind:diet="search_params.diet"
-                    />
+                    <Filters />
                 </div>
                 <div
                     class="tab-pane fade"
@@ -71,7 +65,7 @@
                     role="tabpanel"
                     aria-labelledby="contact-tab"
                 >
-                    <Sort v-bind:actual_sort="search_params.sort" />
+                    <Sort />
                 </div>
             </div>
             <div class="modal-footer">
@@ -155,7 +149,7 @@
                     <div class="card-body d-flex flex-wrap span-card">
                         <span
                             class="badge badge-pill badge-secondary"
-                            v-for="ingredient in search_params.ingredients"
+                            v-for="ingredient in ingredients"
                             v-bind:key="ingredient"
                             ><h6>{{ ingredient }}</h6></span
                         >
@@ -253,10 +247,7 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <Input
-                                v-on:searchRecipes="findRecipes"
-                                v-bind:ingredients="search_params.ingredients"
-                            />
+                            <Input v-on:searchRecipes="findRecipes" />
                         </div>
                         <div class="modal-footer">
                             <button
@@ -303,10 +294,7 @@
                             </button>
                         </div>
                         <div class="modal-body" style="overflow: auto">
-                            <Filters
-                                v-bind:intolerances="search_params.intolerances"
-                                v-bind:diet="search_params.diet"
-                            />
+                            <Filters />
                         </div>
                         <div class="modal-footer">
                             <button
@@ -353,7 +341,7 @@
                             </button>
                         </div>
                         <div class="modal-body" style="overflow: auto">
-                            <Sort v-bind:actual_sort="search_params.sort" />
+                            <Sort />
                         </div>
                         <div class="modal-footer">
                             <button
@@ -428,15 +416,7 @@ export default {
     data() {
         return {
             opened: true,
-            recipes: [],
-            search_params: {
-                ingredients: [],
-                intolerances: [],
-                diet: "",
-                sort: "",
-                direction: "",
-                offset: "0"
-            }
+            recipes: []
         };
     },
     computed: {
@@ -454,12 +434,17 @@ export default {
             // create ingredients string from list
             // string format: apples,+flour,+sugar
             var ingredientsString = "";
-            for (var i = 0; i < this.search_params.ingredients.length; i++) {
+            for (
+                var i = 0;
+                i < this.$store.state.search_params.ingredients.length;
+                i++
+            ) {
                 if (i === 0) {
-                    ingredientsString += this.search_params.ingredients[i];
+                    ingredientsString += this.$store.state.search_params
+                        .ingredients[i];
                 } else {
                     ingredientsString +=
-                        ",+" + this.search_params.ingredients[i];
+                        ",+" + this.$store.state.search_params.ingredients[i];
                 }
             }
             const params = new URLSearchParams();
@@ -470,6 +455,10 @@ export default {
             // params.append("direction", this.search_params.direction);
             // params.append("offset", this.search_params.offset);
             return params;
+        },
+
+        ingredients() {
+            return this.$store.state.search_params.ingredients;
         }
     },
     mounted: function() {
@@ -479,12 +468,12 @@ export default {
         // save the actual search params
         saveSearch: function() {
             var newSearch = {
-                ingredients: this.search_params.ingredients,
-                intolerances: this.search_params.intolerances,
-                diet: this.search_params.diet,
-                sort: this.search_params.sort,
-                direction: this.search_params.direction,
-                offset: this.search_params.offset,
+                ingredients: this.$store.state.search_params.ingredients,
+                intolerances: this.$store.state.search_params.intolerances,
+                diet: this.$store.state.search_params.diet,
+                sort: this.$store.state.search_params.sort,
+                direction: this.$store.state.search_params.direction,
+                offset: this.$store.state.search_params.offset,
                 // recipes: JSON.stringify(this.recipes)
                 recipes: this.recipes
             };
@@ -512,9 +501,8 @@ export default {
 
         // load the last search in the component
         loadData: function() {
-            const self = this;
-
             console.log(document.db);
+            const self = this;
 
             // get the last search
             // get the params of the last search and provide them
@@ -522,12 +510,8 @@ export default {
             document.db.searches.toArray().then(function(searches) {
                 if (searches.length > 0) {
                     const lastSearch = searches[searches.length - 1];
-                    self.search_params.ingredients = lastSearch.ingredients;
-                    self.search_params.intolerances = lastSearch.intolerances;
-                    self.search_params.diet = lastSearch.diet;
-                    self.search_params.sort = lastSearch.sort;
-                    self.search_params.direction = lastSearch.direction;
-                    self.search_params.offset = lastSearch.offset;
+
+                    self.$store.commit("preload_last", lastSearch);
                     self.recipes = lastSearch.recipes;
                 }
             });

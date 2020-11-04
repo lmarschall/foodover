@@ -29,14 +29,6 @@
 
 export default {
     name: "Sort",
-    props: {
-        // the current selected sort option
-        actual_sort: {
-            type: String,
-            required: true,
-            default: "popularity"
-        }
-    },
     data() {
         return {
             all_sorts: [

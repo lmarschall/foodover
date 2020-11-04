@@ -46,14 +46,6 @@ a.stretched-link {
 
 export default {
     name: "Diets",
-    props: {
-        // the current selected diet of the user
-        personal_diet: {
-            type: String,
-            required: true,
-            default: ""
-        }
-    },
     data() {
         return {
             all_diets: [
@@ -70,13 +62,18 @@ export default {
             ]
         };
     },
+    computed: {
+        personal_diet() {
+            return this.$store.state.search_params.diet;
+        }
+    },
     methods: {
         // select the chosen diet, drop on selected click
         selectDiet: function(index) {
             if (this.personal_diet === this.all_diets[index]) {
-                this.personal_diet = "";
+                this.$store.commit("set_diet", "");
             } else {
-                this.personal_diet = this.all_diets[index];
+                this.$store.commit("set_diet", this.all_diets[index]);
             }
         }
     }

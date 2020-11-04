@@ -1,7 +1,7 @@
 <template>
     <div class="d-flex flex-wrap">
         <div
-            v-for="(intolerance, index) in all_intolerances"
+            v-for="intolerance in all_intolerances"
             v-bind:key="intolerance"
             class="card intolerance-card"
             v-bind:class="{
@@ -23,7 +23,7 @@
 
             <a
                 v-if="personal_intolerances.includes(intolerance)"
-                v-on:click="deleteIntolerance(index)"
+                v-on:click="deleteIntolerance(intolerance)"
                 class="stretched-link"
                 >{{ intolerance }}
             </a>
@@ -59,13 +59,6 @@ a.stretched-link {
 
 export default {
     name: "Intolerances",
-    props: {
-        // selected intolerances of the user
-        personal_intolerances: {
-            tpye: Array,
-            required: true
-        }
-    },
     // components: {
     //     InlineSvg
     // },
@@ -86,15 +79,20 @@ export default {
             ]
         };
     },
+    computed: {
+        personal_intolerances() {
+            return this.$store.state.search_params.intolerances;
+        }
+    },
     methods: {
         // add intolerances to search params
         addIntolerance: function(name) {
-            this.personal_intolerances.push(name);
+            this.$store.commit("add_intolerance", name);
         },
 
         // drop intolerances from search params
-        deleteIntolerance: function(index) {
-            this.personal_intolerances.splice(index, 1);
+        deleteIntolerance: function(name) {
+            this.$store.commit("drop_intolerance", name);
         }
     }
 };
