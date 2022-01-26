@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@zxing/library": "^0.17.1",
+    "axios": "^0.25.0",
     "bootstrap": "^4.5.3",
     "core-js": "^3.6.5",
     "dexie": "^3.0.2",
