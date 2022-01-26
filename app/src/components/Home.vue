@@ -89,7 +89,7 @@ export default {
                     // if theres none get some random recipes
                 } else {
                     axios
-                        .get("api/randoms", {
+                        .get("https://foodover.herokuapp.com/api/randoms", {
                             // params: this.recommendsParams(lastRecipe.id)
                         })
                         .then(response => {

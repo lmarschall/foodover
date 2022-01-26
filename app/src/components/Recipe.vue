@@ -231,7 +231,7 @@ export default {
             const self = this;
 
             axios
-                .get("/api/recipe", {
+                .get("https://foodover.herokuapp.com/api/recipe", {
                     params: this.recipeParams
                 })
                 .then(response => {
@@ -263,7 +263,7 @@ export default {
         // get the nutritions of the selected recipe
         getNutritions: function() {
             axios
-                .get("/api/nutritions", {
+                .get("https://foodover.herokuapp.com/api/nutritions", {
                     params: this.nutritionsParams
                 })
                 .then(response => {

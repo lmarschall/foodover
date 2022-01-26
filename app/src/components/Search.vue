@@ -486,7 +486,7 @@ export default {
             this.recipes = [];
 
             axios
-                .get("api/recipes", {
+                .get("https://foodover.herokuapp.com/api/recipes", {
                     params: this.ingredientsParams
                 })
                 .then(response => {
