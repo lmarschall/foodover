@@ -9,9 +9,10 @@
                 class="card row-card"
                 v-for="row_recipe in recipes"
                 v-bind:key="row_recipe.id"
+                v-bind:image="row_recipe.image"
             >
                 <img
-                    v-bind:src="row_recipe.image"
+                    src="https://spoonacular.com/cdn/ingredients_100x100/appl.jpg"
                     class="card-img-top"
                     alt="..."
                 />
@@ -32,8 +33,9 @@
         <div v-else-if="display == 'COLUMN'" class="d-flex flex-wrap">
             <div
                 class="card column-card"
-                v-for="column_recipe in recipes"
+                v-for="(column_recipe, index) in recipes"
                 v-bind:key="column_recipe.id"
+                :index="index"
             >
                 <div class="recipe-likes">
                     <svg
@@ -135,7 +137,25 @@ export default {
         ingredients: {
             type: Array,
             required: false
+        },
+        observer: {
+            type: IntersectionObserver,
+            required: false
         }
+    },
+    updated() {
+        console.log("update");
+
+        const columnElements = document.getElementsByClassName("column-card");
+        const rowElements = document.getElementsByClassName("row-card");
+
+        columnElements.forEach(element => {
+            this.observer.observe(element);
+        });
+
+        rowElements.forEach(element => {
+            this.observer.observe(element);
+        });
     }
 };
 </script>

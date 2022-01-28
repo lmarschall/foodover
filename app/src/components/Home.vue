@@ -4,9 +4,17 @@
 
         <h2 v-if="random">For your inspiration</h2>
         <h2 v-else-if="!random">Inspired by your last searches</h2>
-        <Recipes v-bind:recipes="recommends" v-bind:display="'ROW'" />
+        <Recipes
+            v-bind:recipes="recommends"
+            v-bind:display="'ROW'"
+            v-bind:observer="observer"
+        />
         <h2>Your favorites</h2>
-        <Recipes v-bind:recipes="favorites" v-bind:display="'ROW'" />
+        <Recipes
+            v-bind:recipes="favorites"
+            v-bind:display="'ROW'"
+            v-bind:observer="observer"
+        />
 
         <Placeholder />
     </div>
@@ -45,7 +53,8 @@ export default {
             random: true,
             last_recipe_id: 0,
             recommends: [],
-            favorites: []
+            favorites: [],
+            observer: null
         };
     },
     computed: {
@@ -56,7 +65,31 @@ export default {
             return params;
         }
     },
+    created() {
+        this.observer = new IntersectionObserver(this.onElementObserved, {
+            root: this.$el
+            // threshold: 1.0,
+        });
+    },
+    beforeDestroy() {
+        this.observer.disconnect();
+    },
     methods: {
+        onElementObserved(entries) {
+            entries.forEach(({ target, isIntersecting }) => {
+                if (!isIntersecting) {
+                    return;
+                }
+
+                this.observer.unobserve(target);
+
+                setTimeout(() => {
+                    const i = target.getAttribute("image");
+                    target.firstChild.src = i;
+                }, 100);
+            });
+        },
+
         // get recommended or random recipes for the user
         getRecommends: function() {
             const self = this;

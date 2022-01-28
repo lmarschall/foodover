@@ -364,7 +364,11 @@
                 </div>
             </div>
 
-            <Recipes v-bind:recipes="recipes" v-bind:display="'COLUMN'" />
+            <Recipes
+                v-bind:recipes="recipes"
+                v-bind:display="'COLUMN'"
+                v-bind:observer="observer"
+            />
 
             <Placeholder />
         </div>
@@ -421,7 +425,9 @@ export default {
     data() {
         return {
             opened: true,
-            recipes: []
+            recipes: [],
+            observer: null,
+            offset: 0
         };
     },
     computed: {
@@ -458,7 +464,7 @@ export default {
             // params.append("diet", this.search_params.diet); // "Vegan"
             // params.append("sort", this.search_params.sort);
             // params.append("direction", this.search_params.direction);
-            // params.append("offset", this.search_params.offset);
+            params.append("offset", this.offset);
             return params;
         },
 
@@ -469,7 +475,37 @@ export default {
     mounted: function() {
         this.loadData();
     },
+    created() {
+        this.observer = new IntersectionObserver(this.onElementObserved, {
+            root: this.$el,
+            threshold: 1.0
+        });
+    },
+    beforeDestroy() {
+        this.observer.disconnect();
+    },
     methods: {
+        onElementObserved(entries) {
+            entries.forEach(({ target, isIntersecting }) => {
+                if (!isIntersecting) {
+                    return;
+                }
+
+                this.observer.unobserve(target);
+
+                setTimeout(() => {
+                    const i = target.getAttribute("index");
+                    console.log(i);
+
+                    if (i >= this.recipes.length - 1) {
+                        console.log("end reached");
+                        this.offset = i + 1;
+                        // this.findRecipes(true);
+                    }
+                }, 1000);
+            });
+        },
+
         // save the actual search params
         saveSearch: function() {
             var newSearch = {
@@ -487,11 +523,13 @@ export default {
         },
 
         // find the recipes by the selected ingredients params
-        findRecipes: function() {
-            this.recipes = [];
+        findRecipes: function(continueSearch = false) {
+            if (!continueSearch) {
+                this.recipes = [];
+            }
 
             axios
-                .get("https://foodover.herokuapp.com/api/recipes", {
+                .get("http://localhost:8000/api/recipes", {
                     params: this.ingredientsParams
                 })
                 .then(response => {
