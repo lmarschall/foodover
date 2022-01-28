@@ -384,6 +384,11 @@ div#accordionExample {
     background-color: white;
 }
 
+.row {
+    max-width: 100vw;
+    margin: 0 auto;
+}
+
 h2 {
     color: #213409;
 }

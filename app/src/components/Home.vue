@@ -2,8 +2,8 @@
     <div>
         <Bar v-bind:page="0" />
 
-        <h2 v-if="random">For your inpspiration</h2>
-        <h2 v-else-if="!random">Inpired by your last searches</h2>
+        <h2 v-if="random">For your inspiration</h2>
+        <h2 v-else-if="!random">Inspired by your last searches</h2>
         <Recipes v-bind:recipes="recommends" v-bind:display="'ROW'" />
         <h2>Your favorites</h2>
         <Recipes v-bind:recipes="favorites" v-bind:display="'ROW'" />
@@ -68,7 +68,7 @@ export default {
                     self.last_recipe_id = lastRecipe.id;
 
                     axios
-                        .get("api/recommends", {
+                        .get("https://foodover.herokuapp.com/api/recommends", {
                             params: self.recommendsParams
                         })
                         .then(response => {

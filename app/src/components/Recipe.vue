@@ -150,6 +150,11 @@ img.img-fluid {
     height: 55vh;
 }
 
+.row {
+    max-width: 100vw;
+    margin: 0 auto;
+}
+
 .card {
     border-radius: 2rem 2rem 0 0;
 }
