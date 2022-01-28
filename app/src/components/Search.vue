@@ -529,7 +529,7 @@ export default {
             }
 
             axios
-                .get("http://localhost:8000/api/recipes", {
+                .get("https://foodover.herokuapp.com/api/recipes", {
                     params: this.ingredientsParams
                 })
                 .then(response => {

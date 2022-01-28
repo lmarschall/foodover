@@ -14,7 +14,9 @@
                 <img
                     src="https://spoonacular.com/cdn/ingredients_100x100/appl.jpg"
                     class="card-img-top"
-                    alt="..."
+                    v-bind:alt="row_recipe.name"
+                    width="100"
+                    height="100"
                 />
                 <div class="card-body">
                     <h5 class="card-title">
@@ -56,7 +58,9 @@
                 <img
                     v-bind:src="column_recipe.image"
                     class="card-img-top"
-                    alt="..."
+                    v-bind:alt="column_recipe.name"
+                    width="100"
+                    height="100"
                 />
                 <div class="card-body">
                     <p v-if="ingredients" class="card-text">
