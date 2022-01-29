@@ -97,7 +97,7 @@
                     <div class="card-header" id="headingOne">
                         <h2 class="mb-0">
                             <button
-                                class="btn btn-link btn-block text-left"
+                                class="btn btn-block text-left"
                                 type="button"
                                 v-on:click="opened = !opened"
                                 data-toggle="collapse"
@@ -501,11 +501,13 @@ export default {
                     // show search collapse on top
                     if (i === 0) {
                         $("#collapseOne").collapse("show");
+                        this.opened = true;
                     }
 
                     // close search collapse on scroll
                     if (i >= 1) {
                         $("#collapseOne").collapse("hide");
+                        this.opened = false;
                     }
 
                     // get new recipes if end of search page is reached
