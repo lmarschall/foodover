@@ -101,7 +101,7 @@
 
 img.card-img-top {
     border-radius: 2rem 2rem 0 0;
-    /* min-height: 250px; */
+    object-fit: cover;
     width: 100%;
 }
 
