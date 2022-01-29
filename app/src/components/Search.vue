@@ -496,6 +496,8 @@ export default {
                 setTimeout(() => {
                     const i = target.getAttribute("index");
                     console.log(i);
+                    // close search drop down on scroll
+                    this.opened = false;
 
                     if (i >= this.recipes.length - 1) {
                         console.log("end reached");
