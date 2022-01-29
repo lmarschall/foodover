@@ -14,7 +14,7 @@
                 <img
                     src="https://spoonacular.com/cdn/ingredients_100x100/appl.jpg"
                     class="card-img-top"
-                    v-bind:alt="row_recipe.name"
+                    v-bind:alt="row_recipe.title"
                     width="100"
                     height="100"
                 />
@@ -58,7 +58,7 @@
                 <img
                     v-bind:src="column_recipe.image"
                     class="card-img-top"
-                    v-bind:alt="column_recipe.name"
+                    v-bind:alt="column_recipe.title"
                     width="100"
                     height="100"
                 />
