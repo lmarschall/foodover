@@ -404,6 +404,7 @@ h2 {
  */
 
 import axios from "axios";
+import $ from "jquery";
 
 import Bar from "./partials/Bar";
 import Placeholder from "./partials/Placeholder";
@@ -491,14 +492,23 @@ export default {
                     return;
                 }
 
-                this.observer.unobserve(target);
+                // this.observer.unobserve(target);
 
                 setTimeout(() => {
-                    const i = target.getAttribute("index");
-                    console.log(i);
-                    // close search drop down on scroll
-                    this.opened = false;
+                    const i = parseInt(target.getAttribute("index"));
+                    // console.log(i);
 
+                    // show search collapse on top
+                    if (i === 0) {
+                        $("#collapseOne").collapse("show");
+                    }
+
+                    // close search collapse on scroll
+                    if (i >= 1) {
+                        $("#collapseOne").collapse("hide");
+                    }
+
+                    // get new recipes if end of search page is reached
                     if (i >= this.recipes.length - 1) {
                         console.log("end reached");
                         this.offset = i + 1;
