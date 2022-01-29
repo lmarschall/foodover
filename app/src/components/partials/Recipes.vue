@@ -12,11 +12,11 @@
                 v-bind:image="row_recipe.image"
             >
                 <img
-                    src="https://spoonacular.com/cdn/ingredients_100x100/appl.jpg"
+                    src="./../../assets/recipe_placeholder.jpg"
                     class="card-img-top"
                     v-bind:alt="row_recipe.title"
-                    width="100"
-                    height="100"
+                    width="480"
+                    height="360"
                 />
                 <div class="card-body">
                     <h5 class="card-title">
@@ -59,8 +59,8 @@
                     v-bind:src="column_recipe.image"
                     class="card-img-top"
                     v-bind:alt="column_recipe.title"
-                    width="100"
-                    height="100"
+                    width="480"
+                    height="360"
                 />
                 <div class="card-body">
                     <p v-if="ingredients" class="card-text">
@@ -101,7 +101,8 @@
 
 img.card-img-top {
     border-radius: 2rem 2rem 0 0;
-    min-height: 250px;
+    /* min-height: 250px; */
+    width: 100%;
 }
 
 a.stretched-link {

@@ -112,7 +112,7 @@ export default {
                             for (var i = 0; i < self.recommends.length; i++) {
                                 self.recommends[
                                     i
-                                ].image = `https://spoonacular.com/recipeImages/${self.recommends[i].id}-556x370.jpg`;
+                                ].image = `https://spoonacular.com/recipeImages/${self.recommends[i].id}-480x360.jpg`;
                             }
                         });
                     // .catch((err) => {
