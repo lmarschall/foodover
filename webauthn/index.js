@@ -36,6 +36,8 @@ webauthn.post('/request-register', (req, res) => {
 webauthn.post('/register', (req, res) => {
     const { key, challenge } = parseRegisterRequest(req.body.credentials);
 
+    console.log(req.body.credentials);
+
     console.log("register user")
     console.log(key)
     console.log(challenge)
