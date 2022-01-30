@@ -72,6 +72,8 @@ webauthn.post('/register', async (req, res) => {
     
     const body = req.body;
 
+    console.log(body);
+
     const user = userRepository.findByEmail(currenUserEmail);
 
     if (!user) {
