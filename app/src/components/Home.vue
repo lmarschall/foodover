@@ -35,14 +35,14 @@ import axios from "axios";
 
 import Bar from "./partials/Bar";
 import Placeholder from "./partials/Placeholder";
-// import Recipes from "./partials/Recipes";
+import Recipes from "./partials/Recipes";
 
 export default {
     name: "Home",
     components: {
         Bar,
         Placeholder,
-        Recipes: () => import("./partials/Recipes.vue")
+        Recipes
     },
     mounted: function() {
         this.getRecommends();
