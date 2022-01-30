@@ -50,10 +50,10 @@ webauthn.post('/request-register', (req, res) => {
          * The optional authenticatorSelection property allows for specifying more constraints around
          * the types of authenticators that users to can use for registration
          */
-        authenticatorSelection: {
-          userVerification: 'preferred',
-          requireResidentKey: false,
-        },
+        // authenticatorSelection: {
+        //   userVerification: 'preferred',
+        //   requireResidentKey: false,
+        // },
         supportedAlgorithmIDs: [-7, -257]
     };
 
