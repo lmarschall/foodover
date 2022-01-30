@@ -6,56 +6,126 @@ const webauthn = express.Router();
 console.log('server is starting webauthn services')
 
 const userRepository = require('./userRepository');
+
 const {
-    generateRegistrationChallenge,
-    parseRegisterRequest,
-    generateLoginChallenge,
-    parseLoginRequest,
-    verifyAuthenticatorAssertion,
-} = require('@webauthn/server');
+    // Registration
+    generateRegistrationOptions,
+    verifyRegistrationResponse,
+    // Authentication
+    generateAuthenticationOptions,
+    verifyAuthenticationResponse,
+} = require('@simplewebauthn/server');
+    
+
+const rpId = "localhost"
+let expectedOrigin = ''
+let currenUserEmail = ''
 
 webauthn.post('/request-register', (req, res) => {
     const { id, email } = req.body.userInfo;
 
     console.log("generate register challenge");
 
-    const challengeResponse = generateRegistrationChallenge({
-        relyingParty: { name: 'ACME' },
-        user: { id, name: email }
-    });
+    currenUserEmail = email
+
+    const opts = {
+        rpName: 'SimpleWebAuthn Example',
+        rpId,
+        userID: id,
+        userName: email,
+        timeout: 60000,
+        attestationType: 'direct',
+        /**
+         * Passing in a user's list of already-registered authenticator IDs here prevents users from
+         * registering the same device multiple times. The authenticator will simply throw an error in
+         * the browser if it's asked to perform registration when one of these ID's already resides
+         * on it.
+         */
+        // excludeCredentials: devices.map(dev => ({
+        //   id: dev.credentialID,
+        //   type: 'public-key',
+        //   transports: dev.transports,
+        // })),
+        /**
+         * The optional authenticatorSelection property allows for specifying more constraints around
+         * the types of authenticators that users to can use for registration
+         */
+        authenticatorSelection: {
+          userVerification: 'preferred',
+          requireResidentKey: false,
+        },
+        supportedAlgorithmIDs: [-7, -257]
+    };
+
+    const options = generateRegistrationOptions(opts);
 
     userRepository.create({
         id,
         email,
-        challenge: challengeResponse.challenge,
+        challenge: options.challenge,
     })
 
-    res.send(challengeResponse);
+    res.send(options);
 });
 
 webauthn.post('/register', (req, res) => {
-    const { key, challenge } = parseRegisterRequest(req.body.credentials);
+    
+    const body = req.body;
 
-    console.log(req.body.credentials);
-
-    console.log("register user")
-    console.log(key)
-    console.log(challenge)
-
-    const user = userRepository.findByChallenge(challenge);
+    const user = userRepository.findByEmail(currenUserEmail);
 
     if (!user) {
         return res.sendStatus(400);
     }
 
-    userRepository.addKeyToUser(user, key);
+    const expectedChallenge = user.challenge;
 
-    console.log("user successfully registered");
+    let verification;
+    try {
+        const opts = {
+        credential: body,
+        expectedChallenge: `${expectedChallenge}`,
+        expectedOrigin,
+        expectedRPID: rpId,
+        };
+        verification = await verifyRegistrationResponse(opts);
+    } catch (error) {
+        const _error = error;
+        console.error(_error);
+        return res.status(400).send({ error: _error.message });
+    }
 
-    return res.send({ loggedIn: true });
+    const { verified, registrationInfo } = verification;
+
+    console.log("registration result");
+    console.log(verified);
+    console.log(registrationInfo);
+    // const { verified } = verification;
+
+    // if (verified && registrationInfo) {
+    //     const { credentialPublicKey, credentialID, counter } = registrationInfo;
+
+    //     const existingDevice = user.devices.find(device => device.credentialID === credentialID);
+
+    //     if (!existingDevice) {
+    //     /**
+    //      * Add the returned device to the user's list of devices
+    //      */
+    //     const newDevice = {
+    //         credentialPublicKey,
+    //         credentialID,
+    //         counter,
+    //         transports: body.transports,
+    //     };
+    //     user.devices.push(newDevice);
+    //     }
+    // }
+
+    res.send({ verified });
 });
 
 webauthn.post('/login', (req, res) => {
+
     const { email } = req.body.userInfo;
 
     console.log("generate login challenge");
@@ -66,11 +136,26 @@ webauthn.post('/login', (req, res) => {
         return res.sendStatus(400);
     }
 
-    const assertionChallenge = generateLoginChallenge(user.key);
+    const opts = {
+        timeout: 60000,
+        allowCredentials: user.devices.map(dev => ({
+        id: dev.credentialID,
+        type: 'public-key',
+        transports: dev.transports ?? ['usb', 'ble', 'nfc', 'internal'],
+        })),
+        /**
+         * This optional value controls whether or not the authenticator needs be able to uniquely
+         * identify the user interacting with it (via built-in PIN pad, fingerprint scanner, etc...)
+         */
+        userVerification: 'preferred',
+        rpId,
+    };
 
-    userRepository.updateUserChallenge(user, assertionChallenge.challenge);
+    const options = generateAuthenticationOptions(opts);
 
-    res.send(assertionChallenge);
+    userRepository.updateUserChallenge(user, options.challenge);
+
+    res.send(options);
 });
 
 webauthn.post('/login-challenge', (req, res) => {

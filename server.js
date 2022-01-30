@@ -5,7 +5,7 @@ const compression = require('compression');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const api = require('./api');
-const webauthn = require('./webauthn');
+const webauthn = require('./webauthn/index_old');
 // const history = require('connect-history-api-fallback');
 
 const port = process.env.PORT || 80;

@@ -24,7 +24,9 @@
  * Component to display the diets of the search.
  */
 import axios from "axios";
-import { solveRegistrationChallenge, solveLoginChallenge } from '@webauthn/client';
+// import { browserSupportsWebauthn, startRegistration, startAuthentication } from '@simplewebauthn/browser';
+import { startRegistration, startAuthentication } from '@simplewebauthn/browser';
+// import { solveRegistrationChallenge, solveLoginChallenge } from '@webauthn/client';
 
 export default {
     name: "Login",
@@ -55,7 +57,8 @@ export default {
 
             console.log("solve register challenge");
 
-            const credentials = await solveRegistrationChallenge(challenge);
+            const credentials = await startRegistration(challenge);
+            // const credentials = await solveRegistrationChallenge(challenge);
             console.log(credentials);
 
             console.log("register challenge solved");
