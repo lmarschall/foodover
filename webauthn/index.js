@@ -68,7 +68,7 @@ webauthn.post('/request-register', (req, res) => {
     res.send(options);
 });
 
-webauthn.post('/register', (req, res) => {
+webauthn.post('/register', async (req, res) => {
     
     const body = req.body;
 
@@ -141,7 +141,7 @@ webauthn.post('/login', (req, res) => {
         allowCredentials: user.devices.map(dev => ({
         id: dev.credentialID,
         type: 'public-key',
-        transports: dev.transports ?? ['usb', 'ble', 'nfc', 'internal'],
+        // transports: dev.transports ?? ['usb', 'ble', 'nfc', 'internal'],
         })),
         /**
          * This optional value controls whether or not the authenticator needs be able to uniquely
