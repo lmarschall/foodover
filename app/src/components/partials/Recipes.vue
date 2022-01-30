@@ -88,6 +88,10 @@
     border-radius: 2rem;
 }
 
+.card-body {
+    text-align: center;
+}
+
 .card.row-card {
     min-width: 250px;
     max-width: 250px;
@@ -103,6 +107,7 @@ img.card-img-top {
     border-radius: 2rem 2rem 0 0;
     object-fit: cover;
     width: 100%;
+    max-height: 300px;
 }
 
 a.stretched-link {
