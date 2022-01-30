@@ -82,6 +82,8 @@ webauthn.post('/register', async (req, res) => {
 
     const expectedChallenge = user.challenge;
 
+    console.log(expectedChallenge);
+
     let verification;
     try {
         const opts = {
