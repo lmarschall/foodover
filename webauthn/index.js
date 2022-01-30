@@ -17,7 +17,7 @@ const {
 webauthn.post('/request-register', (req, res) => {
     const { id, email } = req.body.userInfo;
 
-    console.log("generate challenge");
+    console.log("generate register challenge");
 
     const challengeResponse = generateRegistrationChallenge({
         relyingParty: { name: 'ACME' },
@@ -36,6 +36,10 @@ webauthn.post('/request-register', (req, res) => {
 webauthn.post('/register', (req, res) => {
     const { key, challenge } = parseRegisterRequest(req.body.credentials);
 
+    console.log("register user")
+    console.log(key)
+    console.log(challenge)
+
     const user = userRepository.findByChallenge(challenge);
 
     if (!user) {
@@ -44,11 +48,15 @@ webauthn.post('/register', (req, res) => {
 
     userRepository.addKeyToUser(user, key);
 
+    console.log("user successfully registered");
+
     return res.send({ loggedIn: true });
 });
 
 webauthn.post('/login', (req, res) => {
     const { email } = req.body.userInfo;
+
+    console.log("generate login challenge");
 
     const user = userRepository.findByEmail(email);
 
