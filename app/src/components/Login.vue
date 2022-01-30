@@ -122,7 +122,7 @@ export default {
         async login(challenge) {
 
             console.log("login")
-            const credentials = await solveLoginChallenge(challenge);
+            const credentials = await startAuthentication(challenge);
             console.log(credentials);
 
             axios.post('https://foodover.herokuapp.com/webauthn/login-challenge', {
