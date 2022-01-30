@@ -48,7 +48,7 @@ webauthn.post('/register', (req, res) => {
 });
 
 webauthn.post('/login', (req, res) => {
-    const { email } = req.body;
+    const { email } = req.body.userInfo;
 
     const user = userRepository.findByEmail(email);
 
@@ -64,7 +64,7 @@ webauthn.post('/login', (req, res) => {
 });
 
 webauthn.post('/login-challenge', (req, res) => {
-    const { challenge, keyId } = parseLoginRequest(req.body);
+    const { challenge, keyId } = parseLoginRequest(req.body.credentials);
     if (!challenge) {
         return res.sendStatus(400);
     }
