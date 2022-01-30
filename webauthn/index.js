@@ -70,7 +70,7 @@ webauthn.post('/request-register', (req, res) => {
 
 webauthn.post('/register', async (req, res) => {
     
-    const body = req.body;
+    const body = req.body.credentials;
 
     console.log(body);
 
