@@ -1,9 +1,12 @@
 const express = require('express');
 const axios = require('axios');
+require('dotenv').config();
 
 const api = express.Router();
 
 const debug = process.env.DEBUG || false;
+
+if (debug) console.log('server is starting in debug mode')
 
 let recipes_result = []
 let recipe_result = []
@@ -29,8 +32,8 @@ api.get("/recipes", async (req, res) => {
 
     let recipes = []
 
-    if(debug) {
-        if (recipes_result == []) {
+    if (debug) {
+        if (recipes_result.length == 0) {
             recipes_result = await findRecipesbyIngredients(params)
         }
         recipes = recipes_result
@@ -58,8 +61,8 @@ api.get("/recipe", async (req, res) => {
 
     let recipe = []
 
-    if(debug) {
-        if (recipe_result == []) {
+    if (debug) {
+        if (recipe_result.length == 0) {
             recipe_result = await findRecipebyId(req.query.id)
         }
         recipe = recipe_result
@@ -127,8 +130,8 @@ api.get("/recommends", async (req, res) => {
 
     let recommends = []
 
-    if(debug) {
-        if (recommends_result == []) {
+    if (debug) {
+        if (recommends_result.length == 0) {
             recommends_result = await getRecipeRecommends(req.query.id)
         }
         recommends = recommends_result
@@ -157,8 +160,8 @@ api.get("/randoms", async (req, res) => {
 
     let randoms = []
 
-    if(debug) {
-        if (randoms_result == []) {
+    if (debug) {
+        if (randoms_result.length == 0) {
             randoms_result = await getRecipesRandom()
         }
         randoms = randoms_result
