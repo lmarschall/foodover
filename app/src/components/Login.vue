@@ -3,14 +3,14 @@
         <button
             type="button"
             class="btn btn-primary"
-            v-on:click="requestRegister"
+            v-on:click.native="requestRegister"
         >
             Register
         </button>
         <button
             type="button"
             class="btn btn-primary"
-            v-on:click="requestLogin"
+            v-on:click.native="requestLogin"
         >
             Login
         </button>
