@@ -1,9 +1,9 @@
-const express = require('express');
-const axios = require('axios');
 require('dotenv').config();
 
-const api = express.Router();
+const express = require('express');
+const axios = require('axios');
 
+const api = express.Router();
 const debug = process.env.DEBUG || false;
 
 if (debug) console.log('server is starting in debug mode')
