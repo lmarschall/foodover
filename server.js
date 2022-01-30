@@ -1,8 +1,7 @@
 const express = require('express');
-const path = require('path');
-const axios = require('axios');
 const compression = require('compression');
 const api = require('./api');
+require('dotenv').config();
 
 const port = process.env.PORT || 80;
 
@@ -14,7 +13,8 @@ app = express();
 app.use(cors());
 app.use(compression()); //COMPRESSION
 app.use(history());
-app.use(express.static(path.join(__dirname, "/app/dist")));
+// using nodejs only as api endpoint for now on
+// app.use(express.static(path.join(__dirname, "/app/dist")));
 app.use('/api', api);
 
 app.listen(port);

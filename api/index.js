@@ -3,6 +3,13 @@ const axios = require('axios');
 
 const api = express.Router();
 
+const debug = process.env.DEBUG || false;
+
+let recipes_result = []
+let recipe_result = []
+let recommends_result = []
+let randoms_result = []
+
 async function findRecipesbyIngredients (params) {
 
     try {
@@ -17,16 +24,26 @@ async function findRecipesbyIngredients (params) {
 api.get("/recipes", async (req, res) => {
 
     const params = new URLSearchParams();
-    params.append('apiKey', process.env.apikey)
+    params.append('apiKey', process.env.API_KEY)
     params.append('ingredients', req.query.ingredients)
 
-    const recipes = await findRecipesbyIngredients(params)
+    let recipes = []
+
+    if(debug) {
+        if (recipes_result == []) {
+            recipes_result = await findRecipesbyIngredients(params)
+        }
+        recipes = recipes_result
+    } else {
+        recipes = await findRecipesbyIngredients(params)
+    }
+    
     res.send(recipes)
 });
   
 async function findRecipebyId (id) {
     const params = new URLSearchParams();
-    params.append('apiKey', process.env.apikey)
+    params.append('apiKey', process.env.API_KEY)
 
     try {
         const result = await axios.get(`https://api.spoonacular.com/recipes/${id}/information`, {params: params})
@@ -38,8 +55,18 @@ async function findRecipebyId (id) {
 }
   
 api.get("/recipe", async (req, res) => {
-    console.log(req.query.id)
-    const recipe = await findRecipebyId(req.query.id)
+
+    let recipe = []
+
+    if(debug) {
+        if (recipe_result == []) {
+            recipe_result = await findRecipebyId(req.query.id)
+        }
+        recipe = recipe_result
+    } else {
+        recipe = await findRecipebyId(req.query.id)
+    }
+
     res.send(recipe)
 });
   
@@ -53,7 +80,6 @@ async function findProductWithCode (code) {
         } else {
         return ''
         }
-        return name
     } catch (err) {
         console.error(err);
         return ''
@@ -67,7 +93,7 @@ api.get("/product", async (req, res) => {
   
 async function getRecipeNutritions (id) {
     const params = new URLSearchParams();
-    params.append('apiKey', process.env.apikey)
+    params.append('apiKey', process.env.API_KEY)
 
     try {
         const result = await axios.get(`https://api.spoonacular.com/recipes/${id}/nutritionWidget.json`, {params: params})
@@ -85,7 +111,7 @@ api.get("/nutritions", async (req, res) => {
 
 async function getRecipeRecommends (id) {
     const params = new URLSearchParams();
-    params.append('apiKey', process.env.apikey)
+    params.append('apiKey', process.env.API_KEY)
     params.append('number', 10)
 
     try {
@@ -98,13 +124,24 @@ async function getRecipeRecommends (id) {
 }
   
 api.get("/recommends", async (req, res) => {
-    const recommends = await getRecipeRecommends(req.query.id)
+
+    let recommends = []
+
+    if(debug) {
+        if (recommends_result == []) {
+            recommends_result = await getRecipeRecommends(req.query.id)
+        }
+        recommends = recommends_result
+    } else {
+        recommends = await getRecipeRecommends(req.query.id)
+    }
+
     res.send(recommends)
 });
 
 async function getRecipesRandom () {
     const params = new URLSearchParams();
-    params.append('apiKey', process.env.apikey)
+    params.append('apiKey', process.env.API_KEY)
     params.append('number', 10)
 
     try {
@@ -117,7 +154,18 @@ async function getRecipesRandom () {
 }
   
 api.get("/randoms", async (req, res) => {
-    const randoms = await getRecipesRandom()
+
+    let randoms = []
+
+    if(debug) {
+        if (randoms_result == []) {
+            randoms_result = await getRecipesRandom()
+        }
+        randoms = randoms_result
+    } else {
+        randoms = await getRecipesRandom()
+    }
+    
     res.send(randoms)
 });
 
