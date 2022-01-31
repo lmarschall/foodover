@@ -2,6 +2,7 @@ require('dotenv').config();
 
 const express = require('express');
 const base64url = require('base64url');
+const jose = require('jose')
 const { PrismaClient } = require('@prisma/client')
 const webauthn = express.Router();
 
@@ -237,6 +238,27 @@ webauthn.post('/login-challenge', (req, res) => {
     if (verified) {
         // Update the authenticator's counter in the DB to the newest count in the authentication
         dbAuthenticator.counter = authenticationInfo.newCounter;
+
+        // create key pair for creating json web token
+        const { publicKey, privateKey } = await jose.generateKeyPair('ES256')
+        console.log(publicKey)
+        console.log(privateKey)
+
+        // TODO save public key for verification with user in database
+
+        // create new json web token for api calls
+        const jwt = await new jose.SignJWT({ 'urn:example:claim': true })
+            .setProtectedHeader({ alg: 'ES256' })
+            .setIssuedAt()
+            .setIssuer('urn:example:issuer')
+            .setAudience('urn:example:audience')
+            // .setExpirationTime('2h') // no exp time
+            .sign(privateKey)
+
+        
+        console.log(jwt)
+
+        return res.send({verified, jwt})
     }
 
     res.send({ verified });
