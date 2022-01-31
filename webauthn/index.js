@@ -96,6 +96,8 @@ webauthn.post('/request-register', (req, res) => {
 
 webauthn.post('/register', async (req, res) => {
     
+    console.log("register body")
+    console.log(req.body)
     const credential = JSON.parse(req.body.credentials);
     credential.id = credential.rawId
 
