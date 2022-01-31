@@ -1,16 +1,18 @@
 <template>
     <div>
+        <input v-model="userName" placeholder="User Name">
+        <input v-model="userId" placeholder="User Id">
         <button
             type="button"
             class="btn btn-primary"
-            v-on:click.native="requestRegister"
+            v-on:click="requestRegister"
         >
             Register
         </button>
         <button
             type="button"
             class="btn btn-primary"
-            v-on:click.native="requestLogin"
+            v-on:click="requestLogin"
         >
             Login
         </button>
@@ -28,15 +30,19 @@ import axios from "axios";
 import { startRegistration, startAuthentication } from '@simplewebauthn/browser';
 // import { solveRegistrationChallenge, solveLoginChallenge } from '@webauthn/client';
 
+
 export default {
     name: "Login",
     data() {
-        return {};
+        return {
+            userName: '',
+            userId: ''
+        };
     },
     computed: {},
     methods: {
 
-        requestRegister() {
+        async requestRegister() {
             console.log("request register");
             const self = this;
 
@@ -45,7 +51,7 @@ export default {
                     'content-type': 'Application/Json'
                 },
                 // body: JSON.stringify({ id: 'uuid', email: 'test@test' })
-                userInfo: { id: 'uuid', email: 'test@test' }
+                userInfo: { id: this.userId, email: this.userName }
             })
             .then(response => {
                 console.log(response.data);
@@ -93,7 +99,7 @@ export default {
             // console.log('registration failed');
         },
 
-        requestLogin() {
+        async requestLogin() {
             console.log('request login');
             const self = this;
 
@@ -102,7 +108,7 @@ export default {
                     'content-type': 'Application/Json'
                 },
                 // body: JSON.stringify({ id: 'uuid', email: 'test@test' })
-                userInfo: { email: 'test@test' }
+                userInfo: { email: this.userName }
                 // userInfo: { id: 'uuid', email: 'test@test' }
             })
             .then(response => {
