@@ -1,6 +1,7 @@
 require('dotenv').config();
 
 const express = require('express');
+const base64url = require('base64url');
 const webauthn = express.Router();
 
 console.log('server is starting webauthn services')
