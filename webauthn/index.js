@@ -130,7 +130,6 @@ webauthn.post('/register', async (req, res) => {
     console.log("registration result");
     console.log(verified);
     console.log(registrationInfo);
-    const { verified } = verification;
 
     if (verified && registrationInfo) {
         const { credentialPublicKey, credentialID, counter } = registrationInfo;
