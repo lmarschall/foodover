@@ -45,6 +45,7 @@ export default {
         Recipes
     },
     mounted: async function() {
+        this.api_url = process.env.API_URL || 'http://localhost:8000'
         await this.getToken();
         this.getRecommends();
         this.getFavorites();
@@ -56,7 +57,7 @@ export default {
             recommends: [],
             favorites: [],
             observer: null,
-            api_url: process.env.API_URL || 'http://localhost:8000'
+            api_url: ''
         };
     },
     computed: {

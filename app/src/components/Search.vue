@@ -429,7 +429,7 @@ export default {
             recipes: [],
             observer: null,
             offset: 0,
-            api_url: process.env.API_URL || 'http://localhost:8000'
+            api_url: ''
         };
     },
     computed: {
@@ -475,6 +475,7 @@ export default {
         }
     },
     mounted: async function() {
+        this.api_url = process.env.API_URL || 'http://localhost:8000'
         await this.getToken();
         this.loadData();
     },
