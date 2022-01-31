@@ -538,7 +538,8 @@ export default {
         },
 
         getToken: async function() {
-            axios.get(`${process.env.VUE_APP_APIURL || 'http://localhost:8000'}/webauthn/test-token`)
+            // axios.get(`${process.env.VUE_APP_APIURL || 'http://localhost:8000'}/webauthn/test-token`)
+            axios.get("https://foodover.herokuapp.com/webauthn/test-token")
             .then(response => {
                 console.log(response.data.jwt);
                 localStorage.setItem('token', response.data.jwt);
@@ -551,7 +552,8 @@ export default {
                 this.recipes = [];
             }
 
-            axios.get(`${process.env.VUE_APP_APIURL || 'http://localhost:8000'}/api/recipes`, {
+            // axios.get(`${process.env.VUE_APP_APIURL || 'http://localhost:8000'}/api/recipes`, {
+            axios.get("https://foodover.herokuapp.com/api/recipes", {
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem('token')}`
                 },
