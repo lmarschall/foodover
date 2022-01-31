@@ -75,11 +75,20 @@ webauthn.post('/request-register', (req, res) => {
 
     const options = generateRegistrationOptions(opts);
 
-    userRepository.create({
-        id,
-        email,
-        challenge: options.challenge,
-    })
+    // if user already exists
+    if(userRepository.findByEmail(currenUserEmail)) {
+        console.log("update user challenge")
+        
+        const user = userRepository.findByEmail(email);
+        user.challenge = options.challenge
+    } else {
+        console.log("create new user")
+        userRepository.create({
+            id,
+            email,
+            challenge: options.challenge,
+        })
+    }
 
     res.send(options);
 });
