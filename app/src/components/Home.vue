@@ -45,7 +45,6 @@ export default {
         Recipes
     },
     mounted: async function() {
-        this.api_url = process.env.API_URL || 'http://localhost:8000'
         await this.getToken();
         this.getRecommends();
         this.getFavorites();
@@ -56,8 +55,7 @@ export default {
             last_recipe_id: 0,
             recommends: [],
             favorites: [],
-            observer: null,
-            api_url: ''
+            observer: null
         };
     },
     computed: {
@@ -94,7 +92,7 @@ export default {
         },
 
         getToken: async function() {
-            axios.get(`${this.api_url}/webauthn/test-token`)
+            axios.get(`${process.env.API_URL || 'http://localhost:8000'}/webauthn/test-token`)
             .then(response => {
                 console.log(response.data.jwt);
                 localStorage.setItem('token', response.data.jwt);
@@ -111,7 +109,7 @@ export default {
                     const lastRecipe = lastSearch.recipes[0];
                     self.last_recipe_id = lastRecipe.id;
 
-                    axios.get(`${self.api_url}/api/recommends`, {
+                    axios.get(`${process.env.API_URL || 'http://localhost:8000'}/api/recommends`, {
                         headers: {
                             'Authorization': `Bearer ${localStorage.getItem('token')}`
                         },
@@ -134,7 +132,7 @@ export default {
                     // })
                     // if theres none get some random recipes
                 } else {
-                    axios.get(`${self.api_url}/api/randoms`, {
+                    axios.get(`${process.env.API_URL || 'http://localhost:8000'}/api/randoms`, {
                         headers: {
                             'Authorization': `Bearer ${localStorage.getItem('token')}`
                         }

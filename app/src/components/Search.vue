@@ -428,8 +428,7 @@ export default {
             opened: true,
             recipes: [],
             observer: null,
-            offset: 0,
-            api_url: ''
+            offset: 0
         };
     },
     computed: {
@@ -475,7 +474,6 @@ export default {
         }
     },
     mounted: async function() {
-        this.api_url = process.env.API_URL || 'http://localhost:8000'
         await this.getToken();
         this.loadData();
     },
@@ -553,7 +551,7 @@ export default {
                 this.recipes = [];
             }
 
-            axios.get(`${this.api_url}/api/recipes`, {
+            axios.get(`${process.env.API_URL || 'http://localhost:8000'}/api/recipes`, {
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem('token')}`
                 },
