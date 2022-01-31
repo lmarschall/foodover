@@ -1,5 +1,7 @@
 <template>
     <div>
+        <input v-model="userName" placeholder="User Name">
+        <input v-model="userId" placeholder="User Id">
         <button
             type="button"
             class="btn btn-primary"
@@ -24,17 +26,23 @@
  * Component to display the diets of the search.
  */
 import axios from "axios";
-import { solveRegistrationChallenge, solveLoginChallenge } from '@webauthn/client';
+// import { browserSupportsWebauthn, startRegistration, startAuthentication } from '@simplewebauthn/browser';
+import { startRegistration, startAuthentication } from '@simplewebauthn/browser';
+// import { solveRegistrationChallenge, solveLoginChallenge } from '@webauthn/client';
+
 
 export default {
     name: "Login",
     data() {
-        return {};
+        return {
+            userName: '',
+            userId: ''
+        };
     },
     computed: {},
     methods: {
 
-        requestRegister() {
+        async requestRegister() {
             console.log("request register");
             const self = this;
 
@@ -43,7 +51,7 @@ export default {
                     'content-type': 'Application/Json'
                 },
                 // body: JSON.stringify({ id: 'uuid', email: 'test@test' })
-                userInfo: { id: 'uuid', email: 'test@test' }
+                userInfo: { id: this.userId, email: this.userName }
             })
             .then(response => {
                 console.log(response.data);
@@ -55,7 +63,8 @@ export default {
 
             console.log("solve register challenge");
 
-            const credentials = await solveRegistrationChallenge(challenge);
+            const credentials = await startRegistration(challenge);
+            // const credentials = await solveRegistrationChallenge(challenge);
             console.log(credentials);
 
             console.log("register challenge solved");
@@ -90,7 +99,7 @@ export default {
             // console.log('registration failed');
         },
 
-        requestLogin() {
+        async requestLogin() {
             console.log('request login');
             const self = this;
 
@@ -99,7 +108,7 @@ export default {
                     'content-type': 'Application/Json'
                 },
                 // body: JSON.stringify({ id: 'uuid', email: 'test@test' })
-                userInfo: { email: 'test@test' }
+                userInfo: { email: this.userName }
                 // userInfo: { id: 'uuid', email: 'test@test' }
             })
             .then(response => {
@@ -119,7 +128,7 @@ export default {
         async login(challenge) {
 
             console.log("login")
-            const credentials = await solveLoginChallenge(challenge);
+            const credentials = await startAuthentication(challenge);
             console.log(credentials);
 
             axios.post('https://foodover.herokuapp.com/webauthn/login-challenge', {
