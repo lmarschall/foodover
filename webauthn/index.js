@@ -174,6 +174,7 @@ webauthn.post('/login', (req, res) => {
             id: dev.credentialID,
             type: 'public-key',
             // transports: dev.transports ?? ['usb', 'ble', 'nfc', 'internal'],
+            transports: 'internal'
         })),
         /**
          * This optional value controls whether or not the authenticator needs be able to uniquely
