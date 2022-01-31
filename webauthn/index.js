@@ -87,6 +87,7 @@ webauthn.post('/request-register', (req, res) => {
             id,
             email,
             challenge: options.challenge,
+            devices: []
         })
     }
 
@@ -129,26 +130,26 @@ webauthn.post('/register', async (req, res) => {
     console.log("registration result");
     console.log(verified);
     console.log(registrationInfo);
-    // const { verified } = verification;
+    const { verified } = verification;
 
-    // if (verified && registrationInfo) {
-    //     const { credentialPublicKey, credentialID, counter } = registrationInfo;
+    if (verified && registrationInfo) {
+        const { credentialPublicKey, credentialID, counter } = registrationInfo;
 
-    //     const existingDevice = user.devices.find(device => device.credentialID === credentialID);
+        const existingDevice = user.devices.find(device => device.credentialID === credentialID);
 
-    //     if (!existingDevice) {
-    //     /**
-    //      * Add the returned device to the user's list of devices
-    //      */
-    //     const newDevice = {
-    //         credentialPublicKey,
-    //         credentialID,
-    //         counter,
-    //         transports: body.transports,
-    //     };
-    //     user.devices.push(newDevice);
-    //     }
-    // }
+        if (!existingDevice) {
+            /**
+             * Add the returned device to the user's list of devices
+             */
+            const newDevice = {
+                credentialPublicKey,
+                credentialID,
+                counter,
+                transports: body.transports,
+            };
+            user.devices.push(newDevice);
+        }
+    }
 
     res.send({ verified });
 });
@@ -168,9 +169,9 @@ webauthn.post('/login', (req, res) => {
     const opts = {
         timeout: 60000,
         allowCredentials: user.devices.map(dev => ({
-        id: dev.credentialID,
-        type: 'public-key',
-        // transports: dev.transports ?? ['usb', 'ble', 'nfc', 'internal'],
+            id: dev.credentialID,
+            type: 'public-key',
+            // transports: dev.transports ?? ['usb', 'ble', 'nfc', 'internal'],
         })),
         /**
          * This optional value controls whether or not the authenticator needs be able to uniquely
