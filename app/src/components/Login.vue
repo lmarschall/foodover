@@ -1,7 +1,6 @@
 <template>
     <div>
         <input v-model="userName" placeholder="User Name">
-        <input v-model="userId" placeholder="User Id">
         <button
             type="button"
             class="btn btn-primary"
@@ -35,8 +34,7 @@ export default {
     name: "Login",
     data() {
         return {
-            userName: '',
-            userId: ''
+            userName: ''
         };
     },
     computed: {},
@@ -51,7 +49,7 @@ export default {
                     'content-type': 'Application/Json'
                 },
                 // body: JSON.stringify({ id: 'uuid', email: 'test@test' })
-                userInfo: { id: this.userId, email: this.userName }
+                userInfo: { id: new Uint8Array(16), email: this.userName }
             })
             .then(response => {
                 console.log(response.data);

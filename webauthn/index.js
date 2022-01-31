@@ -26,7 +26,7 @@ const {
 // const challenge = 'fQC9vsVJg3D9Puvng9ZnH970rc2nimvyoRlIvyMvhao'
 
 
-const rpId = "localhost"
+const rpId = "foodover.app"
 let expectedOrigin = 'https://foodover.app'
 let currenUserEmail = ''
 
@@ -118,8 +118,8 @@ webauthn.post('/register', async (req, res) => {
         credential: credential,
         expectedChallenge: `${expectedChallenge}`,
         expectedOrigin,
-        // expectedRPID: rpId,
-        expectedRPID: '',
+        expectedRPID: rpId,
+        // expectedRPID: '',
         };
         verification = await verifyRegistrationResponse(opts);
     } catch (error) {
@@ -173,8 +173,8 @@ webauthn.post('/login', (req, res) => {
         allowCredentials: user.devices.map(dev => ({
             id: dev.credentialID,
             type: 'public-key',
-            // transports: dev.transports ?? ['usb', 'ble', 'nfc', 'internal'],
-            transports: 'internal'
+            transports: dev.transports || ['usb', 'ble', 'nfc', 'internal'],
+            // transports: 'internal'
         })),
         /**
          * This optional value controls whether or not the authenticator needs be able to uniquely
@@ -234,8 +234,8 @@ webauthn.post('/login-challenge', (req, res) => {
         credential: credentials,
         expectedChallenge: `${expectedChallenge}`,
         expectedOrigin,
-        // expectedRPID: rpID,
-        expectedRPID: '',
+        expectedRPID: rpId,
+        // expectedRPID: '',
         authenticator: dbAuthenticator,
         };
         verification = verifyAuthenticationResponse(opts);
