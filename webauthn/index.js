@@ -2,11 +2,13 @@ require('dotenv').config();
 
 const express = require('express');
 const base64url = require('base64url');
+const { PrismaClient } = require('@prisma/client')
 const webauthn = express.Router();
 
 console.log('server is starting webauthn services')
 
 const userRepository = require('./userRepository');
+const prisma = new PrismaClient()
 
 const {
     // Registration
@@ -17,26 +19,9 @@ const {
     verifyAuthenticationResponse,
 } = require('@simplewebauthn/server');
 
-// const string = '{"rawId":"QL628gaAbtiDBzSLb4QYCm7p5TQ=","response":{"attestationObject":"o2NmbXRlYXBwbGVnYXR0U3RtdKFjeDVjglkCRzCCAkMwggHJoAMCAQICBgF+rUCPqDAKBggqhkjOPQQDAjBIMRwwGgYDVQQDDBNBcHBsZSBXZWJBdXRobiBDQSAxMRMwEQYDVQQKDApBcHBsZSBJbmMuMRMwEQYDVQQIDApDYWxpZm9ybmlhMB4XDTIyMDEyOTIzMDk1NloXDTIyMDIwMTIzMDk1NlowgZExSTBHBgNVBAMMQGMzYmY5ZmRlYjQ3ZWIyOTg4OTdkMDI2MTM3NTg3NWY0NTI2YTQwMmQ3Y2YzODZjODNmNzk5MzZiNWM3ZjdiOTIxGjAYBgNVBAsMEUFBQSBDZXJ0aWZpY2F0aW9uMRMwEQYDVQQKDApBcHBsZSBJbmMuMRMwEQYDVQQIDApDYWxpZm9ybmlhMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEZuOR8If0dGP2uxb3OaIHVFPG6t6phr523JnjW8m0+s+baXmDQidjgynZXqiOwQSHSxlchsEP8zqMPjKMgVJdiKNVMFMwDAYDVR0TAQH/BAIwADAOBgNVHQ8BAf8EBAMCBPAwMwYJKoZIhvdjZAgCBCYwJKEiBCBeeHWjYfvs5KrpdF7Z7LxNCHwzS9T+zCYJdBPL1MlQnjAKBggqhkjOPQQDAgNoADBlAjAPTaH+MGBYtS+ekSLeVUjiD8syjIiffkKAX9uz8NYIewwvNob91JItWi4BHK8h2r4CMQCXzZfdzLAoLaO8TlxBrWmydHZak5P/sd5uGB4NXOw4p9HWLxL85/Rjtnr1wV01SfxZAjgwggI0MIIBuqADAgECAhBWJVOVx6f7QOviKNgmCFO2MAoGCCqGSM49BAMDMEsxHzAdBgNVBAMMFkFwcGxlIFdlYkF1dGhuIFJvb3QgQ0ExEzARBgNVBAoMCkFwcGxlIEluYy4xEzARBgNVBAgMCkNhbGlmb3JuaWEwHhcNMjAwMzE4MTgzODAxWhcNMzAwMzEzMDAwMDAwWjBIMRwwGgYDVQQDDBNBcHBsZSBXZWJBdXRobiBDQSAxMRMwEQYDVQQKDApBcHBsZSBJbmMuMRMwEQYDVQQIDApDYWxpZm9ybmlhMHYwEAYHKoZIzj0CAQYFK4EEACIDYgAEgy6HLyYUkYECJbn1/Na7Y3i19V8/ywRbxzWZNHX9VJBE35v+GSEXZcaaHdoFCzjUUINAGkNPsk0RLVbD4c+/y5iR/sBpYIG++Wy8d8iN3a9Gpa7h3VFbWvqrk76cCyaRo2YwZDASBgNVHRMBAf8ECDAGAQH/AgEAMB8GA1UdIwQYMBaAFCbXZNnFeMJaZ9Gn3msS0Btj8cbXMB0GA1UdDgQWBBTrroLE/6GsW1HUzyRhBQC+Y713iDAOBgNVHQ8BAf8EBAMCAQYwCgYIKoZIzj0EAwMDaAAwZQIxAN2LGjSBpfrZ27TnZXuEHhRMJ7dbh2pBhsKxR1dQM3In7+VURX72SJUMYy5cSD5wwQIwLIpgRNwgH8/lm8NNKTDBSHhR2WDtanXx60rKvjjNJbiX0MgFvvDH94sHpXHG6A4HaGF1dGhEYXRhWJirs5EEhHT6Yq3aicmhjQoT/0Kqd8+tYnn0T3cQX05dpEUAAAAA8kqOcNDT+CwpNzJSPMTeWgAUQL628gaAbtiDBzSLb4QYCm7p5TSlAQIDJiABIVggZuOR8If0dGP2uxb3OaIHVFPG6t6phr523JnjW8m0+s8iWCCbaXmDQidjgynZXqiOwQSHSxlchsEP8zqMPjKMgVJdiA==","clientDataJSON":"eyJ0eXBlIjoid2ViYXV0aG4uY3JlYXRlIiwiY2hhbGxlbmdlIjoiZlFDOXZzVkpnM0Q5UHV2bmc5Wm5IOTcwcmMybmltdnlvUmxJdnlNdmhhbyIsIm9yaWdpbiI6Imh0dHBzOi8vZm9vZG92ZXIuYXBwIn0="},"getClientExtensionResults":{},"id":"QL628gaAbtiDBzSLb4QYCm7p5TQ","type":"public-key"}'
-// // const string = {"rawId":"QL628gaAbtiDBzSLb4QYCm7p5TQ=","response":{"attestationObject":"o2NmbXRlYXBwbGVnYXR0U3RtdKFjeDVjglkCRzCCAkMwggHJoAMCAQICBgF+rUCPqDAKBggqhkjOPQQDAjBIMRwwGgYDVQQDDBNBcHBsZSBXZWJBdXRobiBDQSAxMRMwEQYDVQQKDApBcHBsZSBJbmMuMRMwEQYDVQQIDApDYWxpZm9ybmlhMB4XDTIyMDEyOTIzMDk1NloXDTIyMDIwMTIzMDk1NlowgZExSTBHBgNVBAMMQGMzYmY5ZmRlYjQ3ZWIyOTg4OTdkMDI2MTM3NTg3NWY0NTI2YTQwMmQ3Y2YzODZjODNmNzk5MzZiNWM3ZjdiOTIxGjAYBgNVBAsMEUFBQSBDZXJ0aWZpY2F0aW9uMRMwEQYDVQQKDApBcHBsZSBJbmMuMRMwEQYDVQQIDApDYWxpZm9ybmlhMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEZuOR8If0dGP2uxb3OaIHVFPG6t6phr523JnjW8m0+s+baXmDQidjgynZXqiOwQSHSxlchsEP8zqMPjKMgVJdiKNVMFMwDAYDVR0TAQH/BAIwADAOBgNVHQ8BAf8EBAMCBPAwMwYJKoZIhvdjZAgCBCYwJKEiBCBeeHWjYfvs5KrpdF7Z7LxNCHwzS9T+zCYJdBPL1MlQnjAKBggqhkjOPQQDAgNoADBlAjAPTaH+MGBYtS+ekSLeVUjiD8syjIiffkKAX9uz8NYIewwvNob91JItWi4BHK8h2r4CMQCXzZfdzLAoLaO8TlxBrWmydHZak5P/sd5uGB4NXOw4p9HWLxL85/Rjtnr1wV01SfxZAjgwggI0MIIBuqADAgECAhBWJVOVx6f7QOviKNgmCFO2MAoGCCqGSM49BAMDMEsxHzAdBgNVBAMMFkFwcGxlIFdlYkF1dGhuIFJvb3QgQ0ExEzARBgNVBAoMCkFwcGxlIEluYy4xEzARBgNVBAgMCkNhbGlmb3JuaWEwHhcNMjAwMzE4MTgzODAxWhcNMzAwMzEzMDAwMDAwWjBIMRwwGgYDVQQDDBNBcHBsZSBXZWJBdXRobiBDQSAxMRMwEQYDVQQKDApBcHBsZSBJbmMuMRMwEQYDVQQIDApDYWxpZm9ybmlhMHYwEAYHKoZIzj0CAQYFK4EEACIDYgAEgy6HLyYUkYECJbn1/Na7Y3i19V8/ywRbxzWZNHX9VJBE35v+GSEXZcaaHdoFCzjUUINAGkNPsk0RLVbD4c+/y5iR/sBpYIG++Wy8d8iN3a9Gpa7h3VFbWvqrk76cCyaRo2YwZDASBgNVHRMBAf8ECDAGAQH/AgEAMB8GA1UdIwQYMBaAFCbXZNnFeMJaZ9Gn3msS0Btj8cbXMB0GA1UdDgQWBBTrroLE/6GsW1HUzyRhBQC+Y713iDAOBgNVHQ8BAf8EBAMCAQYwCgYIKoZIzj0EAwMDaAAwZQIxAN2LGjSBpfrZ27TnZXuEHhRMJ7dbh2pBhsKxR1dQM3In7+VURX72SJUMYy5cSD5wwQIwLIpgRNwgH8/lm8NNKTDBSHhR2WDtanXx60rKvjjNJbiX0MgFvvDH94sHpXHG6A4HaGF1dGhEYXRhWJirs5EEhHT6Yq3aicmhjQoT/0Kqd8+tYnn0T3cQX05dpEUAAAAA8kqOcNDT+CwpNzJSPMTeWgAUQL628gaAbtiDBzSLb4QYCm7p5TSlAQIDJiABIVggZuOR8If0dGP2uxb3OaIHVFPG6t6phr523JnjW8m0+s8iWCCbaXmDQidjgynZXqiOwQSHSxlchsEP8zqMPjKMgVJdiA==","clientDataJSON":"eyJ0eXBlIjoid2ViYXV0aG4uY3JlYXRlIiwiY2hhbGxlbmdlIjoiZlFDOXZzVkpnM0Q5UHV2bmc5Wm5IOTcwcmMybmltdnlvUmxJdnlNdmhhbyIsIm9yaWdpbiI6Imh0dHBzOi8vZm9vZG92ZXIuYXBwIn0="},"getClientExtensionResults":{},"id":"QL628gaAbtiDBzSLb4QYCm7p5TQ","type":"public-key"}
-// const credential = JSON.parse(string)
-// credential.id = credential.rawId
-
-// const challenge = 'aKSvg2_gx7lZgBREnl4pw1chl8jtLK_J1NrTxk4LNic'
-// const challenge = 'fQC9vsVJg3D9Puvng9ZnH970rc2nimvyoRlIvyMvhao'
-
-
 const rpId = "foodover.app"
 let expectedOrigin = 'https://foodover.app'
 let currenUserEmail = ''
-
-// const opts = {
-//     credential: credential,
-//     expectedChallenge: `${challenge}`,
-//     expectedOrigin,
-//     expectedRPID: '',
-//     };
-// verification = verifyRegistrationResponse(opts);
 
 webauthn.post('/request-register', (req, res) => {
     const { id, email } = req.body.userInfo;
@@ -82,8 +67,23 @@ webauthn.post('/request-register', (req, res) => {
         
         const user = userRepository.findByEmail(email);
         user.challenge = options.challenge
+        // // Run inside `async` function
+        // const post = await prisma.post.update({
+        //     where: { id: 42 },
+        //     data: { published: true },
+        // })
     } else {
         console.log("create new user")
+        // // Run inside `async` function
+        // const user = await prisma.user.create({
+        //     data: {
+        //     name: 'Alice',
+        //     email: 'alice@prisma.io',
+        //     posts: {
+        //         create: { title: 'Join us for Prisma Day 2021' },
+        //     },
+        //     },
+        // })
         userRepository.create({
             id,
             email,
@@ -192,19 +192,6 @@ webauthn.post('/login', (req, res) => {
 });
 
 webauthn.post('/login-challenge', (req, res) => {
-    // const { challenge, keyId } = parseLoginRequest(req.body.credentials);
-    // if (!challenge) {
-    //     return res.sendStatus(400);
-    // }
-    // const user = userRepository.findByChallenge(challenge);
-
-    // if (!user || !user.key || user.key.credID !== keyId) {
-    //     return res.sendStatus(400);
-    // }
-
-    // const loggedIn = verifyAuthenticatorAssertion(req.body, user.key);
-
-    // return res.send({ loggedIn });
 
     const body = req.body;
 

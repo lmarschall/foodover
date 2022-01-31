@@ -27,7 +27,6 @@
 import axios from "axios";
 // import { browserSupportsWebauthn, startRegistration, startAuthentication } from '@simplewebauthn/browser';
 import { startRegistration, startAuthentication } from '@simplewebauthn/browser';
-// import { solveRegistrationChallenge, solveLoginChallenge } from '@webauthn/client';
 
 
 export default {
