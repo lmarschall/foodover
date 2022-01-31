@@ -190,19 +190,67 @@ webauthn.post('/login', (req, res) => {
 });
 
 webauthn.post('/login-challenge', (req, res) => {
-    const { challenge, keyId } = parseLoginRequest(req.body.credentials);
-    if (!challenge) {
-        return res.sendStatus(400);
+    // const { challenge, keyId } = parseLoginRequest(req.body.credentials);
+    // if (!challenge) {
+    //     return res.sendStatus(400);
+    // }
+    // const user = userRepository.findByChallenge(challenge);
+
+    // if (!user || !user.key || user.key.credID !== keyId) {
+    //     return res.sendStatus(400);
+    // }
+
+    // const loggedIn = verifyAuthenticatorAssertion(req.body, user.key);
+
+    // return res.send({ loggedIn });
+
+    const body = req.body;
+
+    const credentials = JSON.parse(req.body.credentials);
+
+    const user = userRepository.findByEmail(currenUserEmail);
+
+    const expectedChallenge = user.challenge;
+
+    let dbAuthenticator;
+    const bodyCredIDBuffer = base64url.toBuffer(credentials.rawId);
+    // "Query the DB" here for an authenticator matching `credentialID`
+    for (const dev of user.devices) {
+        if (dev.credentialID.equals(bodyCredIDBuffer)) {
+        dbAuthenticator = dev;
+        break;
+        }
     }
-    const user = userRepository.findByChallenge(challenge);
 
-    if (!user || !user.key || user.key.credID !== keyId) {
-        return res.sendStatus(400);
+    if (!dbAuthenticator) {
+        throw new Error(`could not find authenticator matching ${body.id}`);
     }
 
-    const loggedIn = verifyAuthenticatorAssertion(req.body, user.key);
+    let verification;
+    try {
+        const opts = {
+        credential: credentials,
+        expectedChallenge: `${expectedChallenge}`,
+        expectedOrigin,
+        // expectedRPID: rpID,
+        expectedRPID: '',
+        authenticator: dbAuthenticator,
+        };
+        verification = verifyAuthenticationResponse(opts);
+    } catch (error) {
+        const _error = error;
+        console.error(_error);
+        return res.status(400).send({ error: _error.message });
+    }
 
-    return res.send({ loggedIn });
+    const { verified, authenticationInfo } = verification;
+
+    if (verified) {
+        // Update the authenticator's counter in the DB to the newest count in the authentication
+        dbAuthenticator.counter = authenticationInfo.newCounter;
+    }
+
+    res.send({ verified });
 });
 
 module.exports = webauthn
