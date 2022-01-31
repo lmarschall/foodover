@@ -44,7 +44,8 @@ export default {
         Placeholder,
         Recipes
     },
-    mounted: function() {
+    mounted: async function() {
+        await this.getToken();
         this.getRecommends();
         this.getFavorites();
     },
@@ -54,7 +55,8 @@ export default {
             last_recipe_id: 0,
             recommends: [],
             favorites: [],
-            observer: null
+            observer: null,
+            api_url: process.env.API_URL || 'http://localhost:8000'
         };
     },
     computed: {
@@ -90,6 +92,14 @@ export default {
             });
         },
 
+        getToken: async function() {
+            axios.get(`${this.api_url}/webauthn/test-token`)
+            .then(response => {
+                console.log(response.data.jwt);
+                localStorage.setItem('token', response.data.jwt);
+            });
+        },
+
         // get recommended or random recipes for the user
         getRecommends: function() {
             const self = this;
@@ -100,35 +110,38 @@ export default {
                     const lastRecipe = lastSearch.recipes[0];
                     self.last_recipe_id = lastRecipe.id;
 
-                    axios
-                        .get("https://foodover.herokuapp.com/api/recommends", {
-                            params: self.recommendsParams
-                        })
-                        .then(response => {
-                            self.random = false;
-                            self.recommends = response.data;
+                    axios.get(`${self.api_url}/api/recommends`, {
+                        headers: {
+                            'Authorization': `Bearer ${localStorage.getItem('token')}`
+                        },
+                        params: self.recommendsParams
+                    })
+                    .then(response => {
+                        self.random = false;
+                        self.recommends = response.data;
 
-                            // populate the results with images
-                            for (var i = 0; i < self.recommends.length; i++) {
-                                self.recommends[
-                                    i
-                                ].image = `https://spoonacular.com/recipeImages/${self.recommends[i].id}-480x360.jpg`;
-                            }
-                        });
+                        // populate the results with images
+                        for (var i = 0; i < self.recommends.length; i++) {
+                            self.recommends[
+                                i
+                            ].image = `https://spoonacular.com/recipeImages/${self.recommends[i].id}-480x360.jpg`;
+                        }
+                    });
                     // .catch((err) => {
                     // this.loading = false;
                     // console.log(err);
                     // })
                     // if theres none get some random recipes
                 } else {
-                    axios
-                        .get("https://foodover.herokuapp.com/api/randoms", {
-                            // params: this.recommendsParams(lastRecipe.id)
-                        })
-                        .then(response => {
-                            self.random = true;
-                            self.recommends = response.data.recipes;
-                        });
+                    axios.get(`${self.api_url}/api/randoms`, {
+                        headers: {
+                            'Authorization': `Bearer ${localStorage.getItem('token')}`
+                        }
+                    })
+                    .then(response => {
+                        self.random = true;
+                        self.recommends = response.data.recipes;
+                    });
                     // .catch((err) => {
                     // this.loading = false;
                     // console.log(err);

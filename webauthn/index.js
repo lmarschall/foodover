@@ -2,14 +2,18 @@ require('dotenv').config();
 
 const express = require('express');
 const base64url = require('base64url');
-const jose = require('jose')
-const { PrismaClient } = require('@prisma/client')
+const jose = require('jose');
+const { PrismaClient } = require('@prisma/client');
 const webauthn = express.Router();
+
+const debug = process.env.DEBUG || false;
 
 console.log('server is starting webauthn services')
 
 const userRepository = require('./userRepository');
 const prisma = new PrismaClient()
+
+let token_key_pairs = [];
 
 const {
     // Registration
@@ -192,7 +196,7 @@ webauthn.post('/login', (req, res) => {
     res.send(options);
 });
 
-webauthn.post('/login-challenge', (req, res) => {
+webauthn.post('/login-challenge', async (req, res) => {
 
     const body = req.body;
 
@@ -239,7 +243,7 @@ webauthn.post('/login-challenge', (req, res) => {
         // Update the authenticator's counter in the DB to the newest count in the authentication
         dbAuthenticator.counter = authenticationInfo.newCounter;
 
-        // create key pair for creating json web token
+        // create key pair for signing and verifying json web token
         const { publicKey, privateKey } = await jose.generateKeyPair('ES256')
         console.log(publicKey)
         console.log(privateKey)
@@ -255,13 +259,110 @@ webauthn.post('/login-challenge', (req, res) => {
             // .setExpirationTime('2h') // no exp time
             .sign(privateKey)
 
-        
+        // save token and key in memory for now
+        const newTokenKeyPair = {
+            token: jwt,
+            key: publicKey
+        }
+        token_key_pairs.push(newTokenKeyPair);
+
         console.log(jwt)
 
         return res.send({verified, jwt})
     }
 
-    res.send({ verified });
+    res.send({ verified })
 });
+
+webauthn.get('/test-token', async (req, res) => {
+
+    // create key pair for creating json web token
+    const { publicKey, privateKey } = await jose.generateKeyPair('ES256')
+    console.log(publicKey)
+    console.log(privateKey)
+
+    // TODO save public key for verification with user in database
+
+    // create new json web token for api calls
+    const jwt = await new jose.SignJWT({ 'urn:example:claim': true })
+        .setProtectedHeader({ alg: 'ES256' })
+        .setIssuedAt()
+        .setIssuer('urn:example:issuer')
+        .setAudience('urn:example:audience')
+        // .setExpirationTime('2h') // no exp time
+        .sign(privateKey)
+
+
+    // save token and key in memory for now
+    const newTokenKeyPair = {
+        token: jwt,
+        key: publicKey
+    }
+    token_key_pairs.push(newTokenKeyPair);
+
+    console.log(jwt)
+
+    fake_jwt = "xyz"
+
+    try {
+        const { payload, protectedHeader } = await jose.jwtVerify(fake_jwt, publicKey, {
+            issuer: 'urn:example:issuer',
+            audience: 'urn:example:audience'
+        })
+        console.log(protectedHeader)
+        console.log(payload)
+    } catch(error) {
+        console.log(error.code)
+    }
+
+    res.send({jwt})
+
+});
+
+webauthn.validateToken = async (req, res, next) => {
+
+    console.log("validate token");
+
+    console.log(req.headers);
+
+    // if(debug) {
+    //     return next();
+    // }
+
+    if (req.headers['authorization']) {
+        try {
+            const authorization = req.headers['authorization'].split(' ');
+            if (authorization[0] !== 'Bearer') {
+                return res.status(401).send();
+            } else {
+                // TODO search token and the public Key in storage
+                const jwt = authorization[1]
+                let publicKey = ''
+                token_key_pairs.forEach(element => {
+                    if(element.token == jwt) {
+                        publicKey = element.key;
+                    }
+                });
+                try {
+                    const { payload, protectedHeader } = await jose.jwtVerify(jwt, publicKey, {
+                        issuer: 'urn:example:issuer',
+                        audience: 'urn:example:audience'
+                    })
+                    console.log(protectedHeader)
+                    console.log(payload)
+                } catch(error) {
+                    console.log(error.code)
+                    return res.status(401).send();
+                }
+                return next();
+            }
+        } catch (err) {
+            return res.status(403).send();
+        }
+    } else {
+        return res.status(401).send();
+    }
+};
+
 
 module.exports = webauthn

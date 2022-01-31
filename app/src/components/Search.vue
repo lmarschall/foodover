@@ -428,7 +428,8 @@ export default {
             opened: true,
             recipes: [],
             observer: null,
-            offset: 0
+            offset: 0,
+            api_url: process.env.API_URL || 'http://localhost:8000'
         };
     },
     computed: {
@@ -473,7 +474,8 @@ export default {
             return this.$store.state.search_params.ingredients;
         }
     },
-    mounted: function() {
+    mounted: async function() {
+        await this.getToken();
         this.loadData();
     },
     created() {
@@ -536,20 +538,30 @@ export default {
             document.db.searches.add(newSearch);
         },
 
+        getToken: async function() {
+            axios.get(`${this.api_url}/webauthn/test-token`)
+            .then(response => {
+                console.log(response.data.jwt);
+                localStorage.setItem('token', response.data.jwt);
+            });
+        },
+
         // find the recipes by the selected ingredients params
         findRecipes: function(continueSearch = false) {
             if (!continueSearch) {
                 this.recipes = [];
             }
 
-            axios
-                .get("https://foodover.herokuapp.com/api/recipes", {
-                    params: this.ingredientsParams
-                })
-                .then(response => {
-                    this.recipes = response.data;
-                    this.saveSearch();
-                });
+            axios.get(`${this.api_url}/api/recipes`, {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                },
+                params: this.ingredientsParams
+            })
+            .then(response => {
+                this.recipes = response.data;
+                this.saveSearch();
+            });
             // .catch((err) => {
             // this.loading = false;
             // console.log(err);

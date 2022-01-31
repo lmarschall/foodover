@@ -2,6 +2,7 @@ require('dotenv').config();
 
 const express = require('express');
 const axios = require('axios');
+const webauthn = require('../webauthn');
 
 const api = express.Router();
 const debug = process.env.DEBUG || false;
@@ -24,7 +25,7 @@ async function findRecipesbyIngredients (params) {
     }
 }
   
-api.get("/recipes", async (req, res) => {
+api.get("/recipes", webauthn.validateToken, async (req, res) => {
 
     const params = new URLSearchParams();
     params.append('apiKey', process.env.API_KEY)
@@ -57,7 +58,7 @@ async function findRecipebyId (id) {
     }
 }
   
-api.get("/recipe", async (req, res) => {
+api.get("/recipe", webauthn.validateToken, async (req, res) => {
 
     let recipe = []
 
@@ -126,7 +127,7 @@ async function getRecipeRecommends (id) {
     }
 }
   
-api.get("/recommends", async (req, res) => {
+api.get("/recommends", webauthn.validateToken, async (req, res) => {
 
     let recommends = []
 
@@ -156,7 +157,7 @@ async function getRecipesRandom () {
     }
 }
   
-api.get("/randoms", async (req, res) => {
+api.get("/randoms", webauthn.validateToken, async (req, res) => {
 
     let randoms = []
 
