@@ -146,7 +146,7 @@ webauthn.post('/register', async (req, res) => {
                 credentialPublicKey,
                 credentialID,
                 counter,
-                transports: body.transports,
+                // transports: body.transports,
             };
             user.devices.push(newDevice);
         }
