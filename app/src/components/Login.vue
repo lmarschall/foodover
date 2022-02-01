@@ -107,6 +107,8 @@ export default {
 
         async login(challenge) {
 
+            const self = this;
+
             console.log("login")
             const credentials = await startAuthentication(challenge);
             console.log(credentials);
