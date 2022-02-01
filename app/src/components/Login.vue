@@ -123,8 +123,12 @@ export default {
             .then(response => {
                 console.log(response.data);
                 // self.login(response.data);
+                if(response.data.verified) {
+                    console.log("login verified, save token");
+                    localStorage.setItem('token', response.data.jwt);
+                    self.returnHome();
+                }
             });
-
         },
 
         async requestToken() {
@@ -136,12 +140,10 @@ export default {
                 localStorage.setItem('token', response.data.jwt);
                 self.returnHome();
             });
-
-            
         },
 
         returnHome() {
-            this.$router.back();
+            this.$router.push('/');
         }
     }
 };
