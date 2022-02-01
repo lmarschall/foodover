@@ -125,6 +125,7 @@ export default {
             .then(response => {
                 console.log(response.data);
                 console.log(response.data.verified)
+                console.log(typeof response.data.verified)
                 // self.login(response.data);
                 if(response.data.verified === "true") {
                     console.log("login verified, save token");
