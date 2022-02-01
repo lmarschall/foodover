@@ -122,8 +122,9 @@ export default {
             })
             .then(response => {
                 console.log(response.data);
+                console.log(response.data.verified)
                 // self.login(response.data);
-                if(response.data.verified) {
+                if(response.data.verified === "true") {
                     console.log("login verified, save token");
                     localStorage.setItem('token', response.data.jwt);
                     self.returnHome();
