@@ -24,6 +24,25 @@ Vue.use(VueMq, {
     }
 });
 
+router.beforeEach((to, from, next) => {
+    if(from.path === "/login") {
+        next();
+    }
+    // `to` and `from` are both route objects
+    // console.log("beforeEach")
+    if(localStorage.getItem("token") === null) {
+        // console.log("no token found!");
+        if(to.path !== "/login") {
+            // console.log("not on login page!")
+            next("/login");
+        }
+        // console.log("on login page");
+        next();
+    }
+    // console.log("token found");
+    next();
+});
+
 new Vue({
     router,
     store,

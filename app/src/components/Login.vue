@@ -15,6 +15,13 @@
         >
             Login
         </button>
+        <button
+            type="button"
+            class="btn btn-primary"
+            v-on:click="requestToken"
+        >
+            TESTTOKEN
+        </button>
     </div>
 </template>
 
@@ -25,6 +32,7 @@
  * Component to display the diets of the search.
  */
 import axios from "axios";
+// import router from "../router";
 // import { browserSupportsWebauthn, startRegistration, startAuthentication } from '@simplewebauthn/browser';
 import { startRegistration, startAuthentication } from '@simplewebauthn/browser';
 
@@ -77,23 +85,6 @@ export default {
                 console.log(response.data);
                 // self.solveRegisterChallenge(response.data);
             });
-
-            // const { loggedIn } = await fetch(
-            //     'http://localhost:8000/webauthn/register', 
-            //     {
-            //         method: 'POST',
-            //         headers: {
-            //             'content-type': 'Application/Json'
-            //         },
-            //         body: JSON.stringify(credentials)
-            //     }
-            // ).then(response => response.json());
-
-            // if (loggedIn) {
-            //     console.log('registration successful');
-            //     return;
-            // }
-            // console.log('registration failed');
         },
 
         async requestLogin() {
@@ -112,14 +103,6 @@ export default {
                 console.log(response.data);
                 self.login(response.data);
             });
-            // const challenge = await fetch('http://localhost:8000/webauthn/login', {
-            //     method: 'POST',
-            //     headers: {
-            //         'content-type': 'Application/Json'
-            //     },
-            //     body: JSON.stringify({ email: 'test@test' })
-            // })
-            // .then(response => response.json());
         },
 
         async login(challenge) {
@@ -142,26 +125,24 @@ export default {
                 // self.login(response.data);
             });
 
+        },
+
+        async requestToken() {
+            const self = this;
+            // axios.get(`${process.env.VUE_APP_APIURL || 'http://localhost:8000'}/webauthn/test-token`)
+            axios.get("https://foodover.herokuapp.com/webauthn/test-token")
+            .then(response => {
+                console.log(response.data.jwt);
+                localStorage.setItem('token', response.data.jwt);
+                self.returnHome();
+            });
+
+            
+        },
+
+        returnHome() {
+            this.$router.back();
         }
-
-            // const credentials = await solveLoginChallenge(challenge);
-            // const { loggedIn } = await fetch(
-            //     'http://localhost:8000/webauthn/login-challenge', 
-            //     {
-            //         method: 'POST',
-            //         headers: {
-            //             'content-type': 'Application/Json'
-            //         },
-            //         body: JSON.stringify(credentials)
-            //     }
-            // ).then(response => response.json());
-
-            // if (loggedIn) {
-            //     console.log('You are logged in');
-            //     return;
-            // }
-            // console.log('Invalid credential');
-        // } 
     }
 };
 </script>

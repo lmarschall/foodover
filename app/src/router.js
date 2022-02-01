@@ -38,4 +38,4 @@ export default new Router({
             component: Recipe
         }
     ]
-});
+})

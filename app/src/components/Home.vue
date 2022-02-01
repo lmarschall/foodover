@@ -45,7 +45,6 @@ export default {
         Recipes
     },
     mounted: async function() {
-        await this.getToken();
         this.getRecommends();
         this.getFavorites();
     },
@@ -88,15 +87,6 @@ export default {
                     const i = target.getAttribute("image");
                     target.firstChild.src = i;
                 }, 100);
-            });
-        },
-
-        getToken: async function() {
-            // axios.get(`${process.env.VUE_APP_APIURL || 'http://localhost:8000'}/webauthn/test-token`)
-            axios.get("https://foodover.herokuapp.com/webauthn/test-token")
-            .then(response => {
-                console.log(response.data.jwt);
-                localStorage.setItem('token', response.data.jwt);
             });
         },
 

@@ -474,7 +474,6 @@ export default {
         }
     },
     mounted: async function() {
-        await this.getToken();
         this.loadData();
     },
     created() {
@@ -535,15 +534,6 @@ export default {
             };
 
             document.db.searches.add(newSearch);
-        },
-
-        getToken: async function() {
-            // axios.get(`${process.env.VUE_APP_APIURL || 'http://localhost:8000'}/webauthn/test-token`)
-            axios.get("https://foodover.herokuapp.com/webauthn/test-token")
-            .then(response => {
-                console.log(response.data.jwt);
-                localStorage.setItem('token', response.data.jwt);
-            });
         },
 
         // find the recipes by the selected ingredients params
