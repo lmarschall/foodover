@@ -76,7 +76,14 @@ webauthn.post('/request-register', async (req, res) => {
     const options = generateRegistrationOptions(opts);
 
     // update the user challenge
-    user.challenge = options.challenge
+    await prisma.user.update({
+        where: {
+            uid: user.uid
+        },
+        data: {
+            challenge: options.challenge,
+        }
+    })
 
     res.send(options);
 });
@@ -183,7 +190,15 @@ webauthn.post('/login', async (req, res) => {
 
     const options = generateAuthenticationOptions(opts);
 
-    user.challenge = options.challenge;
+    // update the user challenge
+    await prisma.user.update({
+        where: {
+            uid: user.uid
+        },
+        data: {
+            challenge: options.challenge,
+        }
+    })
 
     res.send(options);
 });
