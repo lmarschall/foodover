@@ -176,7 +176,7 @@ webauthn.post('/register', async (req, res) => {
             create: {
                 userUId: user.uid,
                 credentialPublicKey: credentialPublicKey,
-                credentialId: credentialId,
+                credentialId: credentialID,
                 counter: counter
             }
         })
