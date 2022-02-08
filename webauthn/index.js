@@ -6,13 +6,6 @@ const jose = require('jose');
 const { PrismaClient } = require('@prisma/client');
 const webauthn = express.Router();
 
-const debug = process.env.DEBUG || false;
-
-console.log('server is starting webauthn services')
-
-const userRepository = require('./userRepository');
-const prisma = new PrismaClient()
-
 const {
     // Registration
     generateRegistrationOptions,
@@ -22,9 +15,12 @@ const {
     verifyAuthenticationResponse,
 } = require('@simplewebauthn/server');
 
+const prisma = new PrismaClient()
 const rpId = "foodover.app"
 const rpName = "Foodover"
 const expectedOrigin = 'https://foodover.app'
+
+console.log('server is starting webauthn services')
 
 webauthn.post('/request-register', async (req, res) => {
 
@@ -107,10 +103,10 @@ webauthn.post('/register', async (req, res) => {
     let verification;
     try {
         const opts = {
-        credential: credential,
-        expectedChallenge: `${user.challenge}`,
-        expectedOrigin,
-        expectedRPID: rpId,
+            credential: credential,
+            expectedChallenge: `${user.challenge}`,
+            expectedOrigin,
+            expectedRPID: rpId,
         };
         verification = await verifyRegistrationResponse(opts);
     } catch (error) {
@@ -132,6 +128,7 @@ webauthn.post('/register', async (req, res) => {
         const existingDevice = await prisma.device.findUnique({
             where: {
                 credentialID: credentialID,
+                userUid: user.uid
             }
         })
 
@@ -319,12 +316,6 @@ webauthn.get('/test-token', async (req, res) => {
 webauthn.validateToken = async (req, res, next) => {
 
     console.log("validate token");
-
-    console.log(req.headers);
-
-    // if(debug) {
-    //     return next();
-    // }
 
     if (req.headers['authorization']) {
         try {
