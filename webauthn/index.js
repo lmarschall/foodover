@@ -4,7 +4,6 @@ const express = require('express');
 const base64url = require('base64url');
 const jose = require('jose');
 const { PrismaClient } = require('@prisma/client');
-const webauthn = express.Router();
 
 const {
     // Registration
@@ -15,10 +14,11 @@ const {
     verifyAuthenticationResponse,
 } = require('@simplewebauthn/server');
 
+const webauthn = express.Router();
 const prisma = new PrismaClient();
 const rpId = process.env.RPID || "foodover.app";
 const rpName = "Foodover";
-const expectedOrigin = `https://${rpID}`;
+const expectedOrigin = `https://${rpId}`;
 
 console.log('server is starting webauthn services')
 
