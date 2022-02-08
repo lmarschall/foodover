@@ -15,7 +15,7 @@ Vue.config.productionTip = false;
 
 // Vue.prototype.db = null;
 
-Vue.prototype.$apiUrl = APIURL || "http://localhost:8000"
+Vue.prototype.$apiUrl = process.env.APIURL || "https://foodover.herokuapp.com"
 
 Vue.use(VueMq, {
     breakpoints: {
