@@ -15,7 +15,7 @@ Vue.config.productionTip = false;
 
 // Vue.prototype.db = null;
 
-Vue.prototype.$apiUrl = process.env.APIURL || "http://localhost:8000"
+Vue.prototype.$apiUrl = APIURL || "http://localhost:8000"
 
 Vue.use(VueMq, {
     breakpoints: {
