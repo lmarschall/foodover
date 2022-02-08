@@ -22,7 +22,7 @@ const expectedOrigin = `https://${rpId}`;
 
 console.log('server is starting webauthn services')
 
-test();
+// test();
 
 async function test() {
     let name = 'Name'
