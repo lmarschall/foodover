@@ -49,7 +49,7 @@ export default {
         async requestRegister() {
             const self = this;
 
-            axios.post('https://foodover.herokuapp.com/webauthn/request-register', {
+            axios.post(`${self.$apiUrl}/webauthn/request-register`, {
                 headers: {
                     'content-type': 'Application/Json'
                 },
@@ -64,11 +64,11 @@ export default {
 
             const credentials = await startRegistration(challengeOptions);
 
-            axios.post('https://foodover.herokuapp.com/webauthn/register', {
+            axios.post(`${self.$apiUrl}/webauthn/register`, {
                 headers: {
                     'content-type': 'Application/Json'
                 },
-                credentials: { credentials: credentials, challenge: challengeOptions.challenge }
+                challengeResponse: { credentials: credentials, challenge: challengeOptions.challenge }
             })
             .then(response => {
                 console.log(response.data);
@@ -78,7 +78,7 @@ export default {
         async requestLogin() {
             const self = this;
 
-            axios.post('https://foodover.herokuapp.com/webauthn/login', {
+            axios.post(`${self.$apiUrl}/webauthn/login`, {
                 headers: {
                     'content-type': 'Application/Json'
                 },
@@ -94,11 +94,11 @@ export default {
             const self = this;
             const credentials = await startAuthentication(challengeOptions);
 
-            axios.post('https://foodover.herokuapp.com/webauthn/login-challenge', {
+            axios.post(`${self.$apiUrl}/webauthn/login-challenge`, {
                 headers: {
                     'content-type': 'Application/Json'
                 },
-                credentials: { credentials: credentials, challenge: challengeOptions.challenge }
+                challengeResponse: { credentials: credentials, challenge: challengeOptions.challenge }
             })
             .then(response => {
 
@@ -113,7 +113,7 @@ export default {
         async requestToken() {
             const self = this;
             // axios.get(`${process.env.VUE_APP_APIURL || 'http://localhost:8000'}/webauthn/test-token`)
-            axios.get("https://foodover.herokuapp.com/webauthn/test-token")
+            axios.get(`${self.$apiUrl}/test-token`)
             .then(response => {
                 console.log(response.data.jwt);
                 localStorage.setItem('token', response.data.jwt);

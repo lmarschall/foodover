@@ -91,7 +91,7 @@ webauthn.post('/request-register', async (req, res) => {
 webauthn.post('/register', async (req, res) => {
     
     // get the signed credentials and the expected challenge from request
-    const { credential, challenge } = req.body.credentials;
+    const { credentials, challenge } = req.body.challengeResponse;
     // credential.id = credential.rawId
 
     // find user with expected challenge
@@ -107,12 +107,10 @@ webauthn.post('/register', async (req, res) => {
         return res.sendStatus(400);
     }
 
-    console.log("found user")
-
     let verification;
     try {
         const opts = {
-            credential: credential,
+            credential: credentials,
             expectedChallenge: `${user.challenge}`,
             expectedOrigin,
             expectedRPID: rpId,
@@ -209,7 +207,7 @@ webauthn.post('/login-challenge', async (req, res) => {
 
     const body = req.body;
 
-    const { credentials, challenge } = req.body.credentials;
+    const { credentials, challenge } = req.body.challengeResponse;
 
     // search for user if name already exists, else generate new user
     const user = await prisma.user.findUnique({
