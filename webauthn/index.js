@@ -13,8 +13,6 @@ console.log('server is starting webauthn services')
 const userRepository = require('./userRepository');
 const prisma = new PrismaClient()
 
-let token_key_pairs = [];
-
 const {
     // Registration
     generateRegistrationOptions,
@@ -25,21 +23,36 @@ const {
 } = require('@simplewebauthn/server');
 
 const rpId = "foodover.app"
-let expectedOrigin = 'https://foodover.app'
-let currenUserEmail = ''
+const rpName = "Foodover"
+const expectedOrigin = 'https://foodover.app'
 
-webauthn.post('/request-register', (req, res) => {
-    const { id, email } = req.body.userInfo;
+webauthn.post('/request-register', async (req, res) => {
 
-    console.log("generate register challenge");
+    // get parameters from request
+    const { name } = req.body.userInfo;
 
-    currenUserEmail = email
+    // search for user if name already exists, else generate new user
+    let user = await prisma.user.findUnique({
+        where: {
+            name: name,
+        }
+    })
+
+    if(user) {
+
+    } else {
+        user = await prisma.user.create({
+            data: {
+                name: name
+            }
+        })
+    }
 
     const opts = {
-        rpName: 'SimpleWebAuthn Example',
+        rpName: rpName,
         rpId,
-        userID: id,
-        userName: email,
+        userID: user.uid,
+        userName: name,
         timeout: 60000,
         attestationType: 'direct',
         /**
@@ -66,65 +79,38 @@ webauthn.post('/request-register', (req, res) => {
 
     const options = generateRegistrationOptions(opts);
 
-    // if user already exists
-    if(userRepository.findByEmail(currenUserEmail)) {
-        console.log("update user challenge")
-        
-        const user = userRepository.findByEmail(email);
-        user.challenge = options.challenge
-        // // Run inside `async` function
-        // const post = await prisma.post.update({
-        //     where: { id: 42 },
-        //     data: { published: true },
-        // })
-    } else {
-        console.log("create new user")
-        // // Run inside `async` function
-        // const user = await prisma.user.create({
-        //     data: {
-        //     name: 'Alice',
-        //     email: 'alice@prisma.io',
-        //     posts: {
-        //         create: { title: 'Join us for Prisma Day 2021' },
-        //     },
-        //     },
-        // })
-        userRepository.create({
-            id,
-            email,
-            challenge: options.challenge,
-            devices: []
-        })
-    }
+    // update the user challenge
+    user.challenge = options.challenge
 
     res.send(options);
 });
 
 webauthn.post('/register', async (req, res) => {
     
-    console.log("register body")
-    console.log(req.body)
-    const credential = JSON.parse(req.body.credentials);
-    credential.id = credential.rawId
+    // get the signed credentials and the expected challenge from request
+    const { credential, challenge } = req.body.credentials;
+    // credential.id = credential.rawId
 
-    const user = userRepository.findByEmail(currenUserEmail);
+    // find user with expected challenge
+    // const user = userRepository.findByEmail(currenUserEmail);
+    const user = await prisma.user.findUnique({
+        where: {
+            challenge: challenge,
+        },
+    })
 
+    // user with challenge not found, return error
     if (!user) {
         return res.sendStatus(400);
     }
-
-    const expectedChallenge = user.challenge;
-
-    console.log(expectedChallenge);
 
     let verification;
     try {
         const opts = {
         credential: credential,
-        expectedChallenge: `${expectedChallenge}`,
+        expectedChallenge: `${user.challenge}`,
         expectedOrigin,
         expectedRPID: rpId,
-        // expectedRPID: '',
         };
         verification = await verifyRegistrationResponse(opts);
     } catch (error) {
@@ -142,32 +128,41 @@ webauthn.post('/register', async (req, res) => {
     if (verified && registrationInfo) {
         const { credentialPublicKey, credentialID, counter } = registrationInfo;
 
-        const existingDevice = user.devices.find(device => device.credentialID === credentialID);
+        // check if device is already registered with user
+        const existingDevice = await prisma.device.findUnique({
+            where: {
+                credentialID: credentialID,
+            }
+        })
 
         if (!existingDevice) {
             /**
              * Add the returned device to the user's list of devices
              */
-            const newDevice = {
-                credentialPublicKey,
-                credentialID,
-                counter,
-                // transports: body.transports,
-            };
-            user.devices.push(newDevice);
+            user = await prisma.device.create({
+                data: {
+                    userUid: user.uid,
+                    credentialPublicKey: credentialPublicKey,
+                    credentialId: credentialID,
+                    counter: counter
+                }
+            })
         }
     }
 
     res.send({ verified });
 });
 
-webauthn.post('/login', (req, res) => {
+webauthn.post('/login', async (req, res) => {
 
-    const { email } = req.body.userInfo;
+    const { name } = req.body.userInfo;
 
-    console.log("generate login challenge");
-
-    const user = userRepository.findByEmail(email);
+    // search for user if name already exists, else generate new user
+    const user = await prisma.user.findUnique({
+        where: {
+            name: name,
+        }
+    })
 
     if (!user) {
         return res.sendStatus(400);
@@ -191,7 +186,7 @@ webauthn.post('/login', (req, res) => {
 
     const options = generateAuthenticationOptions(opts);
 
-    userRepository.updateUserChallenge(user, options.challenge);
+    user.challenge = options.challenge;
 
     res.send(options);
 });
@@ -200,11 +195,14 @@ webauthn.post('/login-challenge', async (req, res) => {
 
     const body = req.body;
 
-    const credentials = JSON.parse(req.body.credentials);
+    const { credentials, challenge } = req.body.credentials;
 
-    const user = userRepository.findByEmail(currenUserEmail);
-
-    const expectedChallenge = user.challenge;
+    // search for user if name already exists, else generate new user
+    const user = await prisma.user.findUnique({
+        where: {
+            challenge: challenge,
+        }
+    })
 
     let dbAuthenticator;
     const bodyCredIDBuffer = base64url.toBuffer(credentials.rawId);
@@ -224,10 +222,9 @@ webauthn.post('/login-challenge', async (req, res) => {
     try {
         const opts = {
         credential: credentials,
-        expectedChallenge: `${expectedChallenge}`,
+        expectedChallenge: `${user.challenge}`,
         expectedOrigin,
         expectedRPID: rpId,
-        // expectedRPID: '',
         authenticator: dbAuthenticator,
         };
         verification = verifyAuthenticationResponse(opts);
@@ -346,7 +343,8 @@ webauthn.validateToken = async (req, res, next) => {
                 try {
                     const { payload, protectedHeader } = await jose.jwtVerify(jwt, publicKey, {
                         issuer: 'urn:example:issuer',
-                        audience: 'urn:example:audience'
+                        audience: 'urn:example:audience',
+                        algorithms: ['ES256']
                     })
                     console.log(protectedHeader)
                     console.log(payload)

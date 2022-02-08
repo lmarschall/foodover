@@ -32,7 +32,6 @@
  * Component to display the diets of the search.
  */
 import axios from "axios";
-// import router from "../router";
 // import { browserSupportsWebauthn, startRegistration, startAuthentication } from '@simplewebauthn/browser';
 import { startRegistration, startAuthentication } from '@simplewebauthn/browser';
 
@@ -48,85 +47,61 @@ export default {
     methods: {
 
         async requestRegister() {
-            console.log("request register");
             const self = this;
 
             axios.post('https://foodover.herokuapp.com/webauthn/request-register', {
                 headers: {
                     'content-type': 'Application/Json'
                 },
-                // body: JSON.stringify({ id: 'uuid', email: 'test@test' })
-                userInfo: { id: new Uint8Array(16), email: this.userName }
+                userInfo: { name: this.userName }
             })
             .then(response => {
-                console.log(response.data);
                 self.register(response.data);
             });
         },
 
-        async register(challenge) {
+        async register(challengeOptions) {
 
-            console.log("solve register challenge");
-
-            const credentials = await startRegistration(challenge);
-            // const credentials = await solveRegistrationChallenge(challenge);
-            console.log(credentials);
-
-            console.log("register challenge solved");
+            const credentials = await startRegistration(challengeOptions);
 
             axios.post('https://foodover.herokuapp.com/webauthn/register', {
                 headers: {
                     'content-type': 'Application/Json'
                 },
-                // body: JSON.stringify(credentials)
-                credentials: JSON.stringify(credentials)
+                credentials: { credentials: credentials, challenge: challengeOptions.challenge }
             })
             .then(response => {
                 console.log(response.data);
-                // self.solveRegisterChallenge(response.data);
             });
         },
 
         async requestLogin() {
-            console.log('request login');
             const self = this;
 
             axios.post('https://foodover.herokuapp.com/webauthn/login', {
                 headers: {
                     'content-type': 'Application/Json'
                 },
-                // body: JSON.stringify({ id: 'uuid', email: 'test@test' })
-                userInfo: { email: this.userName }
-                // userInfo: { id: 'uuid', email: 'test@test' }
+                userInfo: { name: this.userName }
             })
             .then(response => {
-                console.log(response.data);
                 self.login(response.data);
             });
         },
 
-        async login(challenge) {
+        async login(challengeOptions) {
 
             const self = this;
-
-            console.log("login")
-            const credentials = await startAuthentication(challenge);
-            console.log(credentials);
+            const credentials = await startAuthentication(challengeOptions);
 
             axios.post('https://foodover.herokuapp.com/webauthn/login-challenge', {
                 headers: {
                     'content-type': 'Application/Json'
                 },
-                // body: JSON.stringify({ id: 'uuid', email: 'test@test' })
-                // userInfo: { email: 'test@test' }
-                credentials: JSON.stringify(credentials)
-                // userInfo: { id: 'uuid', email: 'test@test' }
+                credentials: { credentials: credentials, challenge: challengeOptions.challenge }
             })
             .then(response => {
-                console.log(response.data);
-                console.log(response.data.verified)
-                console.log(typeof response.data.verified)
-                // self.login(response.data);
+
                 if(response.data.verified) {
                     console.log("login verified, save token");
                     localStorage.setItem('token', response.data.jwt);
