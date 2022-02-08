@@ -21,7 +21,7 @@ model Device {
   id                    Int     @id @default(autoincrement())
   user                  User    @relation(fields: [userUId], references: [uid])
   userUId               String
-  credentialPublicKey   String
-  credentialId          String  @unique
+  credentialPublicKey   Bytes
+  credentialId          Bytes   @unique
   counter               Int
 }

@@ -26,8 +26,6 @@ console.log('server is starting webauthn services')
 
 async function test() {
     let name = 'Name'
-    let credentialId = 'CredentialId'
-    let credentialPublicKey = 'CredentialPublicKey'
     let counter = 0
 
     // search for user if name already exists, else generate new user
@@ -53,8 +51,6 @@ async function test() {
         },
         create: {
             userUId: user.uid,
-            credentialPublicKey: credentialPublicKey,
-            credentialId: credentialId,
             counter: counter
         }
     })
