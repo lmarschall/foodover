@@ -19,26 +19,9 @@ const prisma = new PrismaClient();
 const rpId = process.env.RPID || "foodover.app";
 const rpName = "Foodover";
 const expectedOrigin = `https://${rpId}`;
+const token_key_pairs = []
 
 console.log('server is starting webauthn services')
-
-test();
-
-async function test() {
-    let name = 'Test'
-    let counter = 0
-
-    const user = await prisma.user.findUnique({
-        where: {
-            name: name,
-        },
-        include: {
-            devices: true
-        }
-    })
-
-    console.log(user.devices)
-}
 
 webauthn.post('/request-register', async (req, res) => {
 
