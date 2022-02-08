@@ -15,10 +15,10 @@ const {
     verifyAuthenticationResponse,
 } = require('@simplewebauthn/server');
 
-const prisma = new PrismaClient()
-const rpId = "foodover.app"
-const rpName = "Foodover"
-const expectedOrigin = 'https://foodover.app'
+const prisma = new PrismaClient();
+const rpId = process.env.RPID || "foodover.app";
+const rpName = "Foodover";
+const expectedOrigin = `https://${rpID}`;
 
 console.log('server is starting webauthn services')
 
