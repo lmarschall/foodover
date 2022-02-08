@@ -22,38 +22,22 @@ const expectedOrigin = `https://${rpId}`;
 
 console.log('server is starting webauthn services')
 
-// test();
+test();
 
 async function test() {
-    let name = 'Name'
+    let name = 'Test'
     let counter = 0
 
-    // search for user if name already exists, else generate new user
-    const user = await prisma.user.upsert({
+    const user = await prisma.user.findUnique({
         where: {
             name: name,
         },
-        update: {
-        },
-        create: {
-            name: name
+        include: {
+            devices: true
         }
     })
 
-    // check if device is already registered with user, else create device registration for user
-    await prisma.device.upsert({
-        where: {
-            credentialId: credentialId      
-        },
-        update: {
-            userUId: user.uid,
-            counter: counter
-        },
-        create: {
-            userUId: user.uid,
-            counter: counter
-        }
-    })
+    console.log(user.devices)
 }
 
 webauthn.post('/request-register', async (req, res) => {
@@ -189,6 +173,9 @@ webauthn.post('/login', async (req, res) => {
     const user = await prisma.user.findUnique({
         where: {
             name: name,
+        },
+        include: {
+            devices: true
         }
     })
 
@@ -199,7 +186,7 @@ webauthn.post('/login', async (req, res) => {
     const opts = {
         timeout: 60000,
         allowCredentials: user.devices.map(dev => ({
-            id: dev.credentialID,
+            id: dev.credentialId,
             type: 'public-key',
             transports: dev.transports || ['usb', 'ble', 'nfc', 'internal'],
             // transports: 'internal'
@@ -237,6 +224,9 @@ webauthn.post('/login-challenge', async (req, res) => {
     const user = await prisma.user.findUnique({
         where: {
             challenge: challenge,
+        },
+        include: {
+            devices: true
         }
     })
 
@@ -244,7 +234,7 @@ webauthn.post('/login-challenge', async (req, res) => {
     const bodyCredIDBuffer = base64url.toBuffer(credentials.rawId);
     // "Query the DB" here for an authenticator matching `credentialID`
     for (const dev of user.devices) {
-        if (dev.credentialID.equals(bodyCredIDBuffer)) {
+        if (dev.credentialId.equals(bodyCredIDBuffer)) {
         dbAuthenticator = dev;
         break;
         }
