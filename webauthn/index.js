@@ -22,27 +22,60 @@ const expectedOrigin = `https://${rpId}`;
 
 console.log('server is starting webauthn services')
 
+test();
+
+async function test() {
+    let name = 'Name'
+    let credentialId = 'CredentialId'
+    let credentialPublicKey = 'CredentialPublicKey'
+    let counter = 0
+
+    // search for user if name already exists, else generate new user
+    const user = await prisma.user.upsert({
+        where: {
+            name: name,
+        },
+        update: {
+        },
+        create: {
+            name: name
+        }
+    })
+
+    // check if device is already registered with user, else create device registration for user
+    await prisma.device.upsert({
+        where: {
+            credentialId: credentialId      
+        },
+        update: {
+            userUId: user.uid,
+            counter: counter
+        },
+        create: {
+            userUId: user.uid,
+            credentialPublicKey: credentialPublicKey,
+            credentialId: credentialId,
+            counter: counter
+        }
+    })
+}
+
 webauthn.post('/request-register', async (req, res) => {
 
     // get parameters from request
     const { name } = req.body.userInfo;
 
     // search for user if name already exists, else generate new user
-    let user = await prisma.user.findUnique({
+    const user = await prisma.user.upsert({
         where: {
             name: name,
+        },
+        update: {
+        },
+        create: {
+            name: name
         }
     })
-
-    if(user) {
-
-    } else {
-        user = await prisma.user.create({
-            data: {
-                name: name
-            }
-        })
-    }
 
     const opts = {
         rpName: rpName,
@@ -131,27 +164,22 @@ webauthn.post('/register', async (req, res) => {
     if (verified && registrationInfo) {
         const { credentialPublicKey, credentialID, counter } = registrationInfo;
 
-        // check if device is already registered with user
-        const existingDevice = await prisma.device.findUnique({
+        // check if device is already registered with user, else create device registration for user
+        await prisma.device.upsert({
             where: {
-                credentialID: credentialID,
-                userUid: user.uid
+                credentialId: credentialId      
+            },
+            update: {
+                userUId: user.uid,
+                counter: counter
+            },
+            create: {
+                userUId: user.uid,
+                credentialPublicKey: credentialPublicKey,
+                credentialId: credentialId,
+                counter: counter
             }
         })
-
-        if (!existingDevice) {
-            /**
-             * Add the returned device to the user's list of devices
-             */
-            user = await prisma.device.create({
-                data: {
-                    userUid: user.uid,
-                    credentialPublicKey: credentialPublicKey,
-                    credentialId: credentialID,
-                    counter: counter
-                }
-            })
-        }
     }
 
     res.send({ verified });
@@ -209,7 +237,7 @@ webauthn.post('/login-challenge', async (req, res) => {
 
     const { credentials, challenge } = req.body.challengeResponse;
 
-    // search for user if name already exists, else generate new user
+    // search for user by challenge
     const user = await prisma.user.findUnique({
         where: {
             challenge: challenge,
