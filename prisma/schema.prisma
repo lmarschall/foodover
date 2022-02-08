@@ -11,8 +11,17 @@ datasource db {
 }
 
 model User {
-  id        Int     @id @default(autoincrement())
-  email     String  @unique
-  name      String?
-  published Boolean @default(false)
+  uid           String      @id @default(cuid())
+  name          String      @unique
+  challenge     String      @unique @default("")
+  devices       Device[]
+}
+
+model Device {
+  id                    Int     @id @default(autoincrement())
+  user                  User    @relation(fields: [userUId], references: [uid])
+  userUId               String
+  credentialPublicKey   Bytes
+  credentialId          Bytes   @unique
+  counter               Int
 }

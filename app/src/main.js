@@ -15,6 +15,8 @@ Vue.config.productionTip = false;
 
 // Vue.prototype.db = null;
 
+Vue.prototype.$apiUrl = process.env.APIURL || "https://foodover.herokuapp.com"
+
 Vue.use(VueMq, {
     breakpoints: {
         small: 576,
@@ -24,22 +26,18 @@ Vue.use(VueMq, {
     }
 });
 
+// check for each page load if token is saved and redirect to login page if not
 router.beforeEach((to, from, next) => {
     if(from.path === "/login") {
         next();
     }
     // `to` and `from` are both route objects
-    // console.log("beforeEach")
     if(localStorage.getItem("token") === null) {
-        // console.log("no token found!");
         if(to.path !== "/login") {
-            // console.log("not on login page!")
             next("/login");
         }
-        // console.log("on login page");
         next();
     }
-    // console.log("token found");
     next();
 });
 

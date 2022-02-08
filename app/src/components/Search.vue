@@ -543,7 +543,7 @@ export default {
             }
 
             // axios.get(`${process.env.VUE_APP_APIURL || 'http://localhost:8000'}/api/recipes`, {
-            axios.get("https://foodover.herokuapp.com/api/recipes", {
+            axios.get(`${this.$apiUrl}/api/recipes`, {
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem('token')}`
                 },

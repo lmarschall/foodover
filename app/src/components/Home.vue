@@ -101,7 +101,7 @@ export default {
                     self.last_recipe_id = lastRecipe.id;
 
                     // axios.get(${process.env.VUE_APP_APIURL || 'http://localhost:8000'}/api/recommends`, {
-                    axios.get("https://foodover.herokuapp.com/api/recommends", {
+                    axios.get(`${self.$apiUrl}/api/recommends`, {
                         headers: {
                             'Authorization': `Bearer ${localStorage.getItem('token')}`
                         },
@@ -125,7 +125,7 @@ export default {
                     // if theres none get some random recipes
                 } else {
                     // axios.get(`${process.env.VUE_APP_APIURL || 'http://localhost:8000'}/api/randoms`, {
-                    axios.get("https://foodover.herokuapp.com/api/randoms", {
+                    axios.get(`${self.$apiUrl}/api/randoms`, {
                         headers: {
                             'Authorization': `Bearer ${localStorage.getItem('token')}`
                         }

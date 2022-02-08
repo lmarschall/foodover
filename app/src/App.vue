@@ -29,6 +29,18 @@ export default {
 </script>
 
 <style>
+
+#app {
+    
+    /* theme-colors */
+    --color-light-green: #a7ff83;
+    --color-green: #17b978;
+    --color-dark-green: #086972;
+    --color-blue: #071a52;
+
+}
+
+
 body {
     background-color: #eef8e3;
     margin: 0;
