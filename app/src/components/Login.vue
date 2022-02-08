@@ -113,7 +113,7 @@ export default {
         async requestToken() {
             const self = this;
             // axios.get(`${process.env.VUE_APP_APIURL || 'http://localhost:8000'}/webauthn/test-token`)
-            axios.get(`${this.$apiUrl}/test-token`)
+            axios.get(`${this.$apiUrl}/webauthn/test-token`)
             .then(response => {
                 console.log(response.data.jwt);
                 localStorage.setItem('token', response.data.jwt);
