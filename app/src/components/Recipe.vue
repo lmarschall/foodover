@@ -237,6 +237,9 @@ export default {
 
             axios
                 .get(`${this.$apiUrl}/api/recipe`, {
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    },
                     params: this.recipeParams
                 })
                 .then(response => {
@@ -269,6 +272,9 @@ export default {
         getNutritions: function() {
             axios
                 .get(`${this.$apiUrl}/api/nutritions`, {
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    },
                     params: this.nutritionsParams
                 })
                 .then(response => {
