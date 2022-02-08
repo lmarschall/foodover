@@ -107,6 +107,8 @@ webauthn.post('/register', async (req, res) => {
         return res.sendStatus(400);
     }
 
+    console.log("found user")
+
     let verification;
     try {
         const opts = {
