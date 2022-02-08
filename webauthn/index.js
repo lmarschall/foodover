@@ -167,7 +167,7 @@ webauthn.post('/register', async (req, res) => {
         // check if device is already registered with user, else create device registration for user
         await prisma.device.upsert({
             where: {
-                credentialId: credentialId      
+                credentialId: credentialID      
             },
             update: {
                 userUId: user.uid,
