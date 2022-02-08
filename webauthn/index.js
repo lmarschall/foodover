@@ -19,7 +19,6 @@ const prisma = new PrismaClient();
 const rpId = process.env.RPID || "foodover.app";
 const rpName = "Foodover";
 const expectedOrigin = `https://${rpId}`;
-const token_key_pairs = []
 
 console.log('server is starting webauthn services')
 
@@ -251,28 +250,18 @@ webauthn.post('/login-challenge', async (req, res) => {
 
         // create key pair for signing and verifying json web token
         const { publicKey, privateKey } = await jose.generateKeyPair('ES256')
-        console.log(publicKey)
-        console.log(privateKey)
 
-        // TODO save public key for verification with user in database
+        // generate jwk from public to include into token header
+        const publicJwk = await jose.exportJWK(publicKey)
 
         // create new json web token for api calls
         const jwt = await new jose.SignJWT({ 'urn:example:claim': true })
-            .setProtectedHeader({ alg: 'ES256' })
+            .setProtectedHeader({ alg: 'ES256', jwk: publicJwk })
             .setIssuedAt()
             .setIssuer('urn:example:issuer')
             .setAudience('urn:example:audience')
             // .setExpirationTime('2h') // no exp time
             .sign(privateKey)
-
-        // save token and key in memory for now
-        const newTokenKeyPair = {
-            token: jwt,
-            key: publicKey
-        }
-        token_key_pairs.push(newTokenKeyPair);
-
-        console.log(jwt)
 
         return res.send({verified, jwt})
     }
@@ -287,31 +276,36 @@ webauthn.get('/test-token', async (req, res) => {
     console.log(publicKey)
     console.log(privateKey)
 
-    // TODO save public key for verification with user in database
+    // console.log("PRIVATE KEY")
+    // const pkcs8Pem = await jose.exportPKCS8(privateKey)
+    // console.log(pkcs8Pem)
+    
+    // console.log("PUBLIC KEY")
+    // const spkiPem = await jose.exportSPKI(publicKey)
+    // console.log(spkiPem)
+
+    console.log("PUBLIC JWK")
+    const publicJwk = await jose.exportJWK(publicKey)
+    console.log(publicJwk)
 
     // create new json web token for api calls
     const jwt = await new jose.SignJWT({ 'urn:example:claim': true })
-        .setProtectedHeader({ alg: 'ES256' })
+        .setProtectedHeader({ alg: 'ES256', jwk: publicJwk })
         .setIssuedAt()
         .setIssuer('urn:example:issuer')
         .setAudience('urn:example:audience')
         // .setExpirationTime('2h') // no exp time
         .sign(privateKey)
 
+    const header = jose.decodeProtectedHeader(jwt)
+    const algorithm = header.alg
+    const spki = header.jwk
+    console.log(header.jwk)
 
-    // save token and key in memory for now
-    const newTokenKeyPair = {
-        token: jwt,
-        key: publicKey
-    }
-    token_key_pairs.push(newTokenKeyPair);
-
-    console.log(jwt)
-
-    fake_jwt = "xyz"
+    const importedKey = await jose.importJWK(spki, algorithm)
 
     try {
-        const { payload, protectedHeader } = await jose.jwtVerify(fake_jwt, publicKey, {
+        const { payload, protectedHeader } = await jose.jwtVerify(jwt, importedKey, {
             issuer: 'urn:example:issuer',
             audience: 'urn:example:audience'
         })
@@ -319,6 +313,7 @@ webauthn.get('/test-token', async (req, res) => {
         console.log(payload)
     } catch(error) {
         console.log(error.code)
+        return res.status(401).send();
     }
 
     res.send({jwt})
@@ -335,16 +330,17 @@ webauthn.validateToken = async (req, res, next) => {
             if (authorization[0] !== 'Bearer') {
                 return res.status(401).send();
             } else {
-                // TODO search token and the public Key in storage
+                // get jwt token from auth header
                 const jwt = authorization[1]
-                let publicKey = ''
-                token_key_pairs.forEach(element => {
-                    if(element.token == jwt) {
-                        publicKey = element.key;
-                    }
-                });
+
+                // extract public key from jwk parameters
+                const header = jose.decodeProtectedHeader(jwt)
+                const algorithm = header.alg
+                const spki = header.jwk
+                const importedKey = await jose.importJWK(spki, algorithm)
+
                 try {
-                    const { payload, protectedHeader } = await jose.jwtVerify(jwt, publicKey, {
+                    const { payload, protectedHeader } = await jose.jwtVerify(jwt, importedKey, {
                         issuer: 'urn:example:issuer',
                         audience: 'urn:example:audience',
                         algorithms: ['ES256']
@@ -364,6 +360,5 @@ webauthn.validateToken = async (req, res, next) => {
         return res.status(401).send();
     }
 };
-
 
 module.exports = webauthn
