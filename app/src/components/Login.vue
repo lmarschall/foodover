@@ -49,7 +49,7 @@ export default {
         async requestRegister() {
             const self = this;
 
-            axios.post(`${self.$apiUrl}/webauthn/request-register`, {
+            axios.post(`${this.$apiUrl}/webauthn/request-register`, {
                 headers: {
                     'content-type': 'Application/Json'
                 },
@@ -64,7 +64,7 @@ export default {
 
             const credentials = await startRegistration(challengeOptions);
 
-            axios.post(`${self.$apiUrl}/webauthn/register`, {
+            axios.post(`${this.$apiUrl}/webauthn/register`, {
                 headers: {
                     'content-type': 'Application/Json'
                 },
@@ -78,7 +78,7 @@ export default {
         async requestLogin() {
             const self = this;
 
-            axios.post(`${self.$apiUrl}/webauthn/login`, {
+            axios.post(`${this.$apiUrl}/webauthn/login`, {
                 headers: {
                     'content-type': 'Application/Json'
                 },
@@ -94,7 +94,7 @@ export default {
             const self = this;
             const credentials = await startAuthentication(challengeOptions);
 
-            axios.post(`${self.$apiUrl}/webauthn/login-challenge`, {
+            axios.post(`${this.$apiUrl}/webauthn/login-challenge`, {
                 headers: {
                     'content-type': 'Application/Json'
                 },
@@ -113,7 +113,7 @@ export default {
         async requestToken() {
             const self = this;
             // axios.get(`${process.env.VUE_APP_APIURL || 'http://localhost:8000'}/webauthn/test-token`)
-            axios.get(`${self.$apiUrl}/test-token`)
+            axios.get(`${this.$apiUrl}/test-token`)
             .then(response => {
                 console.log(response.data.jwt);
                 localStorage.setItem('token', response.data.jwt);
