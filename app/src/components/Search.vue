@@ -456,7 +456,7 @@ export default {
                         .ingredients[i];
                 } else {
                     ingredientsString +=
-                        ",+" + this.$store.state.search_params.ingredients[i];
+                        "," + this.$store.state.search_params.ingredients[i];
                 }
             }
             const params = new URLSearchParams();
@@ -465,7 +465,10 @@ export default {
             // params.append("diet", this.search_params.diet); // "Vegan"
             // params.append("sort", this.search_params.sort);
             // params.append("direction", this.search_params.direction);
-            params.append("offset", this.offset);
+            // params.append("offset", this.offset);
+            params.append("sort", 'min-missing-ingredients');
+            params.append("sortDirection", 'asc');
+            params.append("offset", 0);
             return params;
         },
 

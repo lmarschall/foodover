@@ -14,14 +14,30 @@ let recipe_result = []
 let recommends_result = []
 let randoms_result = []
 
-async function findRecipesbyIngredients (params) {
-
+async function executeSpoonacularQuery (url, params) {
+    
     try {
-        const result = await axios.get('https://api.spoonacular.com/recipes/findByIngredients', {params: params})
+        const result = await axios.get(url, {params: params})
+        await checkSpoonacularUsage(result.headers)
         return result.data
     } catch (err) {
         console.error(err);
         return []
+    }
+}
+
+async function checkSpoonacularUsage (headers) {
+
+    console.log("check api usage");
+
+    const request_cost = headers['x-api-quota-request'];
+    const request_used = headers['x-api-quota-used'];
+    const request_left = headers['x-api-quota-left'];
+
+    if(request_left <= 5.0) {
+        console.log("no points left");
+    } else {
+        console.log("enough points left");
     }
 }
   
@@ -29,46 +45,41 @@ api.get("/recipes", webauthn.validateToken, async (req, res) => {
 
     const params = new URLSearchParams();
     params.append('apiKey', process.env.API_KEY)
-    params.append('ingredients', req.query.ingredients)
+    params.append('includeIngredients', req.query.ingredients)
+    params.append('sort', req.query.sort)
+
+    const url = `https://api.spoonacular.com/recipes/complexSearch`
 
     let recipes = []
 
     if (debug) {
         if (recipes_result.length == 0) {
-            recipes_result = await findRecipesbyIngredients(params)
+            recipes_result = await executeSpoonacularQuery(url, params)
         }
         recipes = recipes_result
     } else {
-        recipes = await findRecipesbyIngredients(params)
+        recipes = await executeSpoonacularQuery(url, params)
     }
     
     res.send(recipes)
 });
   
-async function findRecipebyId (id) {
+api.get("/recipe", webauthn.validateToken, async (req, res) => {
+
     const params = new URLSearchParams();
     params.append('apiKey', process.env.API_KEY)
 
-    try {
-        const result = await axios.get(`https://api.spoonacular.com/recipes/${id}/information`, {params: params})
-        return result.data
-    } catch (err) {
-        console.error(err);
-        return []
-    }
-}
-  
-api.get("/recipe", webauthn.validateToken, async (req, res) => {
+    const url = `https://api.spoonacular.com/recipes/${req.query.id}/information`
 
     let recipe = []
 
     if (debug) {
         if (recipe_result.length == 0) {
-            recipe_result = await findRecipebyId(req.query.id)
+            recipe_result = await executeSpoonacularQuery(url, params)
         }
         recipe = recipe_result
     } else {
-        recipe = await findRecipebyId(req.query.id)
+        recipe = await executeSpoonacularQuery(url, params)
     }
 
     res.send(recipe)
@@ -95,79 +106,56 @@ api.get("/product", async (req, res) => {
     res.send(product)
 });
   
-async function getRecipeNutritions (id) {
-    const params = new URLSearchParams();
-    params.append('apiKey', process.env.API_KEY)
-
-    try {
-        const result = await axios.get(`https://api.spoonacular.com/recipes/${id}/nutritionWidget.json`, {params: params})
-        return result.data
-    } catch (err) {
-        console.error(err);
-        return ''
-    }
-}
-  
 api.get("/nutritions", async (req, res) => {
-    const nutritions = await getRecipeNutritions(req.query.id)
-    res.send(nutritions)
-});
 
-async function getRecipeRecommends (id) {
+    const params = new URLSearchParams();
+    params.append('apiKey', process.env.API_KEY);
+
+    const url = `https://api.spoonacular.com/recipes/${req.query.id}/nutritionWidget.json`;
+
+    const nutritions = await executeSpoonacularQuery(url, params);
+    res.send(nutritions);
+});
+  
+api.get("/recommends", webauthn.validateToken, async (req, res) => {
+
     const params = new URLSearchParams();
     params.append('apiKey', process.env.API_KEY)
     params.append('number', 10)
 
-    try {
-        const result = await axios.get(`https://api.spoonacular.com/recipes/${id}/similar`, {params: params})
-        return result.data
-    } catch (err) {
-        console.error(err);
-        return ''
-    }
-}
-  
-api.get("/recommends", webauthn.validateToken, async (req, res) => {
+    const url = `https://api.spoonacular.com/recipes/${req.query.id}/similar`;
 
     let recommends = []
 
     if (debug) {
         if (recommends_result.length == 0) {
-            recommends_result = await getRecipeRecommends(req.query.id)
+            recommends_result = await executeSpoonacularQuery(url, params)
         }
         recommends = recommends_result
     } else {
-        recommends = await getRecipeRecommends(req.query.id)
+        recommends = await executeSpoonacularQuery(url, params)
     }
 
     res.send(recommends)
 });
+  
+api.get("/randoms", webauthn.validateToken, async (req, res) => {
 
-async function getRecipesRandom () {
     const params = new URLSearchParams();
     params.append('apiKey', process.env.API_KEY)
     params.append('number', 10)
-
-    try {
-        const result = await axios.get(`https://api.spoonacular.com/recipes/random`, {params: params})
-        return result.data
-    } catch (err) {
-        console.error(err);
-        return ''
-    }
-}
-  
-api.get("/randoms", webauthn.validateToken, async (req, res) => {
+    
+    const url = `https://api.spoonacular.com/recipes/random`
 
     let randoms = []
 
     if (debug) {
         if (randoms_result.length == 0) {
-            randoms_result = await getRecipesRandom()
+            randoms_result = await executeSpoonacularQuery(url, params)
         }
         randoms = randoms_result
     } else {
-        randoms = await getRecipesRandom()
+        randoms = await executeSpoonacularQuery(url, params)
     }
     
     res.send(randoms)
