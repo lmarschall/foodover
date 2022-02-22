@@ -553,7 +553,7 @@ export default {
                 params: this.ingredientsParams
             })
             .then(response => {
-                this.recipes = response.data;
+                this.recipes = response.data.results;
                 this.saveSearch();
             });
             // .catch((err) => {
