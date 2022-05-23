@@ -7,7 +7,7 @@
     "orientation": "portrait-primary",
     "theme_color": "#764ABC",
     "background_color": "#764ABC",
-    "pwahubToken": "cl3glcfvb0061wcklhe1ipyat",
+    "pwahub_token": "cl3glcfvb0061wcklhe1ipyat",
     "categories": ["food", "shopping"],
     "icons": [
       {
