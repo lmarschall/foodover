@@ -64,5 +64,49 @@
         "type": "image/png",
         "purpose": "maskable any"
       }
-   ]
+    ],
+    "screenshots": [
+      {
+        "src": "https://raw.githubusercontent.com/lmarschall/foodover/main/screenshots/favorites.png",
+        "sizes": "1334x750",
+        "platform": "wide",
+        "label": "Save your favorite recipes."
+      },
+      {
+        "src": "https://raw.githubusercontent.com/lmarschall/foodover/main/screenshots/ingredients.png",
+        "sizes": "1334x750",
+        "platform": "wide",
+        "label": "Get a list of ingredients for your recipe."
+      },
+      {
+        "src": "https://raw.githubusercontent.com/lmarschall/foodover/main/screenshots/input.png",
+        "sizes": "1334x750",
+        "platform": "wide",
+        "label": "Search with your leftover ingredients."
+      },
+      {
+        "src": "https://raw.githubusercontent.com/lmarschall/foodover/main/screenshots/instructions.png",
+        "sizes": "1334x750",
+        "platform": "wide",
+        "label": "Get instructions for your recipe."
+      },
+      {
+        "src": "https://raw.githubusercontent.com/lmarschall/foodover/main/screenshots/recipe.png",
+        "sizes": "1334x750",
+        "platform": "wide",
+        "label": "Look into recipes."
+      },
+      {
+        "src": "https://raw.githubusercontent.com/lmarschall/foodover/main/screenshots/recommends.png",
+        "sizes": "1334x750",
+        "platform": "wide",
+        "label": "Get recommends based on your searched ingredients."
+      },
+      {
+        "src": "https://raw.githubusercontent.com/lmarschall/foodover/main/screenshots/search.png",
+        "sizes": "1334x750",
+        "platform": "wide",
+        "label": "Search for fitting recipes for your leftover ingredients."
+      }
+    ]
   }
