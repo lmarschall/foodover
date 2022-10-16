@@ -1,0 +1,112 @@
+{
+  "name": "Foodover",
+  "short_name": "Foodover",
+  "description": "Progressive Web App for utilizing your leftover food",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "theme_color": "#764ABC",
+  "background_color": "#764ABC",
+  "pwahub_token": "cl3glcfvb0061wcklhe1ipyat",
+  "categories": ["food", "shopping"],
+  "icons": [
+    {
+      "src": "assets/icons/icon-48x48.png",
+      "sizes": "48x48",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "assets/icons/icon-72x72.png",
+      "sizes": "72x72",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "assets/icons/icon-96x96.png",
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "assets/icons/icon-128x128.png",
+      "sizes": "128x128",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "assets/icons/icon-144x144.png",
+      "sizes": "144x144",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "assets/icons/icon-152x152.png",
+      "sizes": "152x152",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "assets/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "assets/icons/icon-384x384.png",
+      "sizes": "384x384",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "assets/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable any"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "https://raw.githubusercontent.com/lmarschall/foodover/main/screenshots/favorites.png",
+      "sizes": "1334x750",
+      "platform": "wide",
+      "label": "Save your favorite recipes."
+    },
+    {
+      "src": "https://raw.githubusercontent.com/lmarschall/foodover/main/screenshots/ingredients.png",
+      "sizes": "1334x750",
+      "platform": "wide",
+      "label": "Get a list of ingredients for your recipe."
+    },
+    {
+      "src": "https://raw.githubusercontent.com/lmarschall/foodover/main/screenshots/input.png",
+      "sizes": "1334x750",
+      "platform": "wide",
+      "label": "Search with your leftover ingredients."
+    },
+    {
+      "src": "https://raw.githubusercontent.com/lmarschall/foodover/main/screenshots/instructions.png",
+      "sizes": "1334x750",
+      "platform": "wide",
+      "label": "Get instructions for your recipe."
+    },
+    {
+      "src": "https://raw.githubusercontent.com/lmarschall/foodover/main/screenshots/recipe.png",
+      "sizes": "1334x750",
+      "platform": "wide",
+      "label": "Look into recipes."
+    },
+    {
+      "src": "https://raw.githubusercontent.com/lmarschall/foodover/main/screenshots/recommends.png",
+      "sizes": "1334x750",
+      "platform": "wide",
+      "label": "Get recommends based on your searched ingredients."
+    },
+    {
+      "src": "https://raw.githubusercontent.com/lmarschall/foodover/main/screenshots/search.png",
+      "sizes": "1334x750",
+      "platform": "wide",
+      "label": "Search for fitting recipes for your leftover ingredients."
+    }
+  ]
+}
