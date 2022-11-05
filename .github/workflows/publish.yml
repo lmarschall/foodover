@@ -21,6 +21,11 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Create env file
+        run: |
+          touch .env
+          echo VITE_API_KEY=${{ secrets.VITE_API_KEY }} >> .env
 
       - name: build and push pwahub-api docker image
         uses: docker/build-push-action@v2
