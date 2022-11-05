@@ -1,0 +1,5 @@
+{
+  "spellright.language": [],
+  "spellright.documentTypes": ["markdown", "latex"],
+  "vetur.validation.template": false
+}
