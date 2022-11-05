@@ -145,13 +145,13 @@ function getIngredientImage(name: string) {
 // add ingredient to search params
 function addIngredient(name: string) {
     ingredientsStore.addIngredient(name);
-    ingredients.value = ingredientsStore.getIngredients()
+    ingredients.value = ingredientsStore.getIngredients();
 }
 
 // drop ingredient from search params
 function dropIngredient(name: string) {
     ingredientsStore.dropIngredient(name);
-    ingredients.value = ingredientsStore.getIngredients()
+    ingredients.value = ingredientsStore.getIngredients();
 }
 
 // trigger scanning of barcode
@@ -162,10 +162,10 @@ function scanClicked() {
 // check if return was clicked and get the entered ingredients string
 function validateInput(e: any) {
     if (e.keyCode === 13) {
-        const input_element = document.getElementById("input_ingredient") as HTMLInputElement;
-        addIngredient(
-            input_element.value
-        );
+        const input_element = document.getElementById(
+            "input_ingredient"
+        ) as HTMLInputElement;
+        addIngredient(input_element.value);
         input_element.value = "";
     }
 }

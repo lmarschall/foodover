@@ -146,7 +146,6 @@ const props = defineProps({
 });
 
 onUpdated(() => {
-
     const columnElements = document.getElementsByClassName("column-card");
     const rowElements = document.getElementsByClassName("row-card");
 

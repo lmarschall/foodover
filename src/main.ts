@@ -66,18 +66,18 @@ router.beforeEach((to, from, next) => {
         next();
     }
     // `to` and `from` are both route objects
-    if(tokenStore.getToken() === "") {
-        if(from.path === "/login") {
-                next();
-            }
-            // `to` and `from` are both route objects
-            if(tokenStore.getToken() === "") {
-                if(to.path !== "/login") {
-                    next("/login");
-                }
-                next();
+    if (tokenStore.getToken() === "") {
+        if (from.path === "/login") {
+            next();
+        }
+        // `to` and `from` are both route objects
+        if (tokenStore.getToken() === "") {
+            if (to.path !== "/login") {
+                next("/login");
             }
             next();
+        }
+        next();
         next();
     }
     next();

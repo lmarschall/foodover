@@ -398,7 +398,8 @@ import Sort from "./../components/Sort.vue";
 import { onUnmounted, ref } from "vue";
 import { useIngredientsStore } from "./../stores/ingredients";
 import { useSearchesStore } from "./../stores/searches";
-import { Collapse } from "bootstrap";
+
+import $ from "jquery";
 
 const ingredientStore = useIngredientsStore();
 const searchesStore = useSearchesStore();
@@ -409,7 +410,7 @@ const offset = ref(0);
 
 const observer = new IntersectionObserver(onElementObserved, {
     root: document.body,
-    threshold: 1.0
+    threshold: 1.0,
 });
 
 loadData();
@@ -482,30 +483,31 @@ onUnmounted(async () => {
     observer.disconnect();
 });
 
-function onElementObserved(entries) {
-    entries.forEach(({ target, isIntersecting }) => {
-        if (!isIntersecting) {
+function onElementObserved(elements: IntersectionObserverEntry[]) {
+    elements.forEach((element: IntersectionObserverEntry) => {
+        if (!element.isIntersecting) {
             return;
         }
 
-        // this.observer.unobserve(target);
+        // observer.unobserve(target);
 
         setTimeout(() => {
-            const i = parseInt(target.getAttribute("index"));
-            // console.log(i);
-            const collapseElement = new Collapse(document.getElementById("collapseOne") as HTMLElement);
+            const i = parseInt(element.target.getAttribute("index") as string);
+            // const collapseElement = new Collapse(
+            //     document.getElementById("collapseOne") as HTMLElement
+            // );
 
             // show search collapse on top
             if (i === 0) {
-                // $("#collapseOne").collapse("show");
-                collapseElement.collapse("show");
+                $("#collapseOne").collapse("show");
+                // collapseElement.collapse("show");
                 opened.value = true;
             }
 
             // close search collapse on scroll
             if (i >= 1) {
-                // $("#collapseOne").hide
-                collapseElement.collapse("hide");
+                $("#collapseOne").collapse("hide");
+                // collapseElement.collapse("hide");
                 opened.value = false;
             }
 

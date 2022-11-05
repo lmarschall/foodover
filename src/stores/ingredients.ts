@@ -21,7 +21,9 @@ export const useIngredientsStore = defineStore("ingredients", () => {
     }
 
     function dropIngredient(ingredient: any) {
-        ingredients.value = ingredients.value.filter(item => item !== ingredient);
+        ingredients.value = ingredients.value.filter(
+            (item) => item !== ingredient
+        );
     }
 
     function getIngredients() {

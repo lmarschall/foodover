@@ -4,7 +4,7 @@
 
         <h2 v-if="random">For your inspiration</h2>
         <h2 v-else-if="!random">Inspired by your last searches</h2>
-        <Recipes :recipes="recommends" :display="'ROW'" :observer="observer"/>
+        <Recipes :recipes="recommends" :display="'ROW'" :observer="observer" />
         <h2>Your favorites</h2>
         <Recipes :recipes="favorites" :display="'ROW'" :observer="observer" />
 
@@ -45,31 +45,31 @@ const favorites = ref([] as any[]);
 
 const observer = new IntersectionObserver(onElementObserved, {
     root: document.body,
-    threshold: 1.0
+    threshold: 1.0,
 });
 
 onMounted(async () => {
     await getRecommends();
     await getFavorites();
-
-
 });
 
 onUnmounted(async () => {
     observer.disconnect();
 });
 
-function onElementObserved(entries: any) {
-    entries.forEach(({ target, isIntersecting }) => {
-        if (!isIntersecting) {
+function onElementObserved(elements: IntersectionObserverEntry[]) {
+    elements.forEach((element: IntersectionObserverEntry) => {
+        if (!element.isIntersecting) {
             return;
         }
 
-        observer.unobserve(target);
+        observer.unobserve(element.target);
 
         setTimeout(() => {
-            const i = target.getAttribute("image");
-            target.firstChild.src = i;
+            const i = element.target.getAttribute("image");
+            if (element.target.firstChild) {
+                (element.target.firstChild as any).src = i;
+            }
         }, 100);
     });
 }
@@ -91,7 +91,7 @@ async function getRecommends() {
     }
 
     // populate the results with images
-    for (var i = 0; i < recommends.value.length; i++) {
+    for (let i = 0; i < recommends.value.length; i++) {
         recommends.value[
             i
         ].image = `https://spoonacular.com/recipeImages/${recommends.value[i].id}-480x360.jpg`;
@@ -101,6 +101,5 @@ async function getRecommends() {
 // get the users favorite recipes
 async function getFavorites() {
     favorites.value = favoritesStore.getFavorites();
-    console.log(favorites.value);
 }
 </script>

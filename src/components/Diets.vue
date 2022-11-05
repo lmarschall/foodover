@@ -60,9 +60,8 @@ const all_diets = [
 const personalDiet = ref(all_diets[0]);
 
 function selectDiet(index: number) {
-    
+    console.log(index);
 }
-
 
 // function personalDiet() {
 //     return this.$store.state.search_params.diet;

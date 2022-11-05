@@ -10,10 +10,12 @@
     "format": "prettier .  --write"
   },
   "dependencies": {
+    "@hcaptcha/vue3-hcaptcha": "^1.0.1",
     "@vueuse/core": "^9.3.0",
     "@zxing/library": "^0.19.1",
     "axios": "^0.27.2",
     "bootstrap": "^4.6.2",
+    "jquery": "^3.6.1",
     "pinia": "^2.0.23",
     "vue": "^3.2.25",
     "vue-inline-svg": "^2.1.0",

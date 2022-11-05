@@ -45,11 +45,15 @@
             <ul class="list-group list-group-flush">
                 <li
                     class="list-group-item image-item"
-                    v-bind:style="{
-                        backgroundImage: 'url(' + recipe.image + ')'
+                    :style="{
+                        backgroundImage: 'url(' + recipe.image + ')',
                     }"
                 >
-                <img :src="recipe.image" class="img-fluid" alt="Responsive image">
+                    <img
+                        :src="recipe.image"
+                        class="img-fluid"
+                        alt="Responsive image"
+                    />
                 </li>
                 <li class="list-group-item" v-html="recipe.summary"></li>
                 <li class="list-group-item" v-html="recipe.instructions"></li>
@@ -73,7 +77,7 @@
                         </div>
                         <div class="flex-shrink-1">
                             <router-link
-                                v-bind:to="{ name: 'search' }"
+                                :to="{ name: 'search' }"
                                 type="button"
                                 class="close"
                                 data-dismiss="modal"

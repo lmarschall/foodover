@@ -5,7 +5,7 @@ export const useTokenStore = defineStore("token", () => {
     const token = useStorage("token", "");
 
     function setToken(newToken: string) {
-        token.value = newToken
+        token.value = newToken;
     }
 
     function getToken() {
