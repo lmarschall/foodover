@@ -4,9 +4,9 @@
 
         <h2 v-if="random">For your inspiration</h2>
         <h2 v-else-if="!random">Inspired by your last searches</h2>
-        <Recipes :recipes="recommends" :display="'ROW'" />
+        <Recipes :recipes="recommends" :display="'ROW'" :observer="observer"/>
         <h2>Your favorites</h2>
-        <Recipes :recipes="favorites" :display="'ROW'" />
+        <Recipes :recipes="favorites" :display="'ROW'" :observer="observer" />
 
         <Placeholder />
     </div>
@@ -23,7 +23,7 @@ h2 {
  * Component to display recommended or random recipes and the user favorites.
  */
 
-import { onMounted } from "@vue/runtime-core";
+import { onMounted, onUnmounted } from "@vue/runtime-core";
 import { ref } from "vue";
 
 import { useFavoritesStore } from "./../stores/favorites";
@@ -43,44 +43,43 @@ const random = ref(true);
 const recommends = ref([] as any[]);
 const favorites = ref([] as any[]);
 
-// const observer = new IntersectionObserver(onElementObserved, {
-// root: $el
-// threshold: 1.0,
-// });
+const observer = new IntersectionObserver(onElementObserved, {
+    root: document.body,
+    threshold: 1.0
+});
 
 onMounted(async () => {
-    // await getRecommends();
+    await getRecommends();
     await getFavorites();
+
+
 });
-// onCrea() {
-//     this.observer = new IntersectionObserver(onElementObserved, {
-//         root: this.$el
-//         // threshold: 1.0,
-//     });
-// },
-// beforeDestroy() {
-//     this.observer.disconnect();
-// },
-// function onElementObserved(entries) {
-//     entries.forEach(({ target, isIntersecting }) => {
-//         if (!isIntersecting) {
-//             return;
-//         }
 
-//         this.observer.unobserve(target);
+onUnmounted(async () => {
+    observer.disconnect();
+});
 
-//         setTimeout(() => {
-//             const i = target.getAttribute("image");
-//             target.firstChild.src = i;
-//         }, 100);
-//     });
-// }
+function onElementObserved(entries: any) {
+    entries.forEach(({ target, isIntersecting }) => {
+        if (!isIntersecting) {
+            return;
+        }
+
+        observer.unobserve(target);
+
+        setTimeout(() => {
+            const i = target.getAttribute("image");
+            target.firstChild.src = i;
+        }, 100);
+    });
+}
 
 // get recommended or random recipes for the user
 async function getRecommends() {
     const searches = searchesStore.getSearches();
 
     if (searches.length > 0) {
+        random.value = false;
         const lastSearch = searches[searches.length - 1];
         const lastRecipe = lastSearch.recipes[0];
 
@@ -92,11 +91,11 @@ async function getRecommends() {
     }
 
     // populate the results with images
-    //             for (var i = 0; i < self.recommends.length; i++) {
-    //                 self.recommends[
-    //                     i
-    //                 ].image = `https://spoonacular.com/recipeImages/${self.recommends[i].id}-480x360.jpg`;
-    //             }
+    for (var i = 0; i < recommends.value.length; i++) {
+        recommends.value[
+            i
+        ].image = `https://spoonacular.com/recipeImages/${recommends.value[i].id}-480x360.jpg`;
+    }
 }
 
 // get the users favorite recipes

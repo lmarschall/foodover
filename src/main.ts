@@ -49,6 +49,7 @@
 
 import { createApp } from "vue";
 import { createPinia } from "pinia";
+import { useTokenStore } from "./stores/token";
 
 import App from "./App.vue";
 import router from "./router";
@@ -60,25 +61,25 @@ router.beforeEach((to, from, next) => {
     // fixing scroll offsets on new page
     window.scrollTo(0, 0);
 
-    // checking if token is present and reroute to login if not
+    // // checking if token is present and reroute to login if not
     if (from.path === "/login") {
         next();
     }
     // `to` and `from` are both route objects
-    // if(TokenService.hasToken() === false) {
-    //     if(from.path === "/login") {
-    //         //         next();
-    //         //     }
-    //         //     // `to` and `from` are both route objects
-    //         //     if(localStorage.getItem("token") === null) {
-    //         //         if(to.path !== "/login") {
-    //         //             next("/login");
-    //         //         }
-    //         //         next();
-    //         //     }
-    //         //     next();
-    //     next();
-    // }
+    if(tokenStore.getToken() === "") {
+        if(from.path === "/login") {
+                next();
+            }
+            // `to` and `from` are both route objects
+            if(tokenStore.getToken() === "") {
+                if(to.path !== "/login") {
+                    next("/login");
+                }
+                next();
+            }
+            next();
+        next();
+    }
     next();
 });
 
@@ -87,3 +88,5 @@ const pinia = createPinia();
 foodover.use(router);
 foodover.use(pinia);
 foodover.mount("#app");
+
+const tokenStore = useTokenStore();

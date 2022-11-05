@@ -16,10 +16,14 @@
  */
 
 import { useRouter } from "vue-router";
+import { useTokenStore } from "./../stores/token";
+
+const tokenStore = useTokenStore();
 
 const router = useRouter();
 
 async function start() {
+    tokenStore.setToken("x");
     router.push("/");
 }
 </script>
