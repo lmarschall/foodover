@@ -146,17 +146,16 @@ const props = defineProps({
 });
 
 onUpdated(() => {
-    console.log("update");
 
     const columnElements = document.getElementsByClassName("column-card");
     const rowElements = document.getElementsByClassName("row-card");
 
-    // columnElements((element: any) => {
-    //     props.observer?.observe(element);
-    // });
+    for (let i = 0; i < columnElements.length; i++) {
+        props.observer?.observe(columnElements[i]);
+    }
 
-    // rowElements.forEach((element: any) => {
-    //     props. observer?.observe(element);
-    // });
+    for (let i = 0; i < rowElements.length; i++) {
+        props.observer?.observe(rowElements[i]);
+    }
 });
 </script>

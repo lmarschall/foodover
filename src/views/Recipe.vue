@@ -43,14 +43,14 @@
             </div>
             <div class="image-placeholder"></div>
             <ul class="list-group list-group-flush">
-                <!-- <li
+                <li
                     class="list-group-item image-item"
                     v-bind:style="{
                         backgroundImage: 'url(' + recipe.image + ')'
                     }"
-                > -->
-                <!-- <img :src="recipe.image" class="img-fluid" alt="Responsive image"> -->
-                <!-- </li> -->
+                >
+                <img :src="recipe.image" class="img-fluid" alt="Responsive image">
+                </li>
                 <li class="list-group-item" v-html="recipe.summary"></li>
                 <li class="list-group-item" v-html="recipe.instructions"></li>
             </ul>
@@ -72,7 +72,7 @@
                             <h2>{{ recipe.title }}</h2>
                         </div>
                         <div class="flex-shrink-1">
-                            <!-- <router-link
+                            <router-link
                                 v-bind:to="{ name: 'search' }"
                                 type="button"
                                 class="close"
@@ -80,7 +80,7 @@
                                 aria-label="Close"
                             >
                                 <span aria-hidden="true">&times;</span>
-                            </router-link> -->
+                            </router-link>
                         </div>
                     </li>
                     <li class="list-group-item">
@@ -129,7 +129,7 @@ img.img-fluid {
 .image-item {
     height: 60vh;
     position: fixed;
-    z-index: -1;
+    z-index: 0;
     left: 0;
     top: 0;
 }
@@ -201,6 +201,7 @@ SpoonacularService.getRecipe(id)
     .then((response: any) => {
         console.log(response);
         recipe.value = response;
+        recipe.value.image = `https://spoonacular.com/recipeImages/${recipe.value.id}-480x360.jpg`;
 
         // check if recipe is in favorites
         if (favoritesStore.checkFavorite(recipe.value)) {

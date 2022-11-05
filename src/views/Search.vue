@@ -395,9 +395,10 @@ import Recipes from "./../components/Recipes.vue";
 import Input from "./../components/Input.vue";
 import Filters from "./../components/Filters.vue";
 import Sort from "./../components/Sort.vue";
-import { ref } from "vue";
+import { onUnmounted, ref } from "vue";
 import { useIngredientsStore } from "./../stores/ingredients";
 import { useSearchesStore } from "./../stores/searches";
+import { Collapse } from "bootstrap";
 
 const ingredientStore = useIngredientsStore();
 const searchesStore = useSearchesStore();
@@ -405,7 +406,11 @@ const opened = ref(true);
 const split = ref(false);
 const recipes = ref([]);
 const offset = ref(0);
-const observer = undefined;
+
+const observer = new IntersectionObserver(onElementObserved, {
+    root: document.body,
+    threshold: 1.0
+});
 
 loadData();
 
@@ -421,7 +426,7 @@ function ingredientsParams() {
     // params.append("diet", this.search_params.diet); // "Vegan"
     // params.append("sort", this.search_params.sort);
     // params.append("direction", this.search_params.direction);
-    // params.append("offset", this.offset);
+    // params.append("offset", offset.value);
     params.append("sort", "min-missing-ingredients");
     params.append("sortDirection", "asc");
     params.append("offset", "0");
@@ -458,6 +463,8 @@ function findRecipes() {
         "min-missing-ingredients"
     ).then((response: any) => {
         console.log(response);
+        recipes.value = response.results;
+        saveSearch();
     });
     // TODO handle errors
 }
@@ -470,47 +477,45 @@ function ingredients() {
 function loadData() {
     recipes.value = searchesStore.getLastSearchRecipes();
 }
-// created() {
-//     this.observer = new IntersectionObserver(this.onElementObserved, {
-//         root: this.$el,
-//         threshold: 1.0
-//     });
-// },
-// beforeDestroy() {
-//     this.observer.disconnect();
-// },
-// methods: {
-//     onElementObserved(entries) {
-//         entries.forEach(({ target, isIntersecting }) => {
-//             if (!isIntersecting) {
-//                 return;
-//             }
 
-//             // this.observer.unobserve(target);
+onUnmounted(async () => {
+    observer.disconnect();
+});
 
-//             setTimeout(() => {
-//                 const i = parseInt(target.getAttribute("index"));
-//                 // console.log(i);
+function onElementObserved(entries) {
+    entries.forEach(({ target, isIntersecting }) => {
+        if (!isIntersecting) {
+            return;
+        }
 
-//                 // show search collapse on top
-//                 if (i === 0) {
-//                     $("#collapseOne").collapse("show");
-//                     this.opened = true;
-//                 }
+        // this.observer.unobserve(target);
 
-//                 // close search collapse on scroll
-//                 if (i >= 1) {
-//                     $("#collapseOne").collapse("hide");
-//                     this.opened = false;
-//                 }
+        setTimeout(() => {
+            const i = parseInt(target.getAttribute("index"));
+            // console.log(i);
+            const collapseElement = new Collapse(document.getElementById("collapseOne") as HTMLElement);
 
-//                 // get new recipes if end of search page is reached
-//                 if (i >= this.recipes.length - 1) {
-//                     console.log("end reached");
-//                     this.offset = i + 1;
-//                     // this.findRecipes(true);
-//                 }
-//             }, 1000);
-//         });
-//     },
+            // show search collapse on top
+            if (i === 0) {
+                // $("#collapseOne").collapse("show");
+                collapseElement.collapse("show");
+                opened.value = true;
+            }
+
+            // close search collapse on scroll
+            if (i >= 1) {
+                // $("#collapseOne").hide
+                collapseElement.collapse("hide");
+                opened.value = false;
+            }
+
+            // get new recipes if end of search page is reached
+            if (i >= recipes.value.length - 1) {
+                console.log("end reached");
+                offset.value = i + 1;
+                // this.findRecipes(true);
+            }
+        }, 1000);
+    });
+}
 </script>
