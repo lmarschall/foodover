@@ -56,6 +56,9 @@ import { BrowserMultiFormatReader, NotFoundException } from "@zxing/library";
 
 const scan = ref(false);
 const emit = defineEmits(["scanned"]);
+defineExpose({
+    startScan,
+});
 
 const codeReader = new BrowserMultiFormatReader();
 let selectedDeviceId = "";

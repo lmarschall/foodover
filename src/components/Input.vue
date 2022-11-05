@@ -103,9 +103,11 @@ import { useIngredientsStore } from "./../stores/ingredients";
 
 import Scan from "./Scan.vue";
 
+const scan = ref(Scan);
 const ingredientsStore = useIngredientsStore();
 const file_ready = ref(false);
 const all_ingredients = ref([] as any[]);
+const ingredients = ref(ingredientsStore.getIngredients());
 
 const emit = defineEmits(["searchRecipes"]);
 
@@ -140,33 +142,32 @@ function getIngredientImage(name: string) {
     return path;
 }
 
-function ingredients() {
-    return ingredientsStore.getIngredients();
-}
-
 // add ingredient to search params
 function addIngredient(name: string) {
     ingredientsStore.addIngredient(name);
+    ingredients.value = ingredientsStore.getIngredients()
 }
 
 // drop ingredient from search params
 function dropIngredient(name: string) {
     ingredientsStore.dropIngredient(name);
+    ingredients.value = ingredientsStore.getIngredients()
 }
 
 // trigger scanning of barcode
 function scanClicked() {
-    // this.$refs.scan.startScan();
+    scan.value.startScan();
 }
 
 // check if return was clicked and get the entered ingredients string
 function validateInput(e: any) {
-    // if (e.keyCode === 13) {
-    //     addIngredient(
-    //         document.getElementById("input_ingredient").value
-    //     );
-    //     document.getElementById("input_ingredient").value = "";
-    // }
+    if (e.keyCode === 13) {
+        const input_element = document.getElementById("input_ingredient") as HTMLInputElement;
+        addIngredient(
+            input_element.value
+        );
+        input_element.value = "";
+    }
 }
 
 // trigger search for recipes with chosen ingredients
