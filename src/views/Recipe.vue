@@ -203,7 +203,6 @@ const nutritions = ref();
 // get the selected recipe by the provided recipe id
 SpoonacularService.getRecipe(id)
     .then((response: any) => {
-        console.log(response);
         recipe.value = response;
         recipe.value.image = `https://spoonacular.com/recipeImages/${recipe.value.id}-480x360.jpg`;
 

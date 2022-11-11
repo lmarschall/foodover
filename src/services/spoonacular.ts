@@ -1,4 +1,5 @@
 import axios from "axios";
+import { SpoonacularRequest } from "./../interfaces/requests";
 
 class SpoonacularService {
     private apiKey = import.meta.env.VITE_API_KEY || "";
@@ -14,9 +15,11 @@ class SpoonacularService {
         //     console.error(err);
         //     return []
         // }
-        const result = await axios.get(url, { params: params });
+        const result = await axios.get<SpoonacularRequest>(url, {
+            params: params,
+        });
         this.checkSpoonacularUsage(result.headers);
-        return result.data;
+        return result.data as any;
     }
 
     checkSpoonacularUsage(headers: any) {
@@ -86,7 +89,7 @@ class SpoonacularService {
 
         const url = `https://api.spoonacular.com/recipes/random`;
 
-        const result = await this.executeSpoonacularQuery(url, params);
+        const result: any = await this.executeSpoonacularQuery(url, params);
         return result.recipes;
     }
 }

@@ -165,7 +165,7 @@ function validateInput(e: any) {
         const input_element = document.getElementById(
             "input_ingredient"
         ) as HTMLInputElement;
-        addIngredient(input_element.value);
+        addIngredient(input_element.value.toLowerCase());
         input_element.value = "";
     }
 }

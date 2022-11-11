@@ -28,6 +28,8 @@ import { ref } from "vue";
 
 import { useFavoritesStore } from "./../stores/favorites";
 import { useSearchesStore } from "./../stores/searches";
+import { useRecommendsStore } from "./../stores/recommends";
+import { useRandomsStore } from "./../stores/randoms";
 
 import SpoonacularService from "./../services/spoonacular";
 
@@ -39,6 +41,9 @@ document.title = "Home - Foodover";
 
 const favoritesStore = useFavoritesStore();
 const searchesStore = useSearchesStore();
+const recommendsStore = useRecommendsStore();
+const randomsStore = useRandomsStore();
+
 const random = ref(true);
 const recommends = ref([] as any[]);
 const favorites = ref([] as any[]);
@@ -76,18 +81,28 @@ function onElementObserved(elements: IntersectionObserverEntry[]) {
 
 // get recommended or random recipes for the user
 async function getRecommends() {
-    const searches = searchesStore.getSearches();
+    const savedSearches = searchesStore.getSearches();
+    const savedRecommends = recommendsStore.getRecommends();
+    const savedRandoms = randomsStore.getRandoms();
 
-    if (searches.length > 0) {
+    if (savedSearches.length > 0) {
         random.value = false;
-        const lastSearch = searches[searches.length - 1];
+        const lastSearch = savedSearches[savedSearches.length - 1];
         const lastRecipe = lastSearch.recipes[0];
 
-        recommends.value = await SpoonacularService.getRecommends(
-            lastRecipe.id
-        );
+        if (savedRecommends.length > 0) {
+            recommends.value = savedRecommends;
+        } else {
+            recommends.value = await SpoonacularService.getRecommends(
+                lastRecipe.id
+            );
+        }
     } else {
-        recommends.value = await SpoonacularService.getRandoms();
+        if (savedRandoms.length > 0) {
+            recommends.value = savedRandoms;
+        } else {
+            recommends.value = await SpoonacularService.getRandoms();
+        }
     }
 
     // populate the results with images
