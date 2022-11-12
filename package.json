@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
+    "postbuild": "export CACHE_ID=$(echo $RANDOM | md5sum | head -c 20); /usr/bin/envsubst '$CACHE_ID' < public/serviceworker.js > dist/serviceworker.js;",
     "preview": "vite preview",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore --fix src",
     "format": "prettier .  --write"

@@ -1,6 +1,8 @@
 
 # define build stage and create gzipped files
 FROM node:16 as build-stage
+RUN apt-get update
+RUN apt-get install gettext-base
 WORKDIR /build
 COPY package*.json ./
 RUN npm install
