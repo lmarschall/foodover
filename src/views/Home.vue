@@ -50,7 +50,7 @@ const favorites = ref([] as any[]);
 
 const observer = new IntersectionObserver(onElementObserved, {
     root: document.body,
-    threshold: 0.0
+    threshold: 0.0,
 });
 
 onMounted(async () => {

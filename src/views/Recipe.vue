@@ -1,11 +1,7 @@
 <template>
     <div class="row" v-if="ready === 2">
         <div class="image-item">
-            <img
-                :src="recipe.image"
-                class="img-fluid"
-                alt="Responsive image"
-            />
+            <img :src="recipe.image" class="img-fluid" alt="Responsive image" />
         </div>
         <div class="image-placeholder"></div>
         <div class="card">
@@ -42,9 +38,7 @@
                     />
                 </li>
                 <li class="list-group-item">
-                    <Ingredients
-                        :ingredients="recipe.extendedIngredients"
-                    />
+                    <Ingredients :ingredients="recipe.extendedIngredients" />
                 </li>
                 <li class="list-group-item">
                     <Nutritions :nutritions="nutritions" />

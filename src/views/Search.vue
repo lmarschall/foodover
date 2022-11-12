@@ -1,5 +1,5 @@
 <template>
-    <div class="container" style="padding-top: 1rem;">
+    <div class="container" style="padding-top: 1rem">
         <Bar :page="1" />
 
         <!-- <Placeholder /> -->
@@ -49,9 +49,7 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="inputModalLabel">
-                            Input
-                        </h5>
+                        <h5 class="modal-title" id="inputModalLabel">Input</h5>
                         <button
                             type="button"
                             class="close"
@@ -85,11 +83,7 @@
             </div>
         </div>
 
-        <Recipes
-            :recipes="recipes"
-            :display="'COLUMN'"
-            :observer="observer"
-        />
+        <Recipes :recipes="recipes" :display="'COLUMN'" :observer="observer" />
 
         <Placeholder />
     </div>
