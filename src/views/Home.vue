@@ -14,7 +14,7 @@
 
 <style scoped>
 h2 {
-    margin: 1rem 2rem 0 2rem;
+    padding: 1rem 2rem 0 2rem;
 }
 </style>
 
@@ -50,7 +50,7 @@ const favorites = ref([] as any[]);
 
 const observer = new IntersectionObserver(onElementObserved, {
     root: document.body,
-    threshold: 1.0,
+    threshold: 0.0
 });
 
 onMounted(async () => {

@@ -1,263 +1,97 @@
 <template>
-    <div class="row">
+    <div class="container" style="padding-top: 1rem;">
         <Bar :page="1" />
 
-        <!-- Left Sidebar -->
-        <div v-if="split" class="col-md-4 d-none d-md-block">
-            <ul class="nav nav-tabs" id="myTab" role="tablist">
-                <li class="nav-item" role="presentation">
-                    <a
-                        class="nav-link active"
-                        id="home-tab"
-                        data-toggle="tab"
-                        href="#home"
-                        role="tab"
-                        aria-controls="home"
-                        aria-selected="true"
-                        >Input</a
-                    >
-                </li>
-                <li class="nav-item" role="presentation">
-                    <a
-                        class="nav-link"
-                        id="profile-tab"
-                        data-toggle="tab"
-                        href="#profile"
-                        role="tab"
-                        aria-controls="profile"
-                        aria-selected="false"
-                        >Filters</a
-                    >
-                </li>
-                <li class="nav-item" role="presentation">
-                    <a
-                        class="nav-link"
-                        id="contact-tab"
-                        data-toggle="tab"
-                        href="#contact"
-                        role="tab"
-                        aria-controls="contact"
-                        aria-selected="false"
-                        >Sort</a
-                    >
-                </li>
-            </ul>
-            <div class="tab-content" id="myTabContent">
-                <div
-                    class="tab-pane fade show active"
-                    id="home"
-                    role="tabpanel"
-                    aria-labelledby="home-tab"
+        <!-- <Placeholder /> -->
+
+        <!-- Search Frame -->
+        <div class="rounded-pill sticky-top" id="accordionExample">
+            <!-- Spans -->
+            <div
+                class="card-body d-flex flex-wrap span-card"
+                data-toggle="modal"
+                data-target="#inputModal"
+            >
+                <span
+                    class="badge badge-pill badge-secondary"
+                    v-for="ingredient in ingredients()"
+                    :key="ingredient"
+                    ><h6>{{ ingredient }}</h6></span
                 >
-                    <Input @searchRecipes="findRecipes" />
-                </div>
-                <div
-                    class="tab-pane fade"
-                    id="profile"
-                    role="tabpanel"
-                    aria-labelledby="profile-tab"
-                >
-                    <Filters />
-                </div>
-                <div
-                    class="tab-pane fade"
-                    id="contact"
-                    role="tabpanel"
-                    aria-labelledby="contact-tab"
-                >
-                    <Sort />
-                </div>
+                <span class="badge badge-pill badge-primary">
+                    <svg
+                        width="2em"
+                        height="2em"
+                        viewBox="0 0 16 16"
+                        class="bi bi-three-dots"
+                        fill="currentColor"
+                        xmlns="http://www.w3.org/2000/svg"
+                    >
+                        <path
+                            fill-rule="evenodd"
+                            d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"
+                        />
+                    </svg>
+                    Input
+                </span>
+                <div class="w-100" />
             </div>
-            <div class="modal-footer">
-                <button
-                    type="button"
-                    class="btn btn-primary"
-                    @click="findRecipes"
-                    data-dismiss="modal"
-                >
-                    Search for recipes
-                </button>
-            </div>
-            <Placeholder />
         </div>
-        <!-- Mainframe  -->
+
+        <!-- Input Modal -->
         <div
-            v-if="split"
-            class="col-md-8 d-none d-md-block"
-            style="overflow: auto"
+            class="modal fade"
+            id="inputModal"
+            tabindex="-1"
+            aria-labelledby="inputModalLabel"
+            aria-hidden="true"
         >
-            <Recipes :recipes="recipes" :display="'COLUMN'" />
-            <Placeholder />
-        </div>
-
-        <!-- Small Frame -->
-        <div v-if="split === false" class="col d-lg-none">
-            <div class="rounded-pill sticky-top" id="accordionExample">
-                <!-- Spans -->
-                <div
-                    class="card-body d-flex flex-wrap span-card"
-                    data-toggle="modal"
-                    data-target="#inputModal"
-                >
-                    <span
-                        class="badge badge-pill badge-secondary"
-                        v-for="ingredient in ingredients()"
-                        :key="ingredient"
-                        ><h6>{{ ingredient }}</h6></span
-                    >
-                    <span class="badge badge-pill badge-primary">
-                        <svg
-                            width="2em"
-                            height="2em"
-                            viewBox="0 0 16 16"
-                            class="bi bi-three-dots"
-                            fill="currentColor"
-                            xmlns="http://www.w3.org/2000/svg"
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="inputModalLabel">
+                            Input
+                        </h5>
+                        <button
+                            type="button"
+                            class="close"
+                            data-dismiss="modal"
+                            aria-label="Close"
                         >
-                            <path
-                                fill-rule="evenodd"
-                                d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"
-                            />
-                        </svg>
-                        Input
-                    </span>
-                    <div class="w-100" />
-                </div>
-            </div>
-
-            <!-- Input Modal -->
-            <div
-                class="modal fade"
-                id="inputModal"
-                tabindex="-1"
-                aria-labelledby="inputModalLabel"
-                aria-hidden="true"
-            >
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="inputModalLabel">
-                                Input
-                            </h5>
-                            <button
-                                type="button"
-                                class="close"
-                                data-dismiss="modal"
-                                aria-label="Close"
-                            >
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <Input @searchRecipes="findRecipes" />
-                        </div>
-                        <div class="modal-footer">
-                            <button
-                                type="button"
-                                class="btn btn-secondary"
-                                data-dismiss="modal"
-                            >
-                                Close
-                            </button>
-                            <button
-                                type="button"
-                                class="btn btn-primary"
-                                @click="findRecipes"
-                                data-dismiss="modal"
-                            >
-                                Search for recipes
-                            </button>
-                        </div>
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <Input @searchRecipes="findRecipes" />
+                    </div>
+                    <div class="modal-footer">
+                        <button
+                            type="button"
+                            class="btn btn-secondary"
+                            data-dismiss="modal"
+                        >
+                            Close
+                        </button>
+                        <button
+                            type="button"
+                            class="btn btn-primary"
+                            @click="findRecipes"
+                            data-dismiss="modal"
+                        >
+                            Search for recipes
+                        </button>
                     </div>
                 </div>
             </div>
-
-            <!-- Filter Modal -->
-            <div
-                class="modal fade"
-                id="filtersModal"
-                tabindex="-1"
-                aria-labelledby="filtersModalLabel"
-                aria-hidden="true"
-            >
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="filtersModalLabel">
-                                Filters
-                            </h5>
-                            <button
-                                type="button"
-                                class="close"
-                                data-dismiss="modal"
-                                aria-label="Close"
-                            >
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body" style="overflow: auto">
-                            <Filters />
-                        </div>
-                        <div class="modal-footer">
-                            <button
-                                type="button"
-                                class="btn btn-secondary"
-                                data-dismiss="modal"
-                            >
-                                Close
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Sort Modal -->
-            <div
-                class="modal fade"
-                id="sortModal"
-                tabindex="-1"
-                aria-labelledby="sortModalLabel"
-                aria-hidden="true"
-            >
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="sortModalLabel">
-                                Sort
-                            </h5>
-                            <button
-                                type="button"
-                                class="close"
-                                data-dismiss="modal"
-                                aria-label="Close"
-                            >
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body" style="overflow: auto">
-                            <Sort />
-                        </div>
-                        <div class="modal-footer">
-                            <button
-                                type="button"
-                                class="btn btn-secondary"
-                                data-dismiss="modal"
-                            >
-                                Close
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <Recipes
-                :recipes="recipes"
-                :display="'COLUMN'"
-                :observer="observer"
-            />
-
-            <Placeholder />
         </div>
+
+        <Recipes
+            :recipes="recipes"
+            :display="'COLUMN'"
+            :observer="observer"
+        />
+
+        <Placeholder />
     </div>
 </template>
 
@@ -272,7 +106,7 @@ button.btn.btn-outline-primary.rounded {
 
 div#accordionExample {
     background-color: white;
-    margin-top: 1rem;
+    /* padding-top: 1rem; */
 }
 
 .row {
@@ -307,7 +141,6 @@ import $ from "jquery";
 const ingredientStore = useIngredientsStore();
 const searchesStore = useSearchesStore();
 const opened = ref(true);
-const split = ref(false);
 const recipes = ref([]);
 const offset = ref(0);
 

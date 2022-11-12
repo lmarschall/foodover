@@ -1,11 +1,31 @@
 <template>
     <div class="row" v-if="ready === 2">
-        <div
-            v-if="split"
-            class="col-md-4 d-none d-md-block"
-            style="overflow: auto"
-        >
+        <div class="image-item">
+            <img
+                :src="recipe.image"
+                class="img-fluid"
+                alt="Responsive image"
+            />
+        </div>
+        <div class="image-placeholder"></div>
+        <div class="card">
             <ul class="list-group list-group-flush">
+                <li class="list-group-item d-flex">
+                    <div class="w-100">
+                        <h2>{{ recipe.title }}</h2>
+                    </div>
+                    <div class="flex-shrink-1">
+                        <router-link
+                            :to="{ name: 'search' }"
+                            type="button"
+                            class="close"
+                            data-dismiss="modal"
+                            aria-label="Close"
+                        >
+                            <span aria-hidden="true">&times;</span>
+                        </router-link>
+                    </div>
+                </li>
                 <li class="list-group-item">
                     <LikeShareSave
                         :aggregate-likes="recipe.aggregateLikes"
@@ -13,6 +33,7 @@
                         @saved="saveRecipe"
                     />
                 </li>
+                <li class="list-group-item" v-html="recipe.summary"></li>
                 <li class="list-group-item">
                     <Times
                         :ready-in-minutes="recipe.readyInMinutes"
@@ -21,112 +42,29 @@
                     />
                 </li>
                 <li class="list-group-item">
-                    <Ingredients :ingredients="recipe.extendedIngredients" />
+                    <Ingredients
+                        :ingredients="recipe.extendedIngredients"
+                    />
                 </li>
                 <li class="list-group-item">
                     <Nutritions :nutritions="nutritions" />
                 </li>
-            </ul>
-        </div>
-
-        <div
-            v-if="split"
-            class="col-md-8 d-none d-md-block"
-            style="overflow: auto"
-        >
-            <div class="image-item-split">
-                <img
-                    :src="recipe.image"
-                    class="img-fluid"
-                    alt="Responsive image"
-                />
-            </div>
-            <div class="image-placeholder"></div>
-            <ul class="list-group list-group-flush">
                 <li
-                    class="list-group-item image-item"
-                    :style="{
-                        backgroundImage: 'url(' + recipe.image + ')',
-                    }"
+                    v-if="recipe.analyzedInstructions.length > 0"
+                    class="list-group-item"
                 >
-                    <img
-                        :src="recipe.image"
-                        class="img-fluid"
-                        alt="Responsive image"
+                    <Instructions
+                        :instructions="recipe.analyzedInstructions[0]"
                     />
                 </li>
-                <li class="list-group-item" v-html="recipe.summary"></li>
-                <li class="list-group-item" v-html="recipe.instructions"></li>
             </ul>
-        </div>
-
-        <div v-if="split === false" class="col d-lg-none">
-            <div class="image-item">
-                <img
-                    :src="recipe.image"
-                    class="img-fluid"
-                    alt="Responsive image"
-                />
-            </div>
-            <div class="image-placeholder"></div>
-            <div class="card">
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item d-flex">
-                        <div class="w-100">
-                            <h2>{{ recipe.title }}</h2>
-                        </div>
-                        <div class="flex-shrink-1">
-                            <router-link
-                                :to="{ name: 'search' }"
-                                type="button"
-                                class="close"
-                                data-dismiss="modal"
-                                aria-label="Close"
-                            >
-                                <span aria-hidden="true">&times;</span>
-                            </router-link>
-                        </div>
-                    </li>
-                    <li class="list-group-item">
-                        <LikeShareSave
-                            :aggregate-likes="recipe.aggregateLikes"
-                            :saved="saved"
-                            @saved="saveRecipe"
-                        />
-                    </li>
-                    <li class="list-group-item" v-html="recipe.summary"></li>
-                    <li class="list-group-item">
-                        <Times
-                            :ready-in-minutes="recipe.readyInMinutes"
-                            :preparation-minutes="recipe.preparationMinutes"
-                            :cooking-minutes="recipe.cookingMinutes"
-                        />
-                    </li>
-                    <li class="list-group-item">
-                        <Ingredients
-                            :ingredients="recipe.extendedIngredients"
-                        />
-                    </li>
-                    <li class="list-group-item">
-                        <Nutritions :nutritions="nutritions" />
-                    </li>
-                    <li
-                        v-if="recipe.analyzedInstructions.length > 0"
-                        class="list-group-item"
-                    >
-                        <Instructions
-                            :instructions="recipe.analyzedInstructions[0]"
-                        />
-                    </li>
-                </ul>
-            </div>
         </div>
     </div>
 </template>
 
 <style scoped>
 img.img-fluid {
-    min-width: 100%;
+    min-width: 100vw;
     min-height: 100%;
 }
 
@@ -196,7 +134,6 @@ const favoritesStore = useFavoritesStore();
 
 const ready = ref(0);
 const saved = ref(false);
-const split = ref(false);
 const recipe = ref();
 const nutritions = ref();
 
@@ -220,7 +157,6 @@ SpoonacularService.getRecipe(id)
 // get the nutritions of the selected recipe
 SpoonacularService.getNutritions(id)
     .then((response: any) => {
-        console.log(response);
         nutritions.value = response;
         ready.value = ready.value + 1;
     })
