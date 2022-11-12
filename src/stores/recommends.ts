@@ -12,5 +12,9 @@ export const useRecommendsStore = defineStore("recommends", () => {
         recommends.value = recommends;
     }
 
-    return { getRecommends, setRecommends };
+    function resetRecommends() {
+        recommends.value = [];
+    }
+
+    return { getRecommends, setRecommends, resetRecommends };
 });

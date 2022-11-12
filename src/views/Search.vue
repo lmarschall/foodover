@@ -2,16 +2,10 @@
     <div class="container" style="padding-top: 1rem">
         <Bar :page="1" />
 
-        <!-- <Placeholder /> -->
-
         <!-- Search Frame -->
-        <div class="rounded-pill sticky-top" id="accordionExample">
+        <div class="card-body span-card rounded-pill sticky-top" data-toggle="modal" data-target="#inputModal" id="accordionExample">
             <!-- Spans -->
-            <div
-                class="card-body d-flex flex-wrap span-card"
-                data-toggle="modal"
-                data-target="#inputModal"
-            >
+            <div class=" d-flex flex-wrap ">
                 <span
                     class="badge badge-pill badge-secondary"
                     v-for="ingredient in ingredients()"
@@ -32,12 +26,11 @@
                             d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"
                         />
                     </svg>
-                    Input
+                    
                 </span>
-                <div class="w-100" />
             </div>
         </div>
-
+            
         <!-- Input Modal -->
         <div
             class="modal fade"
@@ -129,11 +122,14 @@ import Sort from "./../components/Sort.vue";
 import { onUnmounted, ref } from "vue";
 import { useIngredientsStore } from "./../stores/ingredients";
 import { useSearchesStore } from "./../stores/searches";
+import { useRecommendsStore } from "../stores/recommends";
 
 import $ from "jquery";
 
 const ingredientStore = useIngredientsStore();
 const searchesStore = useSearchesStore();
+const recommendsStore = useRecommendsStore();
+
 const opened = ref(true);
 const recipes = ref([]);
 const offset = ref(0);
@@ -178,6 +174,9 @@ function saveSearch() {
     };
 
     searchesStore.addSearch(newSearch);
+    // reset recommends on new search
+    recommendsStore.resetRecommends();
+
 }
 
 // find the recipes by the selected ingredients params
