@@ -1,7 +1,7 @@
 <template>
     <div class="d-flex flex-row">
-        <div class="flex-fill">
-            <button class="btn flex-fill">
+        <div class="flex-fill text-center">
+            <button class="btn">
                 <svg
                     width="1em"
                     height="1em"
@@ -18,8 +18,8 @@
                 {{ aggregateLikes }}
             </button>
         </div>
-        <div class="flex-fill">
-            <button v-if="saved" class="btn flex-fill">
+        <div class="flex-fill text-center">
+            <button v-if="saved" class="btn">
                 <svg
                     width="1em"
                     height="1em"
@@ -56,8 +56,8 @@
                 Save
             </button>
         </div>
-        <div class="flex-fill">
-            <button class="btn flex-fill" @click="share">
+        <div class="flex-fill text-center">
+            <button class="btn" @click="share">
                 <svg
                     width="1em"
                     height="1em"

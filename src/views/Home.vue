@@ -96,12 +96,14 @@ async function getRecommends() {
             recommends.value = await SpoonacularService.getRecommends(
                 lastRecipe.id
             );
+            recommendsStore.setRecommends(recommends.value);
         }
     } else {
         if (savedRandoms.length > 0) {
             recommends.value = savedRandoms;
         } else {
             recommends.value = await SpoonacularService.getRandoms();
+            randomsStore.setRandoms(recommends.value);
         }
     }
 
