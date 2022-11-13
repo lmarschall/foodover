@@ -1,2 +1,6 @@
-/node_modules
+/.github
+/.vscode
 /dist
+/docs
+/node_modules
+/screenshots

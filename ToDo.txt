@@ -3,4 +3,3 @@ suggestions from reddit users:
 - use another search alogorithm again
 
 fix barcode scanning
-create pwa update reload workflow
