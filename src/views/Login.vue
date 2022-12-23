@@ -12,9 +12,13 @@
                             />
                             User Verification
                         </h3>
-                        <br>
-                        <p>We are using <span class="bold">Cloudflare Turnstile</span> to verify our users.</p>
-                        <br>
+                        <br />
+                        <p>
+                            We are using
+                            <span class="bold">Cloudflare Turnstile</span> to
+                            verify our users.
+                        </p>
+                        <br />
                         <div id="turnstileDiv"></div>
                     </div>
                 </div>
@@ -52,13 +56,13 @@ const tokenStore = useTokenStore();
 const router = useRouter();
 
 onMounted(() => {
-    turnstile.render('#turnstileDiv', {
-        sitekey: '1x00000000000000000000AA',
-        callback: function(token: string) {
+    turnstile.render("#turnstileDiv", {
+        sitekey: "1x00000000000000000000AA",
+        callback: function (token: string) {
             console.log(`Challenge Success ${token}`);
             tokenStore.setToken(token);
             router.push("/");
         },
     });
-})
+});
 </script>

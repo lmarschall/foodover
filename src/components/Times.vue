@@ -1,13 +1,19 @@
 <template>
     <div class="d-flex flex-row">
         <div class="flex-fill text-center">
-            {{ (readyInMinutes < 0) ? readyInMinutes + 1 : readyInMinutes }}<br />Completion
+            {{ readyInMinutes < 0 ? readyInMinutes + 1 : readyInMinutes
+            }}<br />Completion
         </div>
         <div class="flex-fill text-center">
-            {{ (preparationMinutes < 0) ? preparationMinutes + 1 : preparationMinutes}}<br />Preperation
+            {{
+                preparationMinutes < 0
+                    ? preparationMinutes + 1
+                    : preparationMinutes
+            }}<br />Preperation
         </div>
         <div class="flex-fill text-center">
-            {{ (cookingMinutes < 0) ? cookingMinutes + 1 : cookingMinutes}}<br />Cooking
+            {{ cookingMinutes < 0 ? cookingMinutes + 1 : cookingMinutes
+            }}<br />Cooking
         </div>
     </div>
 </template>

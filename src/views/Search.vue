@@ -1,11 +1,16 @@
 <template>
-    <div class="container" style="padding-top: 1rem; height: 100vh;">
+    <div class="container" style="padding-top: 1rem; height: 100vh">
         <Bar :page="1" />
 
         <!-- Search Frame -->
-        <div class="card-body span-card rounded-pill sticky-top" data-toggle="modal" data-target="#inputModal" id="accordionExample">
+        <div
+            class="card-body span-card rounded-pill sticky-top"
+            data-toggle="modal"
+            data-target="#inputModal"
+            id="accordionExample"
+        >
             <!-- Spans -->
-            <div class=" d-flex flex-wrap ">
+            <div class="d-flex flex-wrap">
                 <span
                     class="badge badge-pill badge-secondary"
                     v-for="ingredient in ingredients()"
@@ -26,11 +31,10 @@
                             d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"
                         />
                     </svg>
-                    
                 </span>
             </div>
         </div>
-            
+
         <!-- Input Modal -->
         <div
             class="modal fade"
@@ -176,7 +180,6 @@ function saveSearch() {
     searchesStore.addSearch(newSearch);
     // reset recommends on new search
     recommendsStore.resetRecommends();
-
 }
 
 // find the recipes by the selected ingredients params
