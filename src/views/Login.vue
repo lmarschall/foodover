@@ -56,6 +56,7 @@ const tokenStore = useTokenStore();
 const router = useRouter();
 
 onMounted(() => {
+    /* eslint-disable */
     turnstile.render("#turnstileDiv", {
         sitekey: "1x00000000000000000000AA",
         callback: function (token: string) {
