@@ -12,25 +12,11 @@ router.beforeEach((to, from, next) => {
     // fixing scroll offsets on new page
     window.scrollTo(0, 0);
 
-    // // checking if token is present and reroute to login if not
-    if (from.path === "/login") {
+    if (tokenStore.getToken() === "" && to.path !== "/login") {
+        next("/login");
+    } else {
         next();
     }
-    // `to` and `from` are both route objects
-    if (tokenStore.getToken() === "") {
-        if (from.path === "/login") {
-            next();
-        }
-        // `to` and `from` are both route objects
-        if (tokenStore.getToken() === "") {
-            if (to.path !== "/login") {
-                next("/login");
-            }
-            next();
-        }
-        next();
-    }
-    next();
 });
 
 const foodover = createApp(App);

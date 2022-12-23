@@ -1,5 +1,5 @@
 <template>
-    <div class="container" style="padding-top: 1rem">
+    <div class="container" style="padding-top: 1rem; height: 100vh;">
         <Bar :page="1" />
 
         <!-- Search Frame -->

@@ -1,20 +1,6 @@
 <template>
     <div class="container">
-        <!-- <vue-hcaptcha
-            ref="invisibleHcaptcha"
-            sitekey="10000000-ffff-ffff-ffff-000000000001"
-            size="invisible"
-            @error="onError"
-            @verify="onVerify"
-        ></vue-hcaptcha> -->
-        <vue-hcaptcha
-            ref="invisibleHcaptcha"
-            sitekey="b7479110-7676-44ae-a0db-fc96540d3c1f"
-            size="invisible"
-            @error="onError"
-            @verify="onVerify"
-        ></vue-hcaptcha>
-        <div class="d-flex justify-content-center">
+        <div class="d-flex align-items-center justify-content-center">
             <div class="card text-center border-0">
                 <div class="card-body">
                     <div class="col-12">
@@ -24,26 +10,12 @@
                                 class="img-fluid"
                                 alt="..."
                             />
-                            hCaptcha
+                            User Verification
                         </h3>
-                        <p>We are using hCaptcha to verify our users.</p>
-                    </div>
-
-                    <div class="col-12">
-                        <button
-                            class="btn btn-primary"
-                            type="submit"
-                            @click="onSubmit()"
-                            :disabled="loading"
-                        >
-                            <span
-                                v-if="loading"
-                                class="spinner-border spinner-border-sm"
-                                role="status"
-                                aria-hidden="true"
-                            ></span>
-                            Login
-                        </button>
+                        <br>
+                        <p>We are using <span class="bold">Cloudflare Turnstile</span> to verify our users.</p>
+                        <br>
+                        <div id="turnstileDiv"></div>
                     </div>
                 </div>
             </div>
@@ -52,6 +24,12 @@
 </template>
 
 <style scoped>
+span.bold {
+    font-weight: bold;
+}
+.d-flex {
+    height: 100vh;
+}
 .col-12 {
     margin-top: 5rem;
 }
@@ -65,32 +43,22 @@ img.img-fluid {
  * Component to validate user and login.
  */
 
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
 import { useTokenStore } from "./../stores/token";
-import VueHcaptcha from "@hcaptcha/vue3-hcaptcha";
 
 const tokenStore = useTokenStore();
-const invisibleHcaptcha = ref(null);
 
 const router = useRouter();
-const loading = ref(false);
 
-function onSubmit() {
-    loading.value = true;
-
-    if (invisibleHcaptcha.value) {
-        (invisibleHcaptcha.value as any).execute();
-    }
-}
-
-function onError(error: string) {
-    console.log(error);
-}
-
-function onVerify(token: string, eKey: string) {
-    console.log("User verified");
-    tokenStore.setToken(token);
-    router.push("/");
-}
+onMounted(() => {
+    turnstile.render('#turnstileDiv', {
+        sitekey: '1x00000000000000000000AA',
+        callback: function(token: string) {
+            console.log(`Challenge Success ${token}`);
+            tokenStore.setToken(token);
+            router.push("/");
+        },
+    });
+})
 </script>

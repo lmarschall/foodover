@@ -11,7 +11,6 @@
     "format": "prettier .  --write"
   },
   "dependencies": {
-    "@hcaptcha/vue3-hcaptcha": "^1.0.1",
     "@vueuse/core": "^9.3.0",
     "@zxing/library": "^0.19.1",
     "axios": "^0.27.2",
