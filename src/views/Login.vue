@@ -50,13 +50,16 @@ img.img-fluid {
 import { onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
 import { useTokenStore } from "./../stores/token";
+// import 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
+
+const importWindow = window as any;
+const turnstile = importWindow.turnstile;
 
 const tokenStore = useTokenStore();
 
 const router = useRouter();
 
 onMounted(() => {
-    /* eslint-disable */
     turnstile.render("#turnstileDiv", {
         sitekey: "1x00000000000000000000AA",
         callback: function (token: string) {
