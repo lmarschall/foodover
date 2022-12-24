@@ -59,14 +59,25 @@ const tokenStore = useTokenStore();
 
 const router = useRouter();
 
+const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+
 onMounted(() => {
     turnstile.render("#turnstileDiv", {
-        sitekey: "1x00000000000000000000AA",
-        callback: function (token: string) {
+        // sitekey: "1x00000000000000000000AA",
+        sitekey: "0x4AAAAAAABtXZ4khniGo_qN",
+        callback: async function (token: string) {
             console.log(`Challenge Success ${token}`);
             tokenStore.setToken(token);
+            await sleep(2000);
             router.push("/");
         },
+        "error-callback": async function () {
+            console.log("error");
+            // await sleep(1000);
+            router.push("/");
+        },
+        theme: "light",
+        size: "normal",
     });
 });
 </script>
