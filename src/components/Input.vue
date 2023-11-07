@@ -182,7 +182,8 @@ function searchRecipes() {
 function findProduct(code: any) {
     SpoonacularService.findProductWithCode(code).then((response: any) => {
         if (response.data !== "") {
-            addIngredient(response.data);
+            console.log(response);
+            addIngredient(response.title);
         } else {
             console.log("No Product found!");
         }

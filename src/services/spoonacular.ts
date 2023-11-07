@@ -58,9 +58,19 @@ class SpoonacularService {
     }
 
     findProductWithCode(code: string) {
-        return axios.get(
-            `https://world.openfoodfacts.org/api/v0/product/${code}.json`
-        );
+
+        const params = new URLSearchParams();
+        params.append("apiKey", this.apiKey);
+
+        const url = `https://api.spoonacular.com/food/products/upc/${code}`;
+
+        return this.executeSpoonacularQuery(url, params);
+
+
+        // https://api.spoonacular.com/food/products/upc/{upc}
+        // // return axios.get(
+        // //     `https://world.openfoodfacts.org/api/v0/product/${code}.json`
+        // // );
     }
 
     getNutritions(id: string) {
