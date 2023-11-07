@@ -1,5 +1,5 @@
 <template>
-    <div style="height: 100vh">
+    <div style="min-height: 100vh;">
         <Bar :page="0" />
 
         <h2 v-if="random">For your inspiration</h2>

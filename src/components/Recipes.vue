@@ -125,7 +125,7 @@ a.stretched-link {
 </style>
 
 <script setup lang="ts">
-import { onUpdated } from "vue";
+import { onMounted, onUpdated } from "vue";
 
 /**
  * Component to display the recipes of the search result.
@@ -143,6 +143,19 @@ const props = defineProps({
         type: IntersectionObserver,
         required: false,
     },
+});
+
+onMounted(() => {
+    const columnElements = document.getElementsByClassName("column-card");
+    const rowElements = document.getElementsByClassName("row-card");
+
+    for (let i = 0; i < columnElements.length; i++) {
+        props.observer?.observe(columnElements[i]);
+    }
+
+    for (let i = 0; i < rowElements.length; i++) {
+        props.observer?.observe(rowElements[i]);
+    }
 });
 
 onUpdated(() => {

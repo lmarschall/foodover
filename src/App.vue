@@ -9,6 +9,7 @@
 <style>
 #app {
     /* theme-colors */
+    --color-white-grenn: #eef8e3;
     --color-light-green: #a7ff83;
     --color-green: #17b978;
     --color-dark-green: #086972;

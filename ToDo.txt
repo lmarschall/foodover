@@ -1,5 +1,5 @@
 suggestions from reddit users:
 - allow comma separated input of ingredients
-- use another search alogorithm again
+- use another search algorithm
 
 fix barcode scanning

@@ -1,6 +1,6 @@
 <template>
-    <div class="container" style="padding-top: 1rem; height: 100vh">
-        <Bar :page="1" />
+    <div class="container" style="padding-top: 1rem; min-height: 100vh;">
+        <Bar id="bar" :page="1" />
 
         <!-- Search Frame -->
         <div
@@ -139,9 +139,12 @@ const recipes = ref([]);
 const offset = ref(0);
 
 const observer = new IntersectionObserver(onElementObserved, {
-    root: document.body,
-    threshold: 1.0,
+    root: document.getElementById("bar"),
+    // rootMargin: '0px',
+    threshold: 0.0,
 });
+
+// const observer_2 = new IntersectionObserver(onElementObserved);
 
 loadData();
 
@@ -221,27 +224,10 @@ function onElementObserved(elements: IntersectionObserverEntry[]) {
             return;
         }
 
-        // observer.unobserve(target);
+        observer.unobserve(element.target);
 
         setTimeout(() => {
             const i = parseInt(element.target.getAttribute("index") as string);
-            // const collapseElement = new Collapse(
-            //     document.getElementById("collapseOne") as HTMLElement
-            // );
-
-            // show search collapse on top
-            if (i === 0) {
-                $("#collapseOne").collapse("show");
-                // collapseElement.collapse("show");
-                opened.value = true;
-            }
-
-            // close search collapse on scroll
-            if (i >= 1) {
-                $("#collapseOne").collapse("hide");
-                // collapseElement.collapse("hide");
-                opened.value = false;
-            }
 
             // get new recipes if end of search page is reached
             if (i >= recipes.value.length - 1) {
@@ -249,7 +235,7 @@ function onElementObserved(elements: IntersectionObserverEntry[]) {
                 offset.value = i + 1;
                 // this.findRecipes(true);
             }
-        }, 1000);
+        }, 100);
     });
 }
 </script>

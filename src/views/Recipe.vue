@@ -11,15 +11,14 @@
                         <h2>{{ recipe.title }}</h2>
                     </div>
                     <div class="flex-shrink-1">
-                        <router-link
-                            :to="{ name: 'search' }"
+                        <a 
+                            @click="$router.back()"
                             type="button"
                             class="close"
                             data-dismiss="modal"
-                            aria-label="Close"
-                        >
+                            aria-label="Close">
                             <span aria-hidden="true">&times;</span>
-                        </router-link>
+                        </a>
                     </div>
                 </li>
                 <li class="list-group-item">
