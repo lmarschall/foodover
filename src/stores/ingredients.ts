@@ -10,7 +10,7 @@ export const useIngredientsStore = defineStore("ingredients", () => {
             if (i === 0) {
                 ingredientsString += ingredients.value[i];
             } else {
-                ingredientsString += "," + ingredients.value[i];
+                ingredientsString += ",+" + ingredients.value[i];
             }
         }
         return ingredientsString;

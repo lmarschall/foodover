@@ -11,12 +11,13 @@
                         <h2>{{ recipe.title }}</h2>
                     </div>
                     <div class="flex-shrink-1">
-                        <a 
+                        <a
                             @click="$router.back()"
                             type="button"
                             class="close"
                             data-dismiss="modal"
-                            aria-label="Close">
+                            aria-label="Close"
+                        >
                             <span aria-hidden="true">&times;</span>
                         </a>
                     </div>

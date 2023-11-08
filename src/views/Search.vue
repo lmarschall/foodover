@@ -1,5 +1,5 @@
 <template>
-    <div class="container" style="padding-top: 1rem; min-height: 100vh;">
+    <div class="container" style="padding-top: 1rem; min-height: 100vh">
         <Bar id="bar" :page="1" />
 
         <!-- Search Frame -->
@@ -199,7 +199,7 @@ function findRecipes() {
         "min-missing-ingredients"
     ).then((response: any) => {
         console.log(response);
-        recipes.value = response.results;
+        recipes.value = response;
         saveSearch();
     });
     // TODO handle errors

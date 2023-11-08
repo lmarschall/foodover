@@ -43,7 +43,7 @@ class SpoonacularService {
         params.append("includeIngredients", ingredients);
         params.append("sort", sort);
 
-        const url = `https://api.spoonacular.com/recipes/complexSearch`;
+        const url = `https://api.spoonacular.com/recipes/findByIngredients?ingredients=${ingredients}&number=9&ranking=1`;
 
         return this.executeSpoonacularQuery(url, params);
     }
@@ -58,19 +58,12 @@ class SpoonacularService {
     }
 
     findProductWithCode(code: string) {
-
         const params = new URLSearchParams();
         params.append("apiKey", this.apiKey);
 
         const url = `https://api.spoonacular.com/food/products/upc/${code}`;
 
         return this.executeSpoonacularQuery(url, params);
-
-
-        // https://api.spoonacular.com/food/products/upc/{upc}
-        // // return axios.get(
-        // //     `https://world.openfoodfacts.org/api/v0/product/${code}.json`
-        // // );
     }
 
     getNutritions(id: string) {
